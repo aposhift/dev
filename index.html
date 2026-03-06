@@ -836,8 +836,7 @@
       </div>
       <div class="form-group">
         <label>Planungswoche</label>
-        <input type="week" id="planWeek" onchange="updateKWDisplay(this.value)">
-        <span id="kwDisplay" style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--accent);font-weight:600;margin-top:4px;display:block;"></span>
+        <input type="week" id="planWeek">
       </div>
     </div>
     <div class="form-row" style="margin-bottom:16px;">
@@ -1209,17 +1208,7 @@ const jan1 = new Date(now.getFullYear(), 0, 1);
 const weekNum = Math.ceil(((now - jan1) / 86400000 + jan1.getDay() + 1) / 7);
 weekInput.value = `${now.getFullYear()}-W${String(weekNum+1).padStart(2,'0')}`;
 
-function updateKWDisplay(val) {
-  const el = document.getElementById('kwDisplay');
-  if (!el) return;
-  if (val && val.includes('-W')) {
-    const [year, kw] = val.split('-W');
-    el.textContent = `KW ${parseInt(kw)} / ${year}`;
-  } else {
-    el.textContent = '';
-  }
-}
-updateKWDisplay(weekInput.value);
+
 
 function getEmployees() {
   return [...document.querySelectorAll('.employee-row')].map(r => ({
