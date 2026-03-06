@@ -218,13 +218,14 @@
   .employee-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
   .employee-row {
     display: grid;
-    grid-template-columns: 1.5fr 1.2fr 0.8fr 1.5fr 36px;
+    grid-template-columns: 1.5fr 1.2fr 0.8fr 1.5fr 0.7fr 36px;
     gap: 10px;
     align-items: center;
     background: var(--surface);
     border: 1.5px solid var(--border);
     border-radius: 10px;
     padding: 10px 14px;
+    overflow: hidden;
   }
   .employee-row input, .employee-row select {
     background: transparent;
@@ -428,7 +429,7 @@
   .export-btn.primary:hover { opacity: 0.9; }
 
   /* SHIFT TABLE */
-  .shift-table-wrap { overflow-x: auto; margin-bottom: 24px; }
+  .shift-table-wrap { overflow-x: auto; margin-bottom: 0; }
   table {
     width: 100%;
     border-collapse: collapse;
@@ -464,11 +465,12 @@
     margin: 1px;
     white-space: nowrap;
   }
-  .shift-tag.frueh { background: #fef9c3; color: #854d0e; border: 1px solid #fde68a; }
-  .shift-tag.spaet { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
-  .shift-tag.frei { background: #f8fafc; color: #94a3b8; border: 1px solid #e2e8f0; }
-  .shift-tag.urlaub { background: #fdf4ff; color: #7e22ce; border: 1px solid #e9d5ff; }
-  .shift-tag.notdienst { background: var(--accent-grad); color: white; font-weight: 600; border: none; }
+  .shift-tag.frueh    { background: #fef9c3; color: #854d0e; border: 1px solid #fde68a; }
+  .shift-tag.spaet    { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+  .shift-tag.voll     { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+  .shift-tag.frei     { background: #f8fafc; color: #94a3b8; border: 1px solid #e2e8f0; }
+  .shift-tag.urlaub   { background: #fdf4ff; color: #7e22ce; border: 1px solid #e9d5ff; }
+  .shift-tag.notdienst{ background: var(--accent-grad); color: white; font-weight: 600; border: none; }
 
   .ai-notes {
     background: var(--accent-light);
@@ -609,7 +611,21 @@
   .shift-option.urlaub { background: #fdf4ff; color: #7e22ce; border-color: #e9d5ff; }
   .shift-option.notdienst { background: linear-gradient(135deg,#2563eb,#7c3aed); color: white; }
 
-  /* Save banner */
+  /* Übertrag-Feld */
+  .emp-carryover { text-align: center; }
+  .emp-carryover::-webkit-inner-spin-button,
+  .emp-carryover::-webkit-outer-spin-button { opacity: 1; }
+
+  /* ── Testszenario-Buttons ── */
+  .scenario-btn {
+    font-family: var(--sans); font-size: 0.82rem; font-weight: 500;
+    padding: 7px 14px; border-radius: 8px; cursor: pointer;
+    border: 1.5px solid #fde047; background: white; color: #713f12;
+    transition: all 0.15s;
+  }
+  .scenario-btn:hover { background: #fef08a; border-color: #eab308; }
+
+
   .save-banner {
     position: fixed;
     bottom: 24px;
@@ -657,10 +673,125 @@
   .nd-sunday { background:#eff6ff; border-color:#bfdbfe; }
   .nd-sunday:has(input:checked) { background:#dbeafe; border-color:#3b82f6; color:#1e40af; }
   .nd-check input[type=checkbox] { accent-color:var(--accent); width:14px;height:14px; }
+
+  /* Farbige Dots */
+  .emp-dot {
+    display: inline-block;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+
+  /* Stundenbalken */
+  .hours-cell { min-width: 85px; }
+  .hours-top {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 3px;
+  }
+  .hours-actual {
+    font-family: var(--mono); font-size: 0.78rem; font-weight: 500;
+  }
+  .hours-contract { font-family: var(--mono); font-size: 0.62rem; color: #94a3b8; }
+  .hours-bar-bg {
+    height: 5px; background: #e2e8f0; border-radius: 3px; overflow: hidden;
+  }
+  .hours-bar-fill { height: 100%; border-radius: 3px; transition: width 0.4s; }
+  .hours-label {
+    font-family: var(--mono); font-size: 0.6rem; margin-top: 2px; text-align: right;
+  }
+  .col-ok    { color: #22c55e; }
+  .col-under { color: #f59e0b; }
+  .col-over  { color: #ef4444; }
+
+  /* Stundenauswertungs-Karte */
+  .hours-summary {
+    background: #f8fafc; border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px 20px; margin-top: 16px;
+  }
+  .hours-summary-title {
+    font-family: var(--serif); font-weight: 700; font-size: 0.88rem;
+    display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+  }
+  .hours-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px; margin-bottom: 0;
+  }
+  .hours-emp-card {
+    border-radius: 9px; padding: 10px 12px;
+  }
+  .hours-emp-top {
+    display: flex; align-items: center; gap: 6px; margin-bottom: 8px;
+  }
+  .hours-emp-name {
+    font-size: 0.73rem; font-weight: 600; color: var(--ink);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .hours-emp-pos {
+    font-family: var(--mono); font-size: 0.6rem; color: #94a3b8;
+    margin-left: auto; white-space: nowrap;
+  }
+  .hours-legend {
+    display: flex; gap: 16px; margin-top: 12px;
+    padding-top: 10px; border-top: 1px solid var(--border);
+    font-size: 0.7rem; color: var(--ink-soft);
+  }
+  .deviation-badge {
+    background: #fef3c7; color: #92400e;
+    font-size: 0.65rem; padding: 2px 9px; border-radius: 20px;
+    border: 1px solid #fde68a; font-family: var(--mono);
+  }
+  .warning-banner {
+    margin-top: 12px; display: flex; flex-direction: column; gap: 6px;
+  }
+  .warning-item {
+    background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px;
+    padding: 8px 14px; font-size: 0.82rem; color: #991b1b; font-weight: 500;
+  }
+
   @media (max-width: 640px) {
     .form-row, .form-row.three { grid-template-columns: 1fr; }
     .stats-row { grid-template-columns: 1fr 1fr; }
     .employee-row { grid-template-columns: 1fr; }
+    .container { padding: 24px 12px; }
+    .result-header { flex-direction: column; gap: 10px; align-items: flex-start; }
+    .export-btns { flex-wrap: wrap; }
+    table { font-size: 0.7rem; }
+    .shift-tag { font-size: 0.62rem; padding: 2px 5px; }
+    header { padding: 0 16px; }
+  }
+
+  @media print {
+    @page { size: A4 landscape; margin: 10mm 12mm; }
+    header, .hero, .steps, #section-apotheke, #section-mitarbeiter,
+    #section-hinweise, .generate-btn, #errorBox, #loadingOverlay,
+    .export-btns, #testScenarioBlock, .save-banner, .shift-picker,
+    #hoursSummary, .ai-notes, .stats-row { display: none !important; }
+    body { background: white; }
+    .result-section { display: block !important; }
+    .card { box-shadow: none !important; border: none !important; padding: 0 !important; }
+    .result-header h2 { font-size: 1.1rem; margin-bottom: 8px; }
+    .print-header {
+      display: flex !important;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #0d1117;
+      padding-bottom: 6px;
+      margin-bottom: 12px;
+    }
+    table { font-size: 0.72rem; min-width: unset; width: 100%; }
+    thead th { background: #0d1117 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .shift-tag { font-size: 0.65rem !important; padding: 1px 5px !important; border: 1px solid #ccc !important; }
+    .shift-tag.frueh    { background: #fef9c3 !important; color: #854d0e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .shift-tag.spaet    { background: #eff6ff !important; color: #1d4ed8 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .shift-tag.voll     { background: #f0fdf4 !important; color: #166534 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .shift-tag.notdienst{ background: #1e1b4b !important; color: white   !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .shift-tag.urlaub   { background: #fdf4ff !important; color: #7e22ce !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .hours-cell { display: none !important; }
+    thead th:last-child { display: none !important; }
+    .container { max-width: 100%; padding: 0; }
   }
 </style>
 </head>
@@ -705,7 +836,8 @@
       </div>
       <div class="form-group">
         <label>Planungswoche</label>
-        <input type="week" id="planWeek">
+        <input type="week" id="planWeek" onchange="updateKWDisplay(this.value)">
+        <span id="kwDisplay" style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--accent);font-weight:600;margin-top:4px;display:block;"></span>
       </div>
     </div>
     <div class="form-row" style="margin-bottom:16px;">
@@ -718,7 +850,7 @@
         <input type="text" id="openSat" placeholder="08:30 – 14:00" value="08:30 – 14:00">
       </div>
       <div class="form-group" style="grid-column: 1 / -1;">
-        <label>Notdienst diese Woche <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink-soft);font-size:0.75rem;">(= 24h-Dienst von Schließung bis Öffnung)</span></label>
+        <label>Notdienst diese Woche <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink-soft);font-size:0.75rem;">(Bereitschaft von Schließung bis Öffnung – Folgetag frei)</span></label>
         <div id="notdienstWrap" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
           <label class="nd-check"><input type="checkbox" value="Montag" class="nd-box"> Mo</label>
           <label class="nd-check"><input type="checkbox" value="Dienstag" class="nd-box"> Di</label>
@@ -728,6 +860,30 @@
           <label class="nd-check nd-weekend"><input type="checkbox" value="Samstag" class="nd-box"> Sa 🌙</label>
           <label class="nd-check nd-sunday"><input type="checkbox" value="Sonntag" class="nd-box"> So 🌙</label>
         </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group" style="grid-column: 1 / -1;">
+        <label>Feiertage diese Woche <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink-soft);font-size:0.75rem;">(werden wie Sonntag behandelt – Notdienst-Regeln gelten)</span></label>
+        <input type="text" id="feiertage" placeholder="z.B. Montag (Ostermontag), Donnerstag (Christi Himmelfahrt)" style="font-size:0.85rem;">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Mindestbesetzung Mo–Fr <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink-soft);font-size:0.75rem;">(Personen gleichzeitig)</span></label>
+        <input type="number" id="minStaffWeek" min="1" max="10" value="2" placeholder="z.B. 2">
+      </div>
+      <div class="form-group">
+        <label>Mindestbesetzung Samstag</label>
+        <input type="number" id="minStaffSat" min="1" max="10" value="1" placeholder="z.B. 1">
+      </div>
+      <div class="form-group">
+        <label>Schichtmodell <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink-soft);font-size:0.75rem;">(bevorzugt)</span></label>
+        <select id="shiftModel">
+          <option value="frueh_spaet">Früh- &amp; Spätschichten</option>
+          <option value="voll">Vorwiegend Vollzeit-Tage</option>
+          <option value="gemischt" selected>Gemischt (KI entscheidet)</option>
+        </select>
       </div>
     </div>
   </div>
@@ -740,11 +896,12 @@
     </div>
     <div class="card-sub">Name, Position, Stunden/Woche und etwaige Abwesenheiten eintragen</div>
 
-    <div style="display:grid;grid-template-columns:1.5fr 1.2fr 0.8fr 1.5fr 36px;gap:10px;padding:0 14px;margin-bottom:6px;">
+    <div style="display:grid;grid-template-columns:1.5fr 1.2fr 0.8fr 1.5fr 0.7fr 36px;gap:10px;padding:0 14px;margin-bottom:6px;">
       <span class="col-label">Name</span>
       <span class="col-label">Position</span>
       <span class="col-label">Std/Wo</span>
       <span class="col-label">Abwesenheit / Wunsch</span>
+      <span class="col-label" style="text-align:center" title="Überstunden/Minusstunden aus der Vorwoche">±h Vorwoche</span>
       <span></span>
     </div>
 
@@ -764,6 +921,24 @@
       <textarea id="notes" placeholder="z.B. &#10;– Frau Müller darf nicht alleine in der Apotheke sein&#10;– Wir brauchen samstags mindestens 2 PKA&#10;– Bitte Früh- und Spätschichten gleichmäßig verteilen&#10;– Donnerstag Nachmittag ist Liefertag, da brauchen wir mehr Personal"></textarea>
     </div>
   </div>
+
+  <!-- ═══ TESTSZENARIOS – zum Entfernen diesen Block löschen ═══ -->
+  <div id="testScenarioBlock" style="background:#fefce8;border:1.5px dashed #fde047;border-radius:14px;padding:18px 22px;margin-bottom:18px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <span style="font-size:1rem;">🧪</span>
+      <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.95rem;color:#713f12;">Testszenario laden</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;background:#fef08a;color:#854d0e;padding:2px 8px;border-radius:10px;border:1px solid #fde047;margin-left:4px;">NUR FÜR TESTS</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;">
+      <button class="scenario-btn" onclick="loadScenario(0)">🏙️ Stadtapotheke</button>
+      <button class="scenario-btn" onclick="loadScenario(1)">🏡 Kleinstapotheke</button>
+      <button class="scenario-btn" onclick="loadScenario(2)">🏖️ Urlaubswoche</button>
+      <button class="scenario-btn" onclick="loadScenario(3)">🌙 Notdienst-Woche</button>
+      <button class="scenario-btn" onclick="loadScenario(4)">🏢 Großapotheke</button>
+    </div>
+    <div id="scenarioDesc" style="font-family:'Inter',sans-serif;font-size:0.78rem;color:#92400e;margin-top:10px;display:none;padding:8px 12px;background:#fef9c3;border-radius:8px;"></div>
+  </div>
+  <!-- ═══ ENDE TESTSZENARIOS ═══ -->
 
   <button class="generate-btn" id="genBtn" onclick="generatePlan()">
     <span>✦</span> KI-Schichtplan erstellen
@@ -814,12 +989,29 @@
   <!-- RESULT -->
   <div class="result-section" id="resultSection" style="scroll-margin-top:80px">
     <div class="card">
+      <div class="print-header" style="display:none">
+        <div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;">ApoShift – Schichtplan</div>
+          <div id="printSubtitle" style="font-size:0.78rem;color:#6e7787;"></div>
+        </div>
+        <div style="font-size:0.72rem;color:#6e7787;text-align:right;">
+          Erstellt: <span id="printDate"></span>
+        </div>
+      </div>
       <div class="result-header">
         <h2>Ihr Schichtplan ✦</h2>
         <div class="export-btns">
+          <button class="export-btn" id="regenBtn" onclick="confirmRegen()">↺ Neu generieren</button>
           <button class="export-btn" onclick="exportExcel()">📊 Excel</button>
-          <button class="export-btn primary" onclick="exportPDF()">📄 PDF drucken</button>
+          <button class="export-btn" onclick="window.print()">🖨 Drucken</button>
+          <button class="export-btn primary" onclick="exportPDF()">📄 PDF</button>
         </div>
+      </div>
+      <!-- Bestätigungs-Banner für Neu generieren -->
+      <div id="regenConfirm" style="display:none;background:#fef3c7;border:1.5px solid #fde047;border-radius:10px;padding:12px 16px;margin-bottom:16px;display:none;align-items:center;gap:12px;font-size:0.85rem;font-family:var(--sans);">
+        <span>⚠ Manuelle Änderungen gehen verloren. Wirklich neu generieren?</span>
+        <button onclick="doRegen()" style="background:#dc2626;color:white;border:none;border-radius:7px;padding:6px 14px;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:var(--sans);">Ja, neu erstellen</button>
+        <button onclick="document.getElementById('regenConfirm').style.display='none'" style="background:white;border:1.5px solid var(--border);border-radius:7px;padding:6px 14px;font-size:0.82rem;cursor:pointer;font-family:var(--sans);">Abbrechen</button>
       </div>
 
       <div class="stats-row" id="statsRow"></div>
@@ -845,7 +1037,7 @@
   <div class="shift-option voll"       data-shift="Voll 08-17">Voll 08-17</div>
   <div class="shift-option frei"       data-shift="Frei">Frei</div>
   <div class="shift-option urlaub"     data-shift="Urlaub">Urlaub</div>
-  <div class="shift-option notdienst"  data-shift="Notdienst 24h">Notdienst 24h</div>
+  <div class="shift-option notdienst"  id="pickerNotdienst" data-shift="Notdienst 24h">Notdienst 24h</div>
 </div>
 
 <!-- Save banner -->
@@ -855,6 +1047,17 @@
 </div>
 
 <script>
+const ROW_COLORS = [
+  { bg:'#f0f7ff', border:'#bfdbfe', dot:'#3b82f6' },
+  { bg:'#f0fdf4', border:'#bbf7d0', dot:'#22c55e' },
+  { bg:'#fdf4ff', border:'#e9d5ff', dot:'#a855f7' },
+  { bg:'#fff7ed', border:'#fed7aa', dot:'#f97316' },
+  { bg:'#fdf2f8', border:'#fbcfe8', dot:'#ec4899' },
+  { bg:'#f0fdfa', border:'#99f6e4', dot:'#14b8a6' },
+  { bg:'#fffbeb', border:'#fde68a', dot:'#eab308' },
+  { bg:'#fef2f2', border:'#fecaca', dot:'#ef4444' },
+];
+
 // Default employees
 const defaultEmployees = [
   { name: 'Dr. Sabine Keller', pos: 'Apothekerin', hours: 40, note: '' },
@@ -866,25 +1069,46 @@ const defaultEmployees = [
 
 const POSITIONS = ['Apothekerin/Apotheker', 'PTA', 'PKA', 'Praktikant/in', 'Aushilfe'];
 
+const ROW_DOT_COLORS = ['#3b82f6','#22c55e','#a855f7','#f97316','#ec4899','#14b8a6','#eab308','#ef4444'];
+
+function refreshEmployeeDots() {
+  document.querySelectorAll('.employee-row').forEach((row, i) => {
+    const dot = row.querySelector('.emp-dot-el');
+    if (dot) dot.style.background = ROW_DOT_COLORS[i % ROW_DOT_COLORS.length];
+  });
+}
+
 function createEmployeeRow(emp = {}) {
   const row = document.createElement('div');
   row.className = 'employee-row';
+  // pos: support both 'pos' (new) and 'position' (legacy localStorage)
+  const posVal = emp.pos || emp.position || '';
   row.innerHTML = `
-    <input type="text" placeholder="Name" value="${emp.name||''}" class="emp-name">
+    <div style="display:flex;align-items:center;gap:8px;min-width:0">
+      <span class="emp-dot emp-dot-el" style="background:#3b82f6;flex-shrink:0"></span>
+      <input type="text" placeholder="Name" value="${emp.name||''}" class="emp-name" style="min-width:0;flex:1">
+    </div>
     <select class="emp-pos">
       ${['Apotheker/in','PTA','Azubi PTA','PKA','Azubi PKA','Praktikant/in','Aushilfe'].map(p =>
-        `<option ${(emp.pos||'').includes(p.split('/')[0]) ? 'selected':''} value="${p}">${p}</option>`
+        `<option ${posVal.includes(p.split('/')[0]) ? 'selected':''} value="${p}">${p}</option>`
       ).join('')}
     </select>
     <input type="number" placeholder="38" min="5" max="48" value="${emp.hours||38}" class="emp-hours">
     <input type="text" placeholder="z.B. kein Samstag, Urlaub Di–Do" value="${emp.note||''}" class="emp-note">
-    <button class="remove-btn" onclick="this.parentElement.remove()">✕</button>
+    <div style="position:relative">
+      <input type="number" step="0.5" min="-20" max="20" value="${emp.carryover||0}" class="emp-carryover"
+        style="text-align:center;padding-right:18px"
+        title="Überstunden (+) oder Minusstunden (−) aus der Vorwoche">
+      <span style="position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:0.7rem;color:var(--ink-soft);pointer-events:none">h</span>
+    </div>
+    <button class="remove-btn" onclick="this.parentElement.remove();refreshEmployeeDots()">✕</button>
   `;
   return row;
 }
 
 function addEmployee(emp) {
   document.getElementById('employeeList').appendChild(createEmployeeRow(emp));
+  refreshEmployeeDots();
 }
 
 // ── LocalStorage save/load ───────────────────────────────────────────────────
@@ -898,9 +1122,13 @@ function saveEmployees() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(emps));
     const apoData = {
-      name: document.getElementById('apoName').value,
-      openWeek: document.getElementById('openWeek').value,
-      openSat: document.getElementById('openSat').value,
+      name:        document.getElementById('apoName').value,
+      openWeek:    document.getElementById('openWeek').value,
+      openSat:     document.getElementById('openSat').value,
+      minStaffWeek:document.getElementById('minStaffWeek')?.value || '2',
+      minStaffSat: document.getElementById('minStaffSat')?.value  || '1',
+      shiftModel:  document.getElementById('shiftModel')?.value   || 'gemischt',
+      feiertage:   document.getElementById('feiertage')?.value        || '',
     };
     localStorage.setItem(STORAGE_APO, JSON.stringify(apoData));
     showSaveBanner();
@@ -916,9 +1144,13 @@ function loadSavedData() {
       emps.forEach(e => addEmployee(e));
       if (savedApo) {
         const apo = JSON.parse(savedApo);
-        if (apo.name) document.getElementById('apoName').value = apo.name;
-        if (apo.openWeek) document.getElementById('openWeek').value = apo.openWeek;
-        if (apo.openSat) document.getElementById('openSat').value = apo.openSat;
+        if (apo.name)         document.getElementById('apoName').value    = apo.name;
+        if (apo.openWeek)     document.getElementById('openWeek').value   = apo.openWeek;
+        if (apo.openSat)      document.getElementById('openSat').value    = apo.openSat;
+        if (apo.minStaffWeek) document.getElementById('minStaffWeek').value = apo.minStaffWeek;
+        if (apo.minStaffSat)  document.getElementById('minStaffSat').value  = apo.minStaffSat;
+        if (apo.shiftModel)   document.getElementById('shiftModel').value   = apo.shiftModel;
+        if (apo.feiertage)    document.getElementById('feiertage').value    = apo.feiertage;
       }
       return true;
     }
@@ -944,10 +1176,17 @@ function hideSaveBanner() {
   document.getElementById('saveBanner').classList.remove('show');
 }
 
-// Auto-save on any employee field change
+// Auto-save bei Mitarbeiter- UND Apothekendaten-Änderungen
 document.getElementById('employeeList').addEventListener('input', () => {
   clearTimeout(window._saveDebounce);
   window._saveDebounce = setTimeout(saveEmployees, 1200);
+});
+['apoName','openWeek','openSat','minStaffWeek','minStaffSat','shiftModel','feiertage'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', () => {
+    clearTimeout(window._saveDebounce);
+    window._saveDebounce = setTimeout(saveEmployees, 1200);
+  });
 });
 
 // ── Init ─────────────────────────────────────────────────────────────────────
@@ -970,12 +1209,25 @@ const jan1 = new Date(now.getFullYear(), 0, 1);
 const weekNum = Math.ceil(((now - jan1) / 86400000 + jan1.getDay() + 1) / 7);
 weekInput.value = `${now.getFullYear()}-W${String(weekNum+1).padStart(2,'0')}`;
 
+function updateKWDisplay(val) {
+  const el = document.getElementById('kwDisplay');
+  if (!el) return;
+  if (val && val.includes('-W')) {
+    const [year, kw] = val.split('-W');
+    el.textContent = `KW ${parseInt(kw)} / ${year}`;
+  } else {
+    el.textContent = '';
+  }
+}
+updateKWDisplay(weekInput.value);
+
 function getEmployees() {
   return [...document.querySelectorAll('.employee-row')].map(r => ({
-    name: r.querySelector('.emp-name').value,
-    position: r.querySelector('.emp-pos').value,
-    hours: r.querySelector('.emp-hours').value,
-    note: r.querySelector('.emp-note').value,
+    name:      r.querySelector('.emp-name').value,
+    position:  r.querySelector('.emp-pos').value,
+    hours:     r.querySelector('.emp-hours').value,
+    note:      r.querySelector('.emp-note').value,
+    carryover: parseFloat(r.querySelector('.emp-carryover')?.value) || 0,
   })).filter(e => e.name.trim());
 }
 
@@ -1060,6 +1312,12 @@ async function generatePlan() {
   const openSat  = openSatVal;
   const notdienst = [...document.querySelectorAll('.nd-box:checked')].map(c=>c.value).join(', ') || 'kein Notdienst';
   const notes = document.getElementById('notes').value;
+  const minStaffWeek = document.getElementById('minStaffWeek')?.value || '2';
+  const minStaffSat  = document.getElementById('minStaffSat')?.value  || '1';
+  const shiftModelRaw = document.getElementById('shiftModel')?.value || 'gemischt';
+  const shiftModelLabel = shiftModelRaw === 'frueh_spaet' ? 'Früh- und Spätschichten bevorzugen' : shiftModelRaw === 'voll' ? 'Vollzeit-Tagesdienste bevorzugen' : 'Gemischt – KI wählt passende Schichttypen';
+  const notdienstH = calcNotdienstHours();
+  const feiertage = document.getElementById('feiertage')?.value?.trim() || '';
 
   hideError();
   document.getElementById('genBtn').disabled = true;
@@ -1105,59 +1363,58 @@ async function generatePlan() {
 
   const prompt = `Du bist ein Experte für Schichtplanung in deutschen Apotheken.
 
-Erstelle einen detaillierten Wochenplan (Montag bis Samstag) für folgende Apotheke:
+Erstelle einen Wochenplan (Mo–So) für folgende Apotheke:
 
 APOTHEKE: ${apoName}
-PLANUNGSWOCHE: ${planWeek}
-ÖFFNUNGSZEITEN Mo-Fr: ${openWeek}
+PLANUNGSWOCHE: KW ${planWeek.split("-W")[1] || planWeek} / ${planWeek.split("-W")[0] || ""}
+ÖFFNUNGSZEITEN Mo–Fr: ${openWeek}
 ÖFFNUNGSZEITEN Samstag: ${openSat}
 NOTDIENST-TAGE: ${notdienst}
-HINWEIS NOTDIENST: An Notdienst-Tagen muss genau ein/e Apotheker/in den 24h-Notdienst leisten. Dieser beginnt bei Ladenschluss des Vortages und endet bei Öffnung am Notdiensttag. Der Notdienst zählt als eigene Schicht "Notdienst 24h" und ersetzt alle anderen Schichten dieses Tages. Die Person, die Notdienst hat, bekommt den Folgetag frei (Ausgleich). Azubis dürfen KEINEN Notdienst leisten.
+FEIERTAGE: ${feiertage || 'keine'}
+NOTDIENST-DAUER: ca. ${notdienstH}h Bereitschaftsdienst (von Schließung Vortag bis Öffnung – kein 24h-Volldienst!)
+
+MINDESTBESETZUNG:
+- Mo–Fr: mindestens ${minStaffWeek} Personen gleichzeitig anwesend
+- Samstag: mindestens ${minStaffSat} Person(en) anwesend
+
+SCHICHTMODELL-PRÄFERENZ: ${shiftModelLabel}
 
 MITARBEITER:
-${employees.map((e,i) => `${i+1}. ${e.name} | ${e.position} | ${e.hours} Std/Woche | Hinweis: ${e.note||'keine'}`).join('\n')}
+${employees.map((e,i) => {
+  const co = e.carryover || 0;
+  const target = parseFloat(e.hours) + (co > 0 ? -co : Math.abs(co) > 0 ? Math.abs(co) : 0);
+  const coStr = co !== 0 ? ` | Übertrag Vorwoche: ${co > 0 ? '+' : ''}${co}h → Ziel diese Woche: ${(parseFloat(e.hours) - co).toFixed(1)}h` : '';
+  return `${i+1}. ${e.name} | ${e.position} | Vertrag: ${e.hours}h/Wo${coStr} | Hinweis: ${e.note||'keine'}`;
+}).join('\n')}
 
-BESONDERE HINWEISE DES INHABERS:
+BESONDERE HINWEISE:
 ${notes || 'keine'}
 
-RECHTLICHE CONSTRAINTS (immer einhalten):
-- Mindestens ein/e Apotheker/in muss immer anwesend sein (Approbationspflicht)
-- Max. 10 Stunden/Tag pro Mitarbeiter
-- Min. 11 Stunden Ruhezeit zwischen Schichten
-- Wochenstunden gemäß Vertrag einhalten (ca. ±2h Toleranz)
-- Samstag: reduziertes Team ausreichend
+RECHTLICHE CONSTRAINTS (alle zwingend einhalten):
+- Approbationspflicht: mind. 1 Apotheker/in während gesamter Öffnungszeit anwesend
+- ApBetrO §13: mind. 2 Personen gleichzeitig (davon mind. 1 Apotheker/in oder PTA)
+- ArbZG: max. 10h Arbeitszeit/Tag (exkl. Pausen), min. 11h Ruhezeit zwischen Schichten
+- Pausenpflicht ArbZG §4: ab 6h Arbeitszeit → 30min Pause (Netto: 5,5h); ab 9h → 45min Pause (Netto: 8,25h)
+- Wochenstunden laut Vertrag ±2h Toleranz einhalten
+- Notdienst: nur approbierte Apotheker/innen, Folgetag zwingend Frei, Azubis ausgeschlossen
+- Samstags-Fairness: Samstagsarbeit möglichst gleichmäßig auf alle passenden MA verteilen
 
-SCHICHTTYPEN:
-- "Früh 08-14" (Frühschicht)
-- "Spät 13-19" (Spätschicht)
-- "Voll 08-17" (Vollzeit-Tagesdienst)
-- "Notdienst 24h" (nur an Notdienst-Tagen, nur approbierte Apotheker/innen, Folgetag = Frei)
-- "Frei" (freier Tag / Ausgleich)
-- "Urlaub" (wenn angegeben)
+SCHICHTTYPEN (exakt diese Labels im JSON verwenden):
+- "Früh 08-14" → 6h brutto, 5,5h netto nach Pause
+- "Spät 13-19" → 6h brutto, 5,5h netto nach Pause
+- "Voll 08-17" → 9h brutto, 8,25h netto nach Pause
+- "Notdienst ${notdienstH}h" → Bereitschaft ${notdienstH}h, Folgetag = Frei
+- "Frei" → freier Tag / Ruhetag
+- "Urlaub" → nur wenn vom Mitarbeiter angegeben
 
-Antworte NUR mit einem JSON-Objekt in exakt diesem Format (kein Markdown, keine Erklärungen davor oder danach):
-
+Antworte NUR mit JSON (kein Markdown, kein Text davor/danach):
 {
-  "summary": "2-3 Sätze: Kurze Zusammenfassung des Plans, besondere Hinweise, wie Wünsche berücksichtigt wurden",
-  "warnings": ["Warnung 1 falls vorhanden", "Warnung 2"],
-  "stats": {
-    "totalShifts": 28,
-    "approxCoverage": "95%",
-    "saturdayStaff": 3,
-    "constraintsMet": true
-  },
-  "plan": {
-    "Mo": {"${employees[0]?.name}": "Früh 08-14", "...": "..."},
-    "Di": {},
-    "Mi": {},
-    "Do": {},
-    "Fr": {},
-    "Sa": {},
-    "So": {}
-  }
+  "summary": "2-3 Sätze Zusammenfassung des Plans",
+  "warnings": ["Warnung falls Constraint nicht vollständig erfüllbar"],
+  "stats": { "totalShifts": 0, "saturdayStaff": 0, "constraintsMet": true },
+  "plan": { "Mo": {}, "Di": {}, "Mi": {}, "Do": {}, "Fr": {}, "Sa": {}, "So": {} }
 }
-
-Fülle ALLE Mitarbeiter für ALLE Tage aus (Mo–So). Jeder Mitarbeiter bekommt jeden Tag entweder eine Schicht oder "Frei". Sonntag ist normalerweise "Frei" für alle, außer bei Notdienst.`;
+Alle Mitarbeiter, alle Tage (Mo–So) ausfüllen.`;
 
   // The prompt instructs the AI to emit step markers as it works
   const streamingPrompt = prompt + `
@@ -1202,6 +1459,24 @@ Dann folgt NUR das JSON-Objekt, ohne weiteren Text.`;
     const result = JSON.parse(jsonMatch[0]);
     renderResult(result, employees, apoName, planWeek);
 
+    // ── Übertrag automatisch berechnen und in Felder zurückschreiben ──────────
+    const plan = result.plan || {};
+    document.querySelectorAll('.employee-row').forEach(row => {
+      const name = row.querySelector('.emp-name')?.value;
+      const contracted = parseFloat(row.querySelector('.emp-hours')?.value) || 0;
+      if (!name) return;
+      const actual = DAYS.reduce((s, d) => s + calcShiftHours((plan[d]||{})[name]||''), 0);
+      const diff = parseFloat((actual - contracted).toFixed(1));
+      const coInput = row.querySelector('.emp-carryover');
+      if (coInput) {
+        coInput.value = diff;
+        // Kurz visuell highlighten
+        coInput.style.transition = 'background 0.4s';
+        coInput.style.background = diff > 0 ? '#fef3c7' : diff < 0 ? '#fef2f2' : '#f0fdf4';
+        setTimeout(() => coInput.style.background = '', 2500);
+      }
+    });
+
   } catch (err) {
     showError('Fehler beim Erstellen des Plans: ' + err.message);
     console.error(err);
@@ -1217,6 +1492,42 @@ const DAY_LABELS = {
   Do:'Donnerstag', Fr:'Freitag', Sa:'Samstag', So:'Sonntag'
 };
 
+// Notdienst-Dauer aus Öffnungszeiten berechnen (Schließung Vortag → Öffnung Folgetag)
+function calcNotdienstHours() {
+  const parseTime = t => {
+    const m = (t||'').match(/(\d{1,2})[:\.](\d{2})/);
+    return m ? parseInt(m[1]) + parseInt(m[2])/60 : null;
+  };
+  const openWeek = document.getElementById('openWeek')?.value || '08:00 – 19:00';
+  const parts = openWeek.split(/[–\-]/);
+  const openH  = parseTime(parts[0]);   // z.B. 8.0
+  const closeH = parseTime(parts[1]);   // z.B. 19.0
+  if (openH === null || closeH === null) return 14; // Fallback
+  // Notdienst = 24h - reguläre Öffnungszeit
+  const notdienstH = 24 - (closeH - openH);
+  return Math.round(notdienstH * 10) / 10;
+}
+
+// Netto-Arbeitsstunden einer Schicht (nach ArbZG §4 Pausenabzug)
+function calcShiftHours(shift) {
+  if (!shift) return 0;
+  const s = shift.toLowerCase();
+  if (s.includes('notdienst')) {
+    // Notdienst: Bereitschaftsdienst, ArbZG §5 Abs.3 – nur aktive Zeit zählt
+    // Wir rechnen die tatsächliche Dienstzeit (keine Pause abziehen – Ausnahme Bereitschaft)
+    return calcNotdienstHours();
+  }
+  let raw = 0;
+  if (s.includes('früh')) raw = 6;       // 08-14
+  else if (s.includes('spät')) raw = 6;  // 13-19
+  else if (s.includes('voll')) raw = 9;  // 08-17
+  else return 0;
+  // ArbZG §4: ab 6h → 30min Pause, ab 9h → 45min Pause
+  if (raw >= 9) return raw - 0.75;  // 9h → 8.25h netto
+  if (raw >= 6) return raw - 0.5;   // 6h → 5.5h netto
+  return raw;
+}
+
 let currentResult = null;
 let currentEmployees = null;
 let currentApo = '';
@@ -1227,6 +1538,7 @@ function shiftClass(shift) {
   if (shift === 'Urlaub') return 'urlaub';
   if (shift.toLowerCase().includes('notdienst')) return 'notdienst';
   if (shift.toLowerCase().includes('früh')) return 'frueh';
+  if (shift.toLowerCase().includes('voll')) return 'voll';
   return 'spaet';
 }
 
@@ -1240,17 +1552,21 @@ function renderResult(result, employees, apoName, planWeek) {
 
   // Stats
   const s = result.stats || {};
+  // Auto-korrigieren: wenn Warnungen vorhanden → constraintsMet = false
+  const constraintsMet = s.constraintsMet && !(result.warnings && result.warnings.length > 0);
+  const constraintsIcon = constraintsMet ? '✓' : '⚠';
+  const constraintsStyle = constraintsMet ? '' : 'color:#dc2626;';
   document.getElementById('statsRow').innerHTML = `
     <div class="stat-card"><span class="stat-num">${employees.length}</span><div class="stat-label">Mitarbeiter</div></div>
     <div class="stat-card"><span class="stat-num">${s.totalShifts || '–'}</span><div class="stat-label">Schichten gesamt</div></div>
     <div class="stat-card"><span class="stat-num">${s.saturdayStaff || '–'}</span><div class="stat-label">Personal Samstag</div></div>
-    <div class="stat-card"><span class="stat-num">${s.constraintsMet ? '✓' : '!'}</span><div class="stat-label">Alle Regeln eingehalten</div></div>
+    <div class="stat-card"><span class="stat-num" style="${constraintsStyle}-webkit-text-fill-color:${constraintsMet?'':'#dc2626'}">${constraintsIcon}</span><div class="stat-label">Alle Regeln eingehalten</div></div>
   `;
 
-  // Notes
+  // Notes + Warnungen prominent
   let notesHtml = `<h4>✦ KI-Analyse</h4><p>${result.summary || ''}</p>`;
   if (result.warnings && result.warnings.length > 0) {
-    notesHtml += `<p style="margin-top:10px;color:#92400e;"><strong>Hinweise:</strong> ${result.warnings.join(' · ')}</p>`;
+    notesHtml += `<div class="warning-banner">${result.warnings.map(w => `<div class="warning-item">⚠ ${w}</div>`).join('')}</div>`;
   }
   document.getElementById('aiNotes').innerHTML = notesHtml;
 
@@ -1265,34 +1581,125 @@ function renderResult(result, employees, apoName, planWeek) {
     <th>Σ Std.</th>
   </tr>`;
 
-  tbody.innerHTML = employees.map(emp => {
+  tbody.innerHTML = employees.map((emp, ri) => {
     let totalH = 0;
+    const rc = ROW_COLORS[ri % ROW_COLORS.length];
     const cells = DAYS.map(day => {
       const shift = (plan[day] || {})[emp.name] || 'Frei';
-      if (shift.toLowerCase().includes('notdienst')) totalH += 24;
-      else if (shift.includes('Früh') || shift.includes('Spät')) totalH += 6;
-      else if (shift.includes('Voll')) totalH += 9;
+      totalH += calcShiftHours(shift);
       return `<td><span class="shift-tag ${shiftClass(shift)}" data-emp="${emp.name}" data-day="${day}" title="Klicken zum Ändern">${shift}</span></td>`;
     }).join('');
-    const contracted = parseInt(emp.hours) || 0;
-    const hoursColor = totalH > contracted + 2 ? '#dc2626' : totalH < contracted - 2 ? '#d97706' : '#059669';
-    return `<tr>
-      <td>${emp.name}<br><span style="font-size:0.7rem;color:var(--ink-soft);font-weight:400">${emp.position}</span></td>
+    const contracted = parseFloat(emp.hours) || 0;
+    const over = totalH > contracted + 2, under = totalH < contracted - 2;
+    const colCls = over ? 'col-over' : under ? 'col-under' : 'col-ok';
+    const pct = contracted > 0 ? Math.min((totalH / contracted) * 100, 100) : 0;
+    const diffLabel = over ? `+${totalH-contracted}h` : under ? `-${contracted-totalH}h` : '✓ ok';
+    return `<tr style="background:${ri%2===0?'white':'#f7f8fa'}">
+      <td style="padding:10px 14px;font-weight:600;font-size:0.8rem;border-bottom:1px solid var(--border)">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="emp-dot" style="background:${rc.dot}"></span>
+          <div>${emp.name}<br><span style="font-size:0.7rem;color:var(--ink-soft);font-weight:400">${emp.position}</span></div>
+        </div>
+      </td>
       ${cells}
-      <td style="font-family:var(--mono);font-size:0.8rem;color:${hoursColor};font-weight:600">${totalH}h<br><span style="color:var(--ink-soft);font-weight:400;font-size:0.68rem">(${contracted}h Soll)</span></td>
+      <td class="hours-cell" style="padding:8px 10px;border-bottom:1px solid var(--border)">
+        <div class="hours-top">
+          <span class="hours-actual ${colCls}">${totalH}h</span>
+          <span class="hours-contract">/${contracted}h</span>
+        </div>
+        <div class="hours-bar-bg">
+          <div class="hours-bar-fill" style="width:${pct}%;background:${over?'#ef4444':under?'#f59e0b':'#22c55e'}"></div>
+        </div>
+        <div class="hours-label ${colCls}">${diffLabel}</div>
+      </td>
     </tr>`;
   }).join('');
 
-  // ── Attach shift picker via event delegation on tbody ────────────────────
-  document.getElementById('shiftBody').addEventListener('click', (e) => {
-    const tag = e.target.closest('.shift-tag[data-emp]');
-    if (!tag) return;
-    e.stopPropagation();
-    openShiftPicker(tag);
-  });
+  // Stundenauswertungs-Karte rendern
+  renderHoursSummary(employees, plan);
+
+  // Print-Header befüllen
+  const kwStr = planWeek.includes('-W')
+    ? 'KW ' + planWeek.split('-W')[1] + ' / ' + planWeek.split('-W')[0]
+    : planWeek;
+  const printSubEl = document.getElementById('printSubtitle');
+  const printDateEl = document.getElementById('printDate');
+  if (printSubEl) printSubEl.textContent = `${apoName} · ${kwStr}`;
+  if (printDateEl) printDateEl.textContent = new Date().toLocaleDateString('de-DE');
 
   document.getElementById('resultSection').classList.add('visible');
   document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function renderHoursSummary(employees, plan) {
+  const DAYS = ['Mo','Di','Mi','Do','Fr','Sa','So'];
+  // Remove old summary if exists
+  const old = document.getElementById('hoursSummary');
+  if (old) old.remove();
+
+  const totalActual = employees.reduce((s, emp) =>
+    s + DAYS.reduce((ss, d) => {
+      const sh = (plan[d]||{})[emp.name]||'';
+      return ss + calcShiftHours(sh);
+    }, 0), 0);
+  const totalContract = employees.reduce((s, e) => s + (parseFloat(e.hours)||0), 0);
+  const issues = employees.filter(emp => {
+    const a = DAYS.reduce((s,d) => {
+      const sh=(plan[d]||{})[emp.name]||'';
+      return s + calcShiftHours(sh);
+    },0);
+    return Math.abs(a-(parseFloat(emp.hours)||0)) > 2;
+  });
+
+  const cards = employees.map((emp, i) => {
+    const rc = ROW_COLORS[i % ROW_COLORS.length];
+    const actual = DAYS.reduce((s,d) => {
+      const sh=(plan[d]||{})[emp.name]||'';
+      return s + calcShiftHours(sh);
+    },0);
+    const contracted = parseFloat(emp.hours)||0;
+    const over=actual>contracted+2, under=actual<contracted-2;
+    const col=over?'#ef4444':under?'#f59e0b':'#22c55e';
+    const pct=contracted>0?Math.min((actual/contracted)*100,100):0;
+    const diff=over?`+${actual-contracted}h`:under?`-${contracted-actual}h`:'✓ ok';
+    const lastName = emp.name.split(' ').pop();
+    const posShort = (emp.position||'').split('/')[0];
+    return `<div class="hours-emp-card" style="background:${rc.bg};border:1px solid ${rc.border}">
+      <div class="hours-emp-top">
+        <span class="emp-dot" style="background:${rc.dot}"></span>
+        <span class="hours-emp-name">${lastName}</span>
+        <span class="hours-emp-pos">${posShort}</span>
+      </div>
+      <div class="hours-top">
+        <span class="hours-actual" style="color:${col}">${actual}h</span>
+        <span class="hours-contract">/${contracted}h</span>
+      </div>
+      <div class="hours-bar-bg"><div class="hours-bar-fill" style="width:${pct}%;background:${col}"></div></div>
+      <div class="hours-label" style="color:${col}">${diff}</div>
+    </div>`;
+  }).join('');
+
+  const badgeHtml = issues.length > 0
+    ? `<span class="deviation-badge">${issues.length} Abweichung${issues.length>1?'en':''}</span>` : '';
+
+  const html = `<div class="hours-summary" id="hoursSummary">
+    <div class="hours-summary-title">
+      📊 Stundenauswertung ${badgeHtml}
+      <span style="margin-left:auto;font-family:var(--mono);font-size:0.75rem;color:var(--ink-soft);font-weight:400">
+        Team: <strong style="color:var(--ink)">${totalActual}h</strong> / ${totalContract}h Soll
+      </span>
+    </div>
+    <div class="hours-summary-grid">${cards}</div>
+    <div class="hours-legend">
+      <span><span style="color:#22c55e;font-weight:700">●</span> Im Soll</span>
+      <span><span style="color:#f59e0b;font-weight:700">●</span> Zu wenig</span>
+      <span><span style="color:#ef4444;font-weight:700">●</span> Überstunden</span>
+    </div>
+  </div>`;
+
+  // Insert after shift table wrap
+  const tableWrap = document.querySelector('.shift-table-wrap');
+  tableWrap.insertAdjacentHTML('afterend', html);
 }
 
 function exportExcel() {
@@ -1301,7 +1708,7 @@ function exportExcel() {
   const wb = XLSX.utils.book_new();
   const rows = [
     [`Schichtplan – ${currentApo}`, '', '', '', '', '', '', ''],
-    [`Woche: ${currentWeek}`, '', '', '', '', '', '', ''],
+    [`KW ${currentWeek.split('-W')[1] || currentWeek} · ${currentWeek.split('-W')[0] || ''}`, '', '', '', '', '', '', ''],
     [''],
     ['Mitarbeiter', 'Position', ...DAYS.map(d => DAY_LABELS[d]), 'Σ ca.'],
   ];
@@ -1309,8 +1716,7 @@ function exportExcel() {
     let h = 0;
     const cells = DAYS.map(d => {
       const s = (plan[d] || {})[emp.name] || 'Frei';
-      if (s.includes('Früh') || s.includes('Spät')) h += 6;
-      else if (s.includes('Voll')) h += 9;
+      h += calcShiftHours(s);
       return s;
     });
     rows.push([emp.name, emp.position, ...cells, h + 'h']);
@@ -1344,7 +1750,8 @@ async function exportPDF() {
     doc.text('ApoShift – Schichtplan', margin, 12);
     doc.setFontSize(9);
     doc.setFont('helvetica', 'normal');
-    doc.text(`${currentApo}   |   Woche: ${currentWeek}   |   Erstellt: ${new Date().toLocaleDateString('de-DE')}`, pageW - margin, 12, { align: 'right' });
+    const kwStr = currentWeek.includes('-W') ? 'KW ' + currentWeek.split('-W')[1] + ' / ' + currentWeek.split('-W')[0] : currentWeek;
+    doc.text(`${currentApo}   |   ${kwStr}   |   Erstellt: ${new Date().toLocaleDateString('de-DE')}`, pageW - margin, 12, { align: 'right' });
 
     // Table setup
     const plan = currentResult.plan || {};
@@ -1481,7 +1888,21 @@ function openShiftPicker(tag) {
   const title  = document.getElementById('shiftPickerTitle');
   activeTag = tag;
 
+  // Dynamisches Notdienst-Label basierend auf Öffnungszeiten
+  const ndH = calcNotdienstHours();
+  const ndLabel = `Notdienst ${ndH}h`;
+  const ndBtn = document.getElementById('pickerNotdienst');
+  ndBtn.dataset.shift = ndLabel;
+  ndBtn.textContent   = ndLabel;
+
   title.textContent = `${tag.dataset.emp} · ${DAY_LABELS[tag.dataset.day] || tag.dataset.day}`;
+
+  // Aktuelle Schicht im Picker markieren
+  const currentShift = tag.textContent.trim();
+  document.getElementById('shiftPicker').querySelectorAll('.shift-option').forEach(o => {
+    o.style.outline = o.dataset.shift === currentShift ? '2px solid var(--accent)' : 'none';
+    o.style.fontWeight = o.dataset.shift === currentShift ? '700' : '500';
+  });
 
   // Position near tag
   const rect = tag.getBoundingClientRect();
@@ -1492,7 +1913,7 @@ function openShiftPicker(tag) {
   if (top + 180 > window.innerHeight) top = rect.top - 180;
 
   picker.style.left = left + 'px';
-  picker.style.top  = (top + window.scrollY) + 'px';
+  picker.style.top  = top + 'px';
   picker.classList.add('open');
 }
 
@@ -1529,27 +1950,174 @@ document.getElementById('shiftPicker').querySelectorAll('.shift-option').forEach
     let totalH = 0;
     allTags.forEach(t => {
       const s = t.textContent;
-      if (s.toLowerCase().includes('notdienst')) totalH += 24;
-      else if (s.includes('Früh') || s.includes('Spät')) totalH += 6;
-      else if (s.includes('Voll')) totalH += 9;
+      totalH += calcShiftHours(s);
     });
     const lastCell = row.querySelector('td:last-child');
     const empObj = currentEmployees.find(e => e.name === emp);
     const contracted = empObj ? parseInt(empObj.hours) || 0 : 0;
-    const hoursColor = totalH > contracted + 2 ? '#dc2626' : totalH < contracted - 2 ? '#d97706' : '#059669';
-    lastCell.innerHTML = `<span style="font-family:var(--mono);font-size:0.8rem;color:${hoursColor};font-weight:600">${totalH}h</span><br><span style="color:var(--ink-soft);font-weight:400;font-size:0.68rem">(${contracted}h Soll)</span>`;
+    const over = totalH > contracted + 2, under = totalH < contracted - 2;
+    const col = over ? '#ef4444' : under ? '#f59e0b' : '#22c55e';
+    const pct = contracted > 0 ? Math.min((totalH / contracted) * 100, 100) : 0;
+    const diff = over ? `+${totalH-contracted}h` : under ? `-${contracted-totalH}h` : '✓ ok';
+    lastCell.className = 'hours-cell';
+    lastCell.style.cssText = 'padding:8px 10px;border-bottom:1px solid var(--border)';
+    lastCell.innerHTML = `
+      <div class="hours-top">
+        <span class="hours-actual" style="color:${col}">${totalH}h</span>
+        <span class="hours-contract">/${contracted}h</span>
+      </div>
+      <div class="hours-bar-bg"><div class="hours-bar-fill" style="width:${pct}%;background:${col}"></div></div>
+      <div class="hours-label" style="color:${col}">${diff}</div>`;
+    // Stundenauswertung neu rendern
+    if (currentResult) renderHoursSummary(currentEmployees, currentResult.plan);
 
     closeShiftPicker();
   });
 });
 
-// Close on outside click
+// ── Shift-Tag Klick: einmalig auf document (tbody wird bei render neu erstellt)
 document.addEventListener('click', (e) => {
   const picker = document.getElementById('shiftPicker');
+  // Tag angeklickt?
+  const tag = e.target.closest('.shift-tag[data-emp]');
+  if (tag) {
+    e.stopPropagation();
+    openShiftPicker(tag);
+    return;
+  }
+  // Außerhalb des Pickers?
   if (picker.classList.contains('open') && !picker.contains(e.target)) {
     closeShiftPicker();
   }
 });
+
+// ══ TESTSZENARIOS – zum Entfernen diesen Block löschen ══════════════════════
+const TEST_SCENARIOS = [
+  {
+    name: '🏙️ Stadtapotheke',
+    desc: 'Gut besetzte Apotheke, Früh/Spät-Modell, Notdienst Mittwoch. Testet Approbationspflicht + Schichtrotation.',
+    apo: { name: 'Marien-Apotheke Hamburg', openWeek: '08:00 – 19:00', openSat: '08:30 – 14:00', minWeek: '2', minSat: '2', model: 'frueh_spaet' },
+    notdienst: ['Mittwoch'],
+    notes: 'Bitte Früh- und Spätschichten gleichmäßig verteilen. Frau Keller hat Mittwoch Notdienst übernommen.',
+    employees: [
+      { name: 'Dr. Sabine Keller',  pos: 'Apotheker/in', hours: 40, note: 'Notdienst Mi' },
+      { name: 'Thomas Brandt',      pos: 'Apotheker/in', hours: 30, note: 'kein Samstag' },
+      { name: 'Maria Hoffmann',     pos: 'PTA',          hours: 38, note: '' },
+      { name: 'Jana Weiß',          pos: 'PKA',          hours: 20, note: 'Mo + Mi frei' },
+      { name: 'Felix Gruber',       pos: 'PTA',          hours: 38, note: '' },
+      { name: 'Lena Schreiber',     pos: 'Azubi PTA',    hours: 38, note: 'kein Notdienst' },
+    ]
+  },
+  {
+    name: '🏡 Kleinstapotheke',
+    desc: 'Nur 3 Mitarbeitende, ein Apotheker. Testet Engpass-Erkennung und ob die KI Warnungen ausgibt.',
+    apo: { name: 'Land-Apotheke Musterbach', openWeek: '08:30 – 18:00', openSat: '09:00 – 13:00', minWeek: '1', minSat: '1', model: 'voll' },
+    notdienst: [],
+    notes: 'Kleine Apotheke, bitte realistische Besetzung. Samstag reicht eine Person.',
+    employees: [
+      { name: 'Dr. Klaus Meier',    pos: 'Apotheker/in', hours: 40, note: '' },
+      { name: 'Petra Lange',        pos: 'PKA',          hours: 30, note: 'kein Samstag' },
+      { name: 'Anna Fuchs',         pos: 'PTA',          hours: 20, note: 'nur Mo–Mi' },
+    ]
+  },
+  {
+    name: '🏖️ Urlaubswoche',
+    desc: '3 von 6 MA gleichzeitig im Urlaub. Testet ob die KI Engpässe erkennt und korrekt warnt.',
+    apo: { name: 'Sonnen-Apotheke München', openWeek: '08:00 – 18:30', openSat: '08:00 – 13:00', minWeek: '2', minSat: '1', model: 'gemischt' },
+    notdienst: [],
+    notes: 'Achtung: drei Mitarbeiter gleichzeitig im Urlaub diese Woche – bitte Engpässe melden.',
+    employees: [
+      { name: 'Dr. Hanna Bauer',    pos: 'Apotheker/in', hours: 40, note: 'Urlaub Mo–Fr' },
+      { name: 'Markus Seidl',       pos: 'Apotheker/in', hours: 32, note: '' },
+      { name: 'Christine Wolf',     pos: 'PTA',          hours: 38, note: 'Urlaub Mo–Mi' },
+      { name: 'Stefan Huber',       pos: 'PKA',          hours: 30, note: '' },
+      { name: 'Julia Maier',        pos: 'PKA',          hours: 20, note: 'Urlaub Do–Sa' },
+      { name: 'Ben Richter',        pos: 'Azubi PKA',    hours: 38, note: '' },
+    ]
+  },
+  {
+    name: '🌙 Notdienst-Woche',
+    desc: 'Zwei Notdienste in einer Woche (Fr + So). Testet Folgetag-Ausgleich und Ruhezeiten.',
+    apo: { name: 'Rats-Apotheke Köln', openWeek: '08:00 – 20:00', openSat: '08:00 – 14:00', minWeek: '2', minSat: '2', model: 'frueh_spaet' },
+    notdienst: ['Freitag', 'Sonntag'],
+    notes: 'Freitag und Sonntag Notdienst. Die Person mit Freitagsnotdienst muss Samstag frei haben.',
+    employees: [
+      { name: 'Dr. Eva Zimmermann', pos: 'Apotheker/in', hours: 40, note: '' },
+      { name: 'Ralf Berger',        pos: 'Apotheker/in', hours: 40, note: '' },
+      { name: 'Monika Klein',       pos: 'PTA',          hours: 38, note: 'kein Notdienst' },
+      { name: 'Tom Fischer',        pos: 'PKA',          hours: 30, note: '' },
+      { name: 'Sara Müller',        pos: 'Azubi PTA',    hours: 38, note: 'kein Notdienst' },
+    ]
+  },
+  {
+    name: '🏢 Großapotheke',
+    desc: '10 Mitarbeitende, verschiedene Teilzeitmodelle, Schichtrotation. Testet Skalierbarkeit.',
+    apo: { name: 'City-Apotheke Frankfurt', openWeek: '07:30 – 20:00', openSat: '08:00 – 16:00', minWeek: '3', minSat: '2', model: 'gemischt' },
+    notdienst: ['Samstag'],
+    notes: 'Bitte gleichmäßige Samstagsrotation. Azubis immer mit erfahrener Fachkraft einteilen.',
+    employees: [
+      { name: 'Dr. Petra Schulz',   pos: 'Apotheker/in', hours: 40, note: '' },
+      { name: 'Dr. Lars Vogel',     pos: 'Apotheker/in', hours: 32, note: 'kein Montag' },
+      { name: 'Nina Braun',         pos: 'PTA',          hours: 38, note: '' },
+      { name: 'Max Roth',           pos: 'PTA',          hours: 20, note: 'nur Vormittag' },
+      { name: 'Lisa Koch',          pos: 'PKA',          hours: 38, note: '' },
+      { name: 'Daniel Weber',       pos: 'PKA',          hours: 30, note: 'Fr frei' },
+      { name: 'Tanja Hartmann',     pos: 'PKA',          hours: 20, note: 'Mo–Mi' },
+      { name: 'Jan Schmitt',        pos: 'Azubi PTA',    hours: 38, note: '' },
+      { name: 'Lea Wagner',         pos: 'Azubi PKA',    hours: 38, note: '' },
+      { name: 'Nico Becker',        pos: 'Aushilfe',     hours: 10, note: 'nur Samstag' },
+    ]
+  },
+];
+
+function loadScenario(idx) {
+  const s = TEST_SCENARIOS[idx];
+  if (!s) return;
+
+  // Apothekendaten setzen
+  document.getElementById('apoName').value   = s.apo.name;
+  document.getElementById('openWeek').value  = s.apo.openWeek;
+  document.getElementById('openSat').value   = s.apo.openSat;
+  document.getElementById('minStaffWeek').value = s.apo.minWeek;
+  document.getElementById('minStaffSat').value  = s.apo.minSat;
+  document.getElementById('shiftModel').value   = s.apo.model;
+  document.getElementById('notes').value     = s.notes;
+
+  // Notdienst-Checkboxen
+  document.querySelectorAll('.nd-box').forEach(cb => {
+    cb.checked = s.notdienst.includes(cb.value);
+  });
+
+  // Mitarbeiterliste neu aufbauen
+  document.getElementById('employeeList').innerHTML = '';
+  s.employees.forEach(e => addEmployee(e));
+
+  // Beschreibung anzeigen
+  const desc = document.getElementById('scenarioDesc');
+  desc.textContent = s.desc;
+  desc.style.display = 'block';
+
+  // Kurz highlighten
+  const block = document.getElementById('testScenarioBlock');
+  block.style.background = '#fef08a';
+  setTimeout(() => block.style.background = '#fefce8', 600);
+
+  // Zur Apotheke scrollen
+  document.getElementById('section-apotheke').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+// ══ ENDE TESTSZENARIOS ══════════════════════════════════════════════════════
+
+// ── Neu generieren mit Bestätigung ──────────────────────────────────────────
+function confirmRegen() {
+  const banner = document.getElementById('regenConfirm');
+  banner.style.display = banner.style.display === 'flex' ? 'none' : 'flex';
+}
+
+function doRegen() {
+  document.getElementById('regenConfirm').style.display = 'none';
+  document.getElementById('resultSection').classList.remove('visible');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
 function scrollToSection(id) {
   const el = id === 'section-result' ? document.getElementById('resultSection') : document.getElementById(id);
