@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ApoShift – KI-Schichtplanung für Apotheken</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  :root {
+    --bg: #f0f2f5;
+    --surface: #f7f8fa;
+    --card: #ffffff;
+    --ink: #0d1117;
+    --ink-soft: #6e7787;
+    --accent: #2563eb;
+    --accent-light: #eff6ff;
+    --accent2: #7c3aed;
+    --accent-grad: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+    --success: #059669;
+    --border: #e2e8f0;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+    --mono: 'JetBrains Mono', monospace;
+    --serif: 'Space Grotesk', sans-serif;
+    --sans: 'Inter', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* HEADER */
+  header {
+    background: #ffffff;
+    color: var(--ink);
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+  }
+  .logo {
+    font-family: var(--serif);
+    font-size: 1.45rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .logo-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; height: 28px;
+    background: var(--accent-grad);
+    border-radius: 7px;
+    margin-right: 8px;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+  .logo-wrap { display: flex; align-items: center; }
+  .badge {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    background: var(--accent-light);
+    color: var(--accent);
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border: 1px solid #bfdbfe;
+  }
+
+  /* LAYOUT */
+  .container { max-width: 1100px; margin: 0 auto; padding: 48px 24px; }
+
+  .hero {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 16px;
+    letter-spacing: -0.03em;
+  }
+  .hero h1 em {
+    font-style: normal;
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    font-size: 1rem;
+    color: var(--ink-soft);
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  /* STEPS */
+  .steps {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 48px;
+  }
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .step:hover { background: var(--accent-light); color: var(--accent); }
+  .step:hover .step-num { background: var(--accent); color: white; border-color: var(--accent); }
+  .step.active { color: var(--accent); font-weight: 600; }
+  .step-num {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  .step.active .step-num { background: var(--accent); color: white; border-color: var(--accent); }
+  .step-line { width: 32px; height: 1px; background: var(--border); }
+
+  /* CARD */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.2s;
+  }
+  .card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+  .card-title {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-title .icon {
+    width: 32px; height: 32px;
+    background: var(--accent-light);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    border: 1px solid #bfdbfe;
+  }
+  .card-sub {
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+    margin-bottom: 24px;
+    margin-left: 42px;
+  }
+
+  /* FORM */
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .form-row.three { grid-template-columns: 1fr 1fr 1fr; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+  }
+  input, select, textarea {
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    background: var(--surface);
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+  textarea { resize: vertical; min-height: 90px; }
+
+  /* EMPLOYEE TABLE */
+  .employee-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+  .employee-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1.2fr 0.8fr 1.5fr 36px;
+    gap: 10px;
+    align-items: center;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+  }
+  .employee-row input, .employee-row select {
+    background: transparent;
+    border: none;
+    padding: 4px 0;
+    font-size: 0.88rem;
+  }
+  .employee-row input:focus, .employee-row select:focus {
+    border-bottom: 1.5px solid var(--accent);
+    border-radius: 0;
+  }
+  .col-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .remove-btn {
+    background: none; border: none; cursor: pointer;
+    color: #ccc; font-size: 1.1rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: color 0.2s;
+    padding: 0;
+  }
+  .remove-btn:hover { color: var(--accent2); }
+
+  .add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .add-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* GENERATE BTN */
+  .generate-btn {
+    width: 100%;
+    background: var(--accent-grad);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 18px 32px;
+    font-family: var(--sans);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s;
+    margin-top: 8px;
+    letter-spacing: -0.01em;
+    box-shadow: 0 4px 14px rgba(37,99,235,0.35);
+  }
+  .generate-btn:hover { opacity: 0.92; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,99,235,0.4); }
+  .generate-btn:disabled { background: #cbd5e1; box-shadow: none; cursor: not-allowed; transform: none; }
+
+  /* LOADING */
+  .loading-overlay {
+    display: none;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px 40px 36px;
+    margin-bottom: 24px;
+  }
+  .loading-overlay.visible { display: block; }
+  .loading-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .spinner {
+    flex-shrink: 0;
+    width: 36px; height: 36px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);  /* blue */
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-title {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    color: var(--ink);
+  }
+  .loading-title span {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+    font-style: normal;
+    margin-top: 2px;
+    letter-spacing: 0.04em;
+  }
+  .loading-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .loading-step {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s ease;
+  }
+  .loading-step:last-child { border-bottom: none; }
+  .step-icon {
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem;
+    color: #ccc;
+    font-family: var(--mono);
+    transition: all 0.3s ease;
+    background: white;
+  }
+  .loading-step.active .step-icon {
+    border-color: var(--accent);
+    color: var(--accent);
+    animation: pulse-ring 1.2s ease infinite;
+  }
+  .loading-step.done .step-icon {
+    background: var(--accent-grad);
+    border-color: var(--accent);
+    color: white;
+    font-size: 0.9rem;
+  }
+  @keyframes pulse-ring {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(37,99,235,0.25); }
+    50% { box-shadow: 0 0 0 5px rgba(37,99,235,0); }
+  }
+  .step-body { flex: 1; }
+  .step-label {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #bbb;
+    transition: color 0.3s;
+  }
+  .loading-step.active .step-label { color: var(--ink); }
+  .loading-step.done .step-label { color: var(--ink); }
+  .step-detail {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--ink-soft);
+    margin-top: 2px;
+    min-height: 14px;
+    transition: opacity 0.3s;
+    opacity: 0;
+  }
+  .loading-step.active .step-detail,
+  .loading-step.done .step-detail { opacity: 1; }
+
+  /* RESULT */
+  .result-section { display: none; }
+  .result-section.visible { display: block; }
+
+  .result-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .result-header h2 {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+  }
+  .export-btns { display: flex; gap: 10px; }
+  .export-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1.5px solid var(--border);
+    background: white;
+    color: var(--ink);
+    transition: all 0.2s;
+  }
+  .export-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .export-btn.primary { background: var(--accent-grad); color: white; border: none; }
+  .export-btn.primary:hover { opacity: 0.9; }
+
+  /* SHIFT TABLE */
+  .shift-table-wrap { overflow-x: auto; margin-bottom: 24px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    min-width: 700px;
+  }
+  thead th {
+    background: var(--ink);
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+  thead th:first-child { border-radius: 8px 0 0 0; }
+  thead th:last-child { border-radius: 0 8px 0 0; }
+  tbody tr:nth-child(even) { background: var(--surface); }
+  tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tbody td:first-child { font-weight: 600; font-size: 0.8rem; }
+  .shift-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    margin: 1px;
+    white-space: nowrap;
+  }
+  .shift-tag.frueh { background: #fef9c3; color: #854d0e; border: 1px solid #fde68a; }
+  .shift-tag.spaet { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+  .shift-tag.frei { background: #f8fafc; color: #94a3b8; border: 1px solid #e2e8f0; }
+  .shift-tag.urlaub { background: #fdf4ff; color: #7e22ce; border: 1px solid #e9d5ff; }
+  .shift-tag.notdienst { background: var(--accent-grad); color: white; font-weight: 600; border: none; }
+
+  .ai-notes {
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+  }
+  .ai-notes h4 {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  .ai-notes p { font-size: 0.88rem; line-height: 1.65; color: var(--ink); }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .stat-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: var(--sans);
+    font-size: 1.6rem;
+    font-weight: 700;
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: block;
+    letter-spacing: -0.02em;
+  }
+  .stat-label { font-size: 0.72rem; color: var(--ink-soft); margin-top: 2px; }
+
+  .error-box {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    padding: 16px 20px;
+    color: #991b1b;
+    font-size: 0.88rem;
+    display: none;
+    margin-top: 12px;
+  }
+  .error-box.visible { display: block; }
+
+  /* Field validation */
+  .field-error input, .field-error select {
+    border-color: #f87171 !important;
+    background: #fff5f5 !important;
+    animation: shake 0.35s ease;
+  }
+  .field-error-label {
+    display: block;
+    font-size: 0.72rem;
+    color: #dc2626;
+    margin-top: 3px;
+    font-weight: 500;
+  }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+  }
+  ._shaking { animation: shake 0.35s ease !important; }
+
+  /* Editable shift tags */
+  .shift-tag {
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+  .shift-tag:hover {
+    transform: scale(1.08);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 10;
+  }
+  .shift-picker {
+    position: fixed;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+    z-index: 9999;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    max-width: 260px;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.95) translateY(-4px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+  .shift-picker.open {
+    opacity: 1;
+    pointer-events: all;
+    transform: scale(1) translateY(0);
+  }
+  .shift-picker-title {
+    width: 100%;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    padding: 2px 4px 6px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2px;
+  }
+  .shift-option {
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: all 0.12s;
+    white-space: nowrap;
+  }
+  .shift-option:hover { transform: scale(1.05); }
+  .shift-option.frueh  { background: #fef9c3; color: #854d0e; border-color: #fde68a; }
+  .shift-option.spaet  { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+  .shift-option.voll   { background: #f0fdf4; color: #166534; border-color: #bbf7d0; }
+  .shift-option.frei   { background: #f8fafc; color: #94a3b8; border-color: #e2e8f0; }
+  .shift-option.urlaub { background: #fdf4ff; color: #7e22ce; border-color: #e9d5ff; }
+  .shift-option.notdienst { background: linear-gradient(135deg,#2563eb,#7c3aed); color: white; }
+
+  /* Save banner */
+  .save-banner {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--ink);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    z-index: 500;
+  }
+  .save-banner.show { transform: translateY(0); opacity: 1; }
+  .save-banner-undo {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    font-family: var(--sans);
+    transition: background 0.15s;
+  }
+  .save-banner-undo:hover { background: rgba(255,255,255,0.25); }
+
+
+  .nd-check {
+    display:flex;align-items:center;gap:5px;
+    font-size:0.82rem;font-weight:500;text-transform:none;letter-spacing:0;
+    cursor:pointer;padding:5px 12px;border-radius:8px;
+    border:1.5px solid var(--border);background:white;
+    transition:all 0.15s;user-select:none;
+  }
+  .nd-check:has(input:checked) { border-color:var(--accent);background:var(--accent-light);color:var(--accent); }
+  .nd-weekend { background:#fef9ec; border-color:#f0d070; }
+  .nd-weekend:has(input:checked) { background:#fef3c7; border-color:#f59e0b; color:#92400e; }
+  .nd-sunday { background:#eff6ff; border-color:#bfdbfe; }
+  .nd-sunday:has(input:checked) { background:#dbeafe; border-color:#3b82f6; color:#1e40af; }
+  .nd-check input[type=checkbox] { accent-color:var(--accent); width:14px;height:14px; }
+  @media (max-width: 640px) {
+    .form-row, .form-row.three { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .employee-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-wrap">
+    <div class="logo-icon">💊</div>
+    <div class="logo">ApoShift</div>
+  </div>
+  <div class="badge">KI-Prototyp · Beta</div>
+</header>
+
+<div class="container">
+
+  <div class="hero">
+    <h1>Schichtplanung,<br>die sich <em>selbst erledigt</em></h1>
+    <p>Mitarbeiterdaten eingeben, auf „Schichtplan erstellen" klicken – ApoShift liefert in Sekunden einen regelkonformen Wochenplan für deine Apotheke.</p>
+  </div>
+
+  <div class="steps">
+    <div class="step active" onclick="scrollToSection('section-apotheke')" title="Zur Apotheke springen"><div class="step-num">1</div> Apotheke</div>
+    <div class="step-line"></div>
+    <div class="step active" onclick="scrollToSection('section-mitarbeiter')" title="Zu Mitarbeitern springen"><div class="step-num">2</div> Mitarbeiter</div>
+    <div class="step-line"></div>
+    <div class="step active" onclick="scrollToSection('section-hinweise')" title="Zu Hinweisen springen"><div class="step-num">3</div> Wünsche</div>
+    <div class="step-line"></div>
+    <div class="step" id="step4" onclick="scrollToSection('section-result')" title="Zum Plan springen"><div class="step-num">4</div> Plan</div>
+  </div>
+
+  <!-- APOTHEKE -->
+  <div class="card" id="section-apotheke">
+    <div class="card-title">
+      <div class="icon">🏪</div>
+      Ihre Apotheke
+    </div>
+    <div class="card-sub">Grunddaten für die Planung</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Name der Apotheke</label>
+        <input type="text" id="apoName" placeholder="z.B. Marien-Apotheke Hamburg" value="Marien-Apotheke">
+      </div>
+      <div class="form-group">
+        <label>Planungswoche</label>
+        <input type="week" id="planWeek">
+      </div>
+    </div>
+    <div class="form-row" style="margin-bottom:16px;">
+      <div class="form-group">
+        <label>Öffnung (Mo–Fr)</label>
+        <input type="text" id="openWeek" placeholder="08:00 – 19:00" value="08:00 – 19:00">
+      </div>
+      <div class="form-group">
+        <label>Öffnung (Samstag)</label>
+        <input type="text" id="openSat" placeholder="08:30 – 14:00" value="08:30 – 14:00">
+      </div>
+      <div class="form-group" style="grid-column: 1 / -1;">
+        <label>Notdienst diese Woche <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink-soft);font-size:0.75rem;">(= 24h-Dienst von Schließung bis Öffnung)</span></label>
+        <div id="notdienstWrap" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+          <label class="nd-check"><input type="checkbox" value="Montag" class="nd-box"> Mo</label>
+          <label class="nd-check"><input type="checkbox" value="Dienstag" class="nd-box"> Di</label>
+          <label class="nd-check"><input type="checkbox" value="Mittwoch" class="nd-box"> Mi</label>
+          <label class="nd-check"><input type="checkbox" value="Donnerstag" class="nd-box"> Do</label>
+          <label class="nd-check"><input type="checkbox" value="Freitag" class="nd-box"> Fr</label>
+          <label class="nd-check nd-weekend"><input type="checkbox" value="Samstag" class="nd-box"> Sa 🌙</label>
+          <label class="nd-check nd-sunday"><input type="checkbox" value="Sonntag" class="nd-box"> So 🌙</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MITARBEITER -->
+  <div class="card" id="section-mitarbeiter">
+    <div class="card-title">
+      <div class="icon">👥</div>
+      Mitarbeiter
+    </div>
+    <div class="card-sub">Name, Position, Stunden/Woche und etwaige Abwesenheiten eintragen</div>
+
+    <div style="display:grid;grid-template-columns:1.5fr 1.2fr 0.8fr 1.5fr 36px;gap:10px;padding:0 14px;margin-bottom:6px;">
+      <span class="col-label">Name</span>
+      <span class="col-label">Position</span>
+      <span class="col-label">Std/Wo</span>
+      <span class="col-label">Abwesenheit / Wunsch</span>
+      <span></span>
+    </div>
+
+    <div class="employee-list" id="employeeList"></div>
+
+    <button class="add-btn" onclick="addEmployee()">+ Mitarbeiter hinzufügen</button>
+  </div>
+
+  <!-- WÜNSCHE -->
+  <div class="card" id="section-hinweise">
+    <div class="card-title">
+      <div class="icon">✏️</div>
+      Besondere Hinweise
+    </div>
+    <div class="card-sub">Freitext – die KI versteht natürliche Sprache</div>
+    <div class="form-group">
+      <textarea id="notes" placeholder="z.B. &#10;– Frau Müller darf nicht alleine in der Apotheke sein&#10;– Wir brauchen samstags mindestens 2 PKA&#10;– Bitte Früh- und Spätschichten gleichmäßig verteilen&#10;– Donnerstag Nachmittag ist Liefertag, da brauchen wir mehr Personal"></textarea>
+    </div>
+  </div>
+
+  <button class="generate-btn" id="genBtn" onclick="generatePlan()">
+    <span>✦</span> KI-Schichtplan erstellen
+  </button>
+  <div class="error-box" id="errorBox"></div>
+
+  <!-- LOADING -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-header">
+      <div class="spinner"></div>
+      <div class="loading-title">
+        KI erstellt Ihren Schichtplan…
+        <span id="loadingSubtitle">Bitte einen Moment Geduld</span>
+      </div>
+    </div>
+    <div class="loading-steps">
+      <div class="loading-step" id="ls1">
+        <div class="step-icon" id="ls1-icon">1</div>
+        <div class="step-body">
+          <div class="step-label">Mitarbeiterdaten & Constraints prüfen</div>
+          <div class="step-detail" id="ls1-detail">Positionen, Stunden, Abwesenheiten erfassen</div>
+        </div>
+      </div>
+      <div class="loading-step" id="ls2">
+        <div class="step-icon" id="ls2-icon">2</div>
+        <div class="step-body">
+          <div class="step-label">Rechtliche Rahmenbedingungen validieren</div>
+          <div class="step-detail" id="ls2-detail">ArbZG, Approbationspflicht, Ruhezeiten</div>
+        </div>
+      </div>
+      <div class="loading-step" id="ls3">
+        <div class="step-icon" id="ls3-icon">3</div>
+        <div class="step-body">
+          <div class="step-label">Schichten & Notdienste zuweisen</div>
+          <div class="step-detail" id="ls3-detail">Früh-/Spätschichten, Wünsche berücksichtigen</div>
+        </div>
+      </div>
+      <div class="loading-step" id="ls4">
+        <div class="step-icon" id="ls4-icon">4</div>
+        <div class="step-body">
+          <div class="step-label">Wochenstunden ausgleichen & Plan finalisieren</div>
+          <div class="step-detail" id="ls4-detail">Vertragsstunden prüfen, JSON generieren</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-section" id="resultSection" style="scroll-margin-top:80px">
+    <div class="card">
+      <div class="result-header">
+        <h2>Ihr Schichtplan ✦</h2>
+        <div class="export-btns">
+          <button class="export-btn" onclick="exportExcel()">📊 Excel</button>
+          <button class="export-btn primary" onclick="exportPDF()">📄 PDF drucken</button>
+        </div>
+      </div>
+
+      <div class="stats-row" id="statsRow"></div>
+
+      <div class="ai-notes" id="aiNotes"></div>
+
+      <div class="shift-table-wrap">
+        <table id="shiftTable">
+          <thead id="shiftHead"></thead>
+          <tbody id="shiftBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Shift picker popup -->
+<div class="shift-picker" id="shiftPicker">
+  <div class="shift-picker-title" id="shiftPickerTitle">Schicht ändern</div>
+  <div class="shift-option frueh"      data-shift="Früh 08-14">Früh 08-14</div>
+  <div class="shift-option spaet"      data-shift="Spät 13-19">Spät 13-19</div>
+  <div class="shift-option voll"       data-shift="Voll 08-17">Voll 08-17</div>
+  <div class="shift-option frei"       data-shift="Frei">Frei</div>
+  <div class="shift-option urlaub"     data-shift="Urlaub">Urlaub</div>
+  <div class="shift-option notdienst"  data-shift="Notdienst 24h">Notdienst 24h</div>
+</div>
+
+<!-- Save banner -->
+<div class="save-banner" id="saveBanner">
+  💾 Mitarbeiterdaten gespeichert
+  <button class="save-banner-undo" onclick="undoSave()">Rückgängig</button>
+</div>
+
+<script>
+// Default employees
+const defaultEmployees = [
+  { name: 'Dr. Sabine Keller', pos: 'Apothekerin', hours: 40, note: '' },
+  { name: 'Thomas Brandt', pos: 'Apotheker', hours: 30, note: 'kein Samstag' },
+  { name: 'Maria Hoffmann', pos: 'PKA', hours: 30, note: 'Di-Do bevorzugt' },
+  { name: 'Jana Weiss', pos: 'PKA', hours: 20, note: 'Mo+Mi frei' },
+  { name: 'Felix Gruber', pos: 'PTA', hours: 40, note: '' },
+];
+
+const POSITIONS = ['Apothekerin/Apotheker', 'PTA', 'PKA', 'Praktikant/in', 'Aushilfe'];
+
+function createEmployeeRow(emp = {}) {
+  const row = document.createElement('div');
+  row.className = 'employee-row';
+  row.innerHTML = `
+    <input type="text" placeholder="Name" value="${emp.name||''}" class="emp-name">
+    <select class="emp-pos">
+      ${['Apotheker/in','PTA','Azubi PTA','PKA','Azubi PKA','Praktikant/in','Aushilfe'].map(p =>
+        `<option ${(emp.pos||'').includes(p.split('/')[0]) ? 'selected':''} value="${p}">${p}</option>`
+      ).join('')}
+    </select>
+    <input type="number" placeholder="38" min="5" max="48" value="${emp.hours||38}" class="emp-hours">
+    <input type="text" placeholder="z.B. kein Samstag, Urlaub Di–Do" value="${emp.note||''}" class="emp-note">
+    <button class="remove-btn" onclick="this.parentElement.remove()">✕</button>
+  `;
+  return row;
+}
+
+function addEmployee(emp) {
+  document.getElementById('employeeList').appendChild(createEmployeeRow(emp));
+}
+
+// ── LocalStorage save/load ───────────────────────────────────────────────────
+const STORAGE_KEY = 'aposhift_employees_v1';
+const STORAGE_APO = 'aposhift_apodata_v1';
+let lastSavedEmployees = null;
+
+function saveEmployees() {
+  const emps = getEmployees();
+  lastSavedEmployees = JSON.parse(JSON.stringify(emps));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(emps));
+    const apoData = {
+      name: document.getElementById('apoName').value,
+      openWeek: document.getElementById('openWeek').value,
+      openSat: document.getElementById('openSat').value,
+    };
+    localStorage.setItem(STORAGE_APO, JSON.stringify(apoData));
+    showSaveBanner();
+  } catch(e) { console.warn('localStorage not available'); }
+}
+
+function loadSavedData() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    const savedApo = localStorage.getItem(STORAGE_APO);
+    if (saved) {
+      const emps = JSON.parse(saved);
+      emps.forEach(e => addEmployee(e));
+      if (savedApo) {
+        const apo = JSON.parse(savedApo);
+        if (apo.name) document.getElementById('apoName').value = apo.name;
+        if (apo.openWeek) document.getElementById('openWeek').value = apo.openWeek;
+        if (apo.openSat) document.getElementById('openSat').value = apo.openSat;
+      }
+      return true;
+    }
+  } catch(e) {}
+  return false;
+}
+
+function undoSave() {
+  try { localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(STORAGE_APO); } catch(e) {}
+  document.getElementById('employeeList').innerHTML = '';
+  defaultEmployees.forEach(e => addEmployee(e));
+  hideSaveBanner();
+}
+
+let saveBannerTimer;
+function showSaveBanner() {
+  const b = document.getElementById('saveBanner');
+  b.classList.add('show');
+  clearTimeout(saveBannerTimer);
+  saveBannerTimer = setTimeout(() => b.classList.remove('show'), 3500);
+}
+function hideSaveBanner() {
+  document.getElementById('saveBanner').classList.remove('show');
+}
+
+// Auto-save on any employee field change
+document.getElementById('employeeList').addEventListener('input', () => {
+  clearTimeout(window._saveDebounce);
+  window._saveDebounce = setTimeout(saveEmployees, 1200);
+});
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+const loaded = loadSavedData();
+if (!loaded) defaultEmployees.forEach(e => addEmployee(e));
+
+// Save button in employee card
+const empCard = document.getElementById('section-mitarbeiter');
+const saveBtn = document.createElement('button');
+saveBtn.className = 'add-btn';
+saveBtn.style.marginLeft = '10px';
+saveBtn.innerHTML = '💾 Speichern';
+saveBtn.onclick = saveEmployees;
+empCard.querySelector('.add-btn').insertAdjacentElement('afterend', saveBtn);
+
+// Set current week
+const weekInput = document.getElementById('planWeek');
+const now = new Date();
+const jan1 = new Date(now.getFullYear(), 0, 1);
+const weekNum = Math.ceil(((now - jan1) / 86400000 + jan1.getDay() + 1) / 7);
+weekInput.value = `${now.getFullYear()}-W${String(weekNum+1).padStart(2,'0')}`;
+
+function getEmployees() {
+  return [...document.querySelectorAll('.employee-row')].map(r => ({
+    name: r.querySelector('.emp-name').value,
+    position: r.querySelector('.emp-pos').value,
+    hours: r.querySelector('.emp-hours').value,
+    note: r.querySelector('.emp-note').value,
+  })).filter(e => e.name.trim());
+}
+
+async function generatePlan() {
+  // ── Validation ──────────────────────────────────────────────────────────────
+  let valid = true;
+
+  function markField(id, msg) {
+    const input = document.getElementById(id);
+    // Find parent form-group: input's parentElement
+    const group = input.parentElement;
+
+    // Red border on input
+    input.style.borderColor = '#f87171';
+    input.style.background  = '#fff5f5';
+    input.style.animation   = 'none';
+    setTimeout(() => input.style.animation = '', 10);
+    input.classList.add('_shaking');
+    setTimeout(() => input.classList.remove('_shaking'), 400);
+
+    // Remove old error label if present
+    const old = group.querySelector('.field-error-label');
+    if (old) old.remove();
+
+    // Insert error label
+    const lbl = document.createElement('span');
+    lbl.className = 'field-error-label';
+    lbl.textContent = '⚠ ' + msg;
+    group.appendChild(lbl);
+
+    // Reset after 4s
+    setTimeout(() => {
+      input.style.borderColor = '';
+      input.style.background  = '';
+      if (lbl.parentNode) lbl.remove();
+    }, 4000);
+
+    valid = false;
+  }
+
+  // Clear previous errors
+  document.querySelectorAll('.field-error-label').forEach(el => el.remove());
+  ['apoName','planWeek','openWeek','openSat'].forEach(id => {
+    const el = document.getElementById(id);
+    el.style.borderColor = '';
+    el.style.background  = '';
+  });
+
+  const apoNameVal  = document.getElementById('apoName').value.trim();
+  const planWeekVal = document.getElementById('planWeek').value;
+  const openWeekVal = document.getElementById('openWeek').value.trim();
+  const openSatVal  = document.getElementById('openSat').value.trim();
+
+  if (!apoNameVal)  markField('apoName',  'Name der Apotheke fehlt');
+  if (!planWeekVal) markField('planWeek', 'Planungswoche fehlt');
+  if (!openWeekVal) markField('openWeek', 'Öffnungszeiten Mo–Fr fehlen');
+  if (!openSatVal)  markField('openSat',  'Öffnungszeiten Samstag fehlen');
+
+  const employees = getEmployees();
+  const hasApotheker = employees.some(e => e.position.toLowerCase().includes('apotheker'));
+
+  if (employees.length < 2) {
+    showError('Bitte mindestens 2 Mitarbeiter eintragen.');
+    document.getElementById('section-mitarbeiter').scrollIntoView({ behavior: 'smooth' });
+    return;
+  }
+  if (!hasApotheker) {
+    showError('⚠️ Kein/e Apotheker/in eingetragen – Approbationspflicht kann nicht erfüllt werden!');
+    document.getElementById('section-mitarbeiter').scrollIntoView({ behavior: 'smooth' });
+    return;
+  }
+  if (!valid) {
+    document.getElementById('section-apotheke').scrollIntoView({ behavior: 'smooth' });
+    return;
+  }
+
+  hideError();
+
+  const apoName  = apoNameVal;
+  const planWeek = planWeekVal;
+  const openWeek = openWeekVal;
+  const openSat  = openSatVal;
+  const notdienst = [...document.querySelectorAll('.nd-box:checked')].map(c=>c.value).join(', ') || 'kein Notdienst';
+  const notes = document.getElementById('notes').value;
+
+  hideError();
+  document.getElementById('genBtn').disabled = true;
+  document.getElementById('loadingOverlay').classList.add('visible');
+  document.getElementById('resultSection').classList.remove('visible');
+
+  // Step tracker helpers
+  const STEPS = ['ls1','ls2','ls3','ls4'];
+  STEPS.forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.remove('done','active');
+    document.getElementById(id+'-icon').textContent = id.replace('ls','');
+  });
+
+  function setStep(idx) {
+    // Mark previous as done
+    if (idx > 0) {
+      const prev = 'ls'+idx;
+      const prevEl = document.getElementById(prev);
+      prevEl.classList.remove('active');
+      prevEl.classList.add('done');
+      document.getElementById(prev+'-icon').textContent = '✓';
+    }
+    // Mark current as active
+    if (idx < STEPS.length) {
+      const cur = 'ls'+(idx+1);
+      document.getElementById(cur).classList.add('active');
+    }
+  }
+
+  function allDone() {
+    STEPS.forEach(id => {
+      const el = document.getElementById(id);
+      el.classList.remove('active');
+      el.classList.add('done');
+      document.getElementById(id+'-icon').textContent = '✓';
+    });
+    document.getElementById('loadingSubtitle').textContent = 'Fertig – Plan wird angezeigt';
+  }
+
+  // Activate step 1 immediately
+  setStep(0);
+
+  const prompt = `Du bist ein Experte für Schichtplanung in deutschen Apotheken.
+
+Erstelle einen detaillierten Wochenplan (Montag bis Samstag) für folgende Apotheke:
+
+APOTHEKE: ${apoName}
+PLANUNGSWOCHE: ${planWeek}
+ÖFFNUNGSZEITEN Mo-Fr: ${openWeek}
+ÖFFNUNGSZEITEN Samstag: ${openSat}
+NOTDIENST-TAGE: ${notdienst}
+HINWEIS NOTDIENST: An Notdienst-Tagen muss genau ein/e Apotheker/in den 24h-Notdienst leisten. Dieser beginnt bei Ladenschluss des Vortages und endet bei Öffnung am Notdiensttag. Der Notdienst zählt als eigene Schicht "Notdienst 24h" und ersetzt alle anderen Schichten dieses Tages. Die Person, die Notdienst hat, bekommt den Folgetag frei (Ausgleich). Azubis dürfen KEINEN Notdienst leisten.
+
+MITARBEITER:
+${employees.map((e,i) => `${i+1}. ${e.name} | ${e.position} | ${e.hours} Std/Woche | Hinweis: ${e.note||'keine'}`).join('\n')}
+
+BESONDERE HINWEISE DES INHABERS:
+${notes || 'keine'}
+
+RECHTLICHE CONSTRAINTS (immer einhalten):
+- Mindestens ein/e Apotheker/in muss immer anwesend sein (Approbationspflicht)
+- Max. 10 Stunden/Tag pro Mitarbeiter
+- Min. 11 Stunden Ruhezeit zwischen Schichten
+- Wochenstunden gemäß Vertrag einhalten (ca. ±2h Toleranz)
+- Samstag: reduziertes Team ausreichend
+
+SCHICHTTYPEN:
+- "Früh 08-14" (Frühschicht)
+- "Spät 13-19" (Spätschicht)
+- "Voll 08-17" (Vollzeit-Tagesdienst)
+- "Notdienst 24h" (nur an Notdienst-Tagen, nur approbierte Apotheker/innen, Folgetag = Frei)
+- "Frei" (freier Tag / Ausgleich)
+- "Urlaub" (wenn angegeben)
+
+Antworte NUR mit einem JSON-Objekt in exakt diesem Format (kein Markdown, keine Erklärungen davor oder danach):
+
+{
+  "summary": "2-3 Sätze: Kurze Zusammenfassung des Plans, besondere Hinweise, wie Wünsche berücksichtigt wurden",
+  "warnings": ["Warnung 1 falls vorhanden", "Warnung 2"],
+  "stats": {
+    "totalShifts": 28,
+    "approxCoverage": "95%",
+    "saturdayStaff": 3,
+    "constraintsMet": true
+  },
+  "plan": {
+    "Mo": {"${employees[0]?.name}": "Früh 08-14", "...": "..."},
+    "Di": {},
+    "Mi": {},
+    "Do": {},
+    "Fr": {},
+    "Sa": {},
+    "So": {}
+  }
+}
+
+Fülle ALLE Mitarbeiter für ALLE Tage aus (Mo–So). Jeder Mitarbeiter bekommt jeden Tag entweder eine Schicht oder "Frei". Sonntag ist normalerweise "Frei" für alle, außer bei Notdienst.`;
+
+  // The prompt instructs the AI to emit step markers as it works
+  const streamingPrompt = prompt + `
+
+WICHTIG – Schritt-Protokoll:
+Bevor du das JSON ausgibst, schreibe zuerst diese exakten Marker in separaten Zeilen (damit der Fortschritt live angezeigt werden kann):
+[SCHRITT_1_FERTIG]
+(dann kurz warten und weiterarbeiten)
+[SCHRITT_2_FERTIG]
+(dann kurz warten und weiterarbeiten)
+[SCHRITT_3_FERTIG]
+(dann kurz warten und weiterarbeiten)
+[SCHRITT_4_FERTIG]
+Dann folgt NUR das JSON-Objekt, ohne weiteren Text.`;
+
+  // Drive steps with realistic timing while API call runs in background
+  let stepTimer = 0;
+  const stepDelays = [0, 2200, 4800, 7500]; // ms per step
+  stepDelays.forEach((delay, i) => {
+    setTimeout(() => setStep(i), delay);
+  });
+
+  try {
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 2500,
+        messages: [{ role: "user", content: streamingPrompt }]
+      })
+    });
+
+    const data = await response.json();
+    if (data.error) throw new Error(data.error.message);
+
+    allDone();
+
+    const text = data.content[0].text.trim();
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error('Kein gültiges JSON in der Antwort gefunden.');
+    const result = JSON.parse(jsonMatch[0]);
+    renderResult(result, employees, apoName, planWeek);
+
+  } catch (err) {
+    showError('Fehler beim Erstellen des Plans: ' + err.message);
+    console.error(err);
+  } finally {
+    document.getElementById('loadingOverlay').classList.remove('visible');
+    document.getElementById('genBtn').disabled = false;
+  }
+}
+
+const DAYS = ['Mo','Di','Mi','Do','Fr','Sa','So'];
+const DAY_LABELS = {
+  Mo:'Montag', Di:'Dienstag', Mi:'Mittwoch',
+  Do:'Donnerstag', Fr:'Freitag', Sa:'Samstag', So:'Sonntag'
+};
+
+let currentResult = null;
+let currentEmployees = null;
+let currentApo = '';
+let currentWeek = '';
+
+function shiftClass(shift) {
+  if (!shift || shift === 'Frei') return 'frei';
+  if (shift === 'Urlaub') return 'urlaub';
+  if (shift.toLowerCase().includes('notdienst')) return 'notdienst';
+  if (shift.toLowerCase().includes('früh')) return 'frueh';
+  return 'spaet';
+}
+
+function renderResult(result, employees, apoName, planWeek) {
+  // Activate step 4 in nav
+  document.getElementById('step4').classList.add('active');
+  currentResult = result;
+  currentEmployees = employees;
+  currentApo = apoName;
+  currentWeek = planWeek;
+
+  // Stats
+  const s = result.stats || {};
+  document.getElementById('statsRow').innerHTML = `
+    <div class="stat-card"><span class="stat-num">${employees.length}</span><div class="stat-label">Mitarbeiter</div></div>
+    <div class="stat-card"><span class="stat-num">${s.totalShifts || '–'}</span><div class="stat-label">Schichten gesamt</div></div>
+    <div class="stat-card"><span class="stat-num">${s.saturdayStaff || '–'}</span><div class="stat-label">Personal Samstag</div></div>
+    <div class="stat-card"><span class="stat-num">${s.constraintsMet ? '✓' : '!'}</span><div class="stat-label">Alle Regeln eingehalten</div></div>
+  `;
+
+  // Notes
+  let notesHtml = `<h4>✦ KI-Analyse</h4><p>${result.summary || ''}</p>`;
+  if (result.warnings && result.warnings.length > 0) {
+    notesHtml += `<p style="margin-top:10px;color:#92400e;"><strong>Hinweise:</strong> ${result.warnings.join(' · ')}</p>`;
+  }
+  document.getElementById('aiNotes').innerHTML = notesHtml;
+
+  // Table
+  const plan = result.plan || {};
+  const thead = document.getElementById('shiftHead');
+  const tbody = document.getElementById('shiftBody');
+
+  thead.innerHTML = `<tr>
+    <th>Mitarbeiter</th>
+    ${DAYS.map(d => `<th>${DAY_LABELS[d]}</th>`).join('')}
+    <th>Σ Std.</th>
+  </tr>`;
+
+  tbody.innerHTML = employees.map(emp => {
+    let totalH = 0;
+    const cells = DAYS.map(day => {
+      const shift = (plan[day] || {})[emp.name] || 'Frei';
+      if (shift.toLowerCase().includes('notdienst')) totalH += 24;
+      else if (shift.includes('Früh') || shift.includes('Spät')) totalH += 6;
+      else if (shift.includes('Voll')) totalH += 9;
+      return `<td><span class="shift-tag ${shiftClass(shift)}" data-emp="${emp.name}" data-day="${day}" title="Klicken zum Ändern">${shift}</span></td>`;
+    }).join('');
+    const contracted = parseInt(emp.hours) || 0;
+    const hoursColor = totalH > contracted + 2 ? '#dc2626' : totalH < contracted - 2 ? '#d97706' : '#059669';
+    return `<tr>
+      <td>${emp.name}<br><span style="font-size:0.7rem;color:var(--ink-soft);font-weight:400">${emp.position}</span></td>
+      ${cells}
+      <td style="font-family:var(--mono);font-size:0.8rem;color:${hoursColor};font-weight:600">${totalH}h<br><span style="color:var(--ink-soft);font-weight:400;font-size:0.68rem">(${contracted}h Soll)</span></td>
+    </tr>`;
+  }).join('');
+
+  // ── Attach shift picker via event delegation on tbody ────────────────────
+  document.getElementById('shiftBody').addEventListener('click', (e) => {
+    const tag = e.target.closest('.shift-tag[data-emp]');
+    if (!tag) return;
+    e.stopPropagation();
+    openShiftPicker(tag);
+  });
+
+  document.getElementById('resultSection').classList.add('visible');
+  document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function exportExcel() {
+  if (!currentResult) return;
+  const plan = currentResult.plan || {};
+  const wb = XLSX.utils.book_new();
+  const rows = [
+    [`Schichtplan – ${currentApo}`, '', '', '', '', '', '', ''],
+    [`Woche: ${currentWeek}`, '', '', '', '', '', '', ''],
+    [''],
+    ['Mitarbeiter', 'Position', ...DAYS.map(d => DAY_LABELS[d]), 'Σ ca.'],
+  ];
+  currentEmployees.forEach(emp => {
+    let h = 0;
+    const cells = DAYS.map(d => {
+      const s = (plan[d] || {})[emp.name] || 'Frei';
+      if (s.includes('Früh') || s.includes('Spät')) h += 6;
+      else if (s.includes('Voll')) h += 9;
+      return s;
+    });
+    rows.push([emp.name, emp.position, ...cells, h + 'h']);
+  });
+  const ws = XLSX.utils.aoa_to_sheet(rows);
+  ws['!cols'] = [{wch:22},{wch:14},...DAYS.map(()=>({wch:14})),{wch:8}];
+  XLSX.utils.book_append_sheet(wb, ws, 'Schichtplan');
+  XLSX.writeFile(wb, `Schichtplan_${currentApo.replace(/\s/g,'_')}_${currentWeek}.xlsx`);
+}
+
+async function exportPDF() {
+  if (!currentResult) return;
+  const btn = document.querySelector('.export-btn.primary');
+  const origText = btn.innerHTML;
+  btn.innerHTML = '⏳ Wird erstellt…';
+  btn.disabled = true;
+
+  try {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+    const pageW = doc.internal.pageSize.getWidth();
+    const pageH = doc.internal.pageSize.getHeight();
+    const margin = 12;
+
+    // Header bar
+    doc.setFillColor(45, 90, 39);
+    doc.rect(0, 0, pageW, 18, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    doc.text('ShiftRx – Schichtplan', margin, 12);
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    doc.text(`${currentApo}   |   Woche: ${currentWeek}   |   Erstellt: ${new Date().toLocaleDateString('de-DE')}`, pageW - margin, 12, { align: 'right' });
+
+    // Table setup
+    const plan = currentResult.plan || {};
+    const days = ['Mo','Di','Mi','Do','Fr','Sa','So'];
+    const dayLabels = { Mo:'Montag', Di:'Dienstag', Mi:'Mittwoch', Do:'Donnerstag', Fr:'Freitag', Sa:'Samstag', So:'Sonntag' };
+    const cols = ['Mitarbeiter', 'Position', ...days.map(d => dayLabels[d]), 'Σ Std.'];
+    const colW = [42, 28, ...days.map(() => (pageW - margin*2 - 42 - 28 - 16) / days.length), 16];
+    const rowH = 9;
+    let y = 26;
+
+    // Column headers
+    doc.setFillColor(45, 90, 39);
+    doc.rect(margin, y, pageW - margin*2, rowH, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'bold');
+    let x = margin;
+    cols.forEach((col, i) => {
+      doc.text(col, x + 2, y + 6);
+      x += colW[i];
+    });
+    y += rowH;
+
+    // Rows
+    const shiftColors = {
+      'Früh': [254, 243, 199],
+      'Spät': [219, 234, 254],
+      'Frei': [243, 244, 246],
+      'Urlaub': [252, 231, 243],
+      'Notdienst': [26, 22, 18],
+      'Voll': [220, 252, 231],
+    };
+    const shiftTextColors = {
+      'Früh': [146, 64, 14],
+      'Spät': [30, 64, 175],
+      'Frei': [156, 163, 175],
+      'Urlaub': [157, 23, 77],
+      'Notdienst': [245, 240, 232],
+      'Voll': [22, 101, 52],
+    };
+
+    currentEmployees.forEach((emp, ei) => {
+      // Row background
+      doc.setFillColor(ei % 2 === 0 ? 255 : 250, ei % 2 === 0 ? 255 : 247, ei % 2 === 0 ? 255 : 242);
+      doc.rect(margin, y, pageW - margin*2, rowH, 'F');
+
+      // Border bottom
+      doc.setDrawColor(224, 216, 204);
+      doc.setLineWidth(0.2);
+      doc.line(margin, y + rowH, pageW - margin, y + rowH);
+
+      let h = 0;
+      x = margin;
+
+      // Name
+      doc.setTextColor(26, 22, 18);
+      doc.setFontSize(7.5);
+      doc.setFont('helvetica', 'bold');
+      doc.text(emp.name, x + 2, y + 6);
+      x += colW[0];
+
+      // Position
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(6.5);
+      doc.setTextColor(107, 101, 96);
+      doc.text(emp.position, x + 2, y + 6);
+      x += colW[1];
+
+      // Shifts
+      days.forEach((day, di) => {
+        const shift = (plan[day] || {})[emp.name] || 'Frei';
+        const key = Object.keys(shiftColors).find(k => shift.includes(k)) || 'Frei';
+        const bg = shiftColors[key];
+        const fg = shiftTextColors[key];
+
+        // Pill background
+        const pillW = colW[2+di] - 3;
+        doc.setFillColor(...bg);
+        doc.roundedRect(x + 1, y + 1.5, pillW, rowH - 3, 1.5, 1.5, 'F');
+        doc.setTextColor(...fg);
+        doc.setFontSize(6);
+        doc.setFont('helvetica', key === 'Notdienst' ? 'bold' : 'normal');
+        doc.text(shift.length > 12 ? shift.substring(0,12) : shift, x + pillW/2 + 1, y + 6, { align: 'center' });
+
+        if (shift.includes('Notdienst')) h += 24;
+        else if (shift.includes('Früh') || shift.includes('Spät')) h += 6;
+        else if (shift.includes('Voll')) h += 9;
+        x += colW[2+di];
+      });
+
+      // Hours total
+      doc.setTextColor(45, 90, 39);
+      doc.setFontSize(7);
+      doc.setFont('helvetica', 'bold');
+      doc.text(h + 'h', x + 2, y + 6);
+
+      y += rowH;
+    });
+
+    // Summary box
+    if (currentResult.summary) {
+      y += 6;
+      doc.setFillColor(232, 240, 230);
+      const lines = doc.splitTextToSize('KI-Analyse: ' + currentResult.summary, pageW - margin*2 - 8);
+      doc.roundedRect(margin, y, pageW - margin*2, lines.length * 4.5 + 6, 2, 2, 'F');
+      doc.setTextColor(45, 90, 39);
+      doc.setFontSize(6.5);
+      doc.setFont('helvetica', 'normal');
+      doc.text(lines, margin + 4, y + 5);
+    }
+
+    // Footer
+    doc.setTextColor(180, 175, 170);
+    doc.setFontSize(6);
+    doc.text('Erstellt mit ShiftRx – KI-Schichtplanung für Apotheken', margin, pageH - 5);
+    doc.text('Seite 1', pageW - margin, pageH - 5, { align: 'right' });
+
+    doc.save(`Schichtplan_${currentApo.replace(/\s/g,'_')}_${currentWeek}.pdf`);
+
+  } catch(err) {
+    showError('PDF-Fehler: ' + err.message);
+    console.error(err);
+  } finally {
+    btn.innerHTML = origText;
+    btn.disabled = false;
+  }
+}
+
+// ── Shift Picker ─────────────────────────────────────────────────────────────
+let activeTag = null;
+
+function openShiftPicker(tag) {
+  const picker = document.getElementById('shiftPicker');
+  const title  = document.getElementById('shiftPickerTitle');
+  activeTag = tag;
+
+  title.textContent = `${tag.dataset.emp} · ${DAY_LABELS[tag.dataset.day] || tag.dataset.day}`;
+
+  // Position near tag
+  const rect = tag.getBoundingClientRect();
+  const pickerW = 260;
+  let left = rect.left;
+  let top  = rect.bottom + 6;
+  if (left + pickerW > window.innerWidth - 12) left = window.innerWidth - pickerW - 12;
+  if (top + 180 > window.innerHeight) top = rect.top - 180;
+
+  picker.style.left = left + 'px';
+  picker.style.top  = (top + window.scrollY) + 'px';
+  picker.classList.add('open');
+}
+
+function closeShiftPicker() {
+  document.getElementById('shiftPicker').classList.remove('open');
+  activeTag = null;
+}
+
+document.getElementById('shiftPicker').querySelectorAll('.shift-option').forEach(opt => {
+  opt.addEventListener('click', () => {
+    if (!activeTag) return;
+    const newShift = opt.dataset.shift;
+    const emp  = activeTag.dataset.emp;
+    const day  = activeTag.dataset.day;
+
+    // Update data model
+    if (currentResult && currentResult.plan) {
+      if (!currentResult.plan[day]) currentResult.plan[day] = {};
+      currentResult.plan[day][emp] = newShift;
+    }
+
+    // Update tag visually – preserve data attributes!
+    const empAttr = activeTag.dataset.emp;
+    const dayAttr = activeTag.dataset.day;
+    activeTag.textContent = newShift;
+    activeTag.className = `shift-tag ${shiftClass(newShift)}`;
+    activeTag.dataset.emp = empAttr;
+    activeTag.dataset.day = dayAttr;
+    activeTag.title = 'Klicken zum Ändern';
+
+    // Recalculate hours for this row
+    const row = activeTag.closest('tr');
+    const allTags = row.querySelectorAll('.shift-tag[data-emp]');
+    let totalH = 0;
+    allTags.forEach(t => {
+      const s = t.textContent;
+      if (s.toLowerCase().includes('notdienst')) totalH += 24;
+      else if (s.includes('Früh') || s.includes('Spät')) totalH += 6;
+      else if (s.includes('Voll')) totalH += 9;
+    });
+    const lastCell = row.querySelector('td:last-child');
+    const empObj = currentEmployees.find(e => e.name === emp);
+    const contracted = empObj ? parseInt(empObj.hours) || 0 : 0;
+    const hoursColor = totalH > contracted + 2 ? '#dc2626' : totalH < contracted - 2 ? '#d97706' : '#059669';
+    lastCell.innerHTML = `<span style="font-family:var(--mono);font-size:0.8rem;color:${hoursColor};font-weight:600">${totalH}h</span><br><span style="color:var(--ink-soft);font-weight:400;font-size:0.68rem">(${contracted}h Soll)</span>`;
+
+    closeShiftPicker();
+  });
+});
+
+// Close on outside click
+document.addEventListener('click', (e) => {
+  const picker = document.getElementById('shiftPicker');
+  if (picker.classList.contains('open') && !picker.contains(e.target)) {
+    closeShiftPicker();
+  }
+});
+
+function scrollToSection(id) {
+  const el = id === 'section-result' ? document.getElementById('resultSection') : document.getElementById(id);
+  if (!el) return;
+  // For result: only scroll if visible
+  if (id === 'section-result' && !el.classList.contains('visible')) return;
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function showError(msg) {
+  const box = document.getElementById('errorBox');
+  box.textContent = msg;
+  box.classList.add('visible');
+}
+function hideError() {
+  document.getElementById('errorBox').classList.remove('visible');
+}
+
+
+</script>
+</body>
+</html>
