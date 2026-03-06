@@ -1341,7 +1341,7 @@ async function exportPDF() {
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(14);
     doc.setFont('helvetica', 'bold');
-    doc.text('ShiftRx – Schichtplan', margin, 12);
+    doc.text('ApoShift – Schichtplan', margin, 12);
     doc.setFontSize(9);
     doc.setFont('helvetica', 'normal');
     doc.text(`${currentApo}   |   Woche: ${currentWeek}   |   Erstellt: ${new Date().toLocaleDateString('de-DE')}`, pageW - margin, 12, { align: 'right' });
@@ -1459,7 +1459,7 @@ async function exportPDF() {
     // Footer
     doc.setTextColor(180, 175, 170);
     doc.setFontSize(6);
-    doc.text('Erstellt mit ShiftRx – KI-Schichtplanung für Apotheken', margin, pageH - 5);
+    doc.text('Erstellt mit ApoShift · aposhift.github.io/dev', margin, pageH - 5);
     doc.text('Seite 1', pageW - margin, pageH - 5, { align: 'right' });
 
     doc.save(`Schichtplan_${currentApo.replace(/\s/g,'_')}_${currentWeek}.pdf`);
