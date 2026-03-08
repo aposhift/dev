@@ -1592,6 +1592,17 @@
       </div>
     </div>
 
+    <!-- Zeile 3: Wünsche diese Woche -->
+    <div class="pwb-row">
+      <span class="pwb-label" style="align-self:flex-start;padding-top:2px">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Wünsche
+      </span>
+      <div class="pwb-divider" style="align-self:stretch;height:auto"></div>
+      <textarea id="weekWishes" placeholder="z.B. Anna möchte Mi frei · Klaus braucht Fr Nachmittag · Sophie nur Frühschicht diese Woche…" oninput="saveWeekWishes()" style="flex:1;border:none;outline:none;resize:none;font-family:var(--sans);font-size:.82rem;color:var(--ink);background:transparent;line-height:1.5;min-height:36px;max-height:80px;padding:2px 0"></textarea>
+      <span id="weekWishesSaved" style="font-size:.68rem;color:#22c55e;opacity:0;transition:opacity .4s;white-space:nowrap;flex-shrink:0">gespeichert</span>
+    </div>
+
   </div>
   <input type="hidden" id="feiertage">
 
@@ -2709,6 +2720,26 @@ function removeFeiertag(i) { activeFeiertage.splice(i,1); renderFeiertageChips()
 function scrollToSection(id) { document.getElementById(id)?.scrollIntoView({behavior:'smooth', block:'start'}); }
 
 // ── KW-Navigation & Label ────────────────────────────────────────────────────
+// ── Wöchentliche Wünsche ─────────────────────────────────────────────────────
+function saveWeekWishes() {
+  const kw = document.getElementById('planWeek')?.value || '';
+  const val = document.getElementById('weekWishes')?.value || '';
+  if (kw) localStorage.setItem('aposhift_wishes_' + kw, val);
+  const saved = document.getElementById('weekWishesSaved');
+  if (saved) { saved.style.opacity = '1'; setTimeout(() => saved.style.opacity = '0', 1200); }
+}
+
+function loadWeekWishes(kw) {
+  const el = document.getElementById('weekWishes');
+  if (!el) return;
+  el.value = kw ? (localStorage.getItem('aposhift_wishes_' + kw) || '') : '';
+}
+
+function getWeekWishes() {
+  const kw = document.getElementById('planWeek')?.value || '';
+  return kw ? (localStorage.getItem('aposhift_wishes_' + kw) || '') : '';
+}
+
 function updateKwLabel() {
   const inp = document.getElementById('planWeek');
   const lbl = document.getElementById('kwLabel');
@@ -2721,6 +2752,7 @@ function updateKwLabel() {
   const sunday = new Date(monday); sunday.setDate(monday.getDate() + 6);
   const fmt = d => d.toLocaleDateString('de-DE', {day:'2-digit', month:'short'});
   lbl.textContent = `KW ${week} · ${fmt(monday)} – ${fmt(sunday)} ${year}`;
+  loadWeekWishes(inp.value);
 }
 
 function buildWarnBanner(count) {
@@ -2764,7 +2796,7 @@ function toggleAiNotes() {
 
 function planNextWeek() {
   stepWeek(1);
-  // Carryover-Werte aus aktuellem Plan in die Mitarbeiterliste übernehmen
+  // Carryover aus aktuellem Plan übernehmen
   if (currentResult && currentEmployees) {
     const plan = currentResult.plan || {};
     currentEmployees.forEach(emp => {
@@ -2774,13 +2806,12 @@ function planNextWeek() {
       const storeEmp = _employees.find(e => e.name === emp.name);
       if (storeEmp) storeEmp.carryover = diff;
     });
-    if (_activeEmpIdx !== null) {
-      const ae = _employees[_activeEmpIdx];
-      const el = document.getElementById('pf-carryover');
-      if (el && ae) el.value = ae.carryover || 0;
-    }
   }
-  navigatePage('mitarbeiter');
+  saveData();
+  // Auf Dienstplan-Seite bleiben, Wunschfeld fokussieren
+  document.getElementById('resultSection')?.classList.remove('visible');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(() => document.getElementById('weekWishes')?.focus(), 400);
 }
 
 function stepWeek(dir) {
@@ -3084,7 +3115,8 @@ So: NUR "Frei" oder "Notdienst ${ndH}h" (Sonntag ist kein regulärer Arbeitstag!
   // Apotheker für Notdienst-Zuweisung (KI entscheidet wer, aber wir erzwingen den Tag)
   const apothekerListe = employees.filter(e => e.position === 'Apotheker/in').map(e => e.name);
   const feiertage = document.getElementById('feiertage')?.value || 'keine';
-  const notes     = document.getElementById('notes')?.value || '';
+  const weekWishesVal = getWeekWishes();
+  const notes     = [document.getElementById('notes')?.value || '', weekWishesVal ? `WÜNSCHE DIESE WOCHE:\n${weekWishesVal}` : ''].filter(Boolean).join('\n\n');
   const staffing  = getStaffing();
   const staffLine = ['Mo','Di','Mi','Do','Fr','Sa'].map(d =>
     `${d}: min.${staffing[d].min}`).join(' | ');
@@ -3247,7 +3279,7 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
     }
     if (detail) {
       const det = document.getElementById('ls'+n+'-detail');
-      if (det) det.textContent = detail;
+      if (det) det.innerHTML = detail;
     }
   }
 
@@ -3318,7 +3350,7 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
     };
 
     // Samstags-Ausschluss aus globalem Hinweisfeld
-    const notesVal = document.getElementById('notes')?.value || '';
+    const notesVal = [document.getElementById('notes')?.value || '', getWeekWishes() ? `WÜNSCHE DIESE WOCHE:\n${getWeekWishes()}` : ''].filter(Boolean).join('\n\n');
     const noSatFix = new Set();
     if (notesVal) {
       notesVal.split(/[\n,;]+/).forEach(line => {
@@ -3502,7 +3534,7 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
     DAYS.forEach(d => { plan[d] = {}; });
 
     // Abwesenheiten aus Hinweisen parsen (Urlaub / Krank)
-    const notesRaw = document.getElementById('notes')?.value || '';
+    const notesRaw = [document.getElementById('notes')?.value || '', getWeekWishes() ? `WÜNSCHE DIESE WOCHE:\n${getWeekWishes()}` : ''].filter(Boolean).join('\n\n');
     const absences = {}; // { 'Nicole Schäfer': { Mo: 'Urlaub', Di: 'Urlaub' } }
     employees.forEach(emp => { absences[emp.name] = {}; });
 
@@ -4287,6 +4319,18 @@ WICHTIG: Wenn keine Verbesserung möglich → {"changes":[],"summary":"Plan bere
   } finally {
     const overlay = document.getElementById('loadingOverlay');
     const box = overlay?.querySelector('.loading-box');
+
+    // Erst alle Steps als done markieren
+    for (let i = 1; i <= 5; i++) {
+      const el = document.getElementById('ls'+i);
+      if (el) { el.classList.remove('active'); el.classList.add('done'); }
+      const ic = document.getElementById('ls'+i+'-icon');
+      if (ic) ic.innerHTML = '<svg width="13" height="13" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    }
+
+    // Kurze Pause damit der Nutzer alle Haken sieht
+    await new Promise(r => setTimeout(r, 900));
+
     if (box) {
       box.innerHTML = `
         <div style="text-align:center;padding:16px 0">
@@ -5055,8 +5099,7 @@ function confirmRegen() {
 }
 function doRegen() {
   document.getElementById('regenConfirm').style.display = 'none';
-  document.getElementById('resultSection')?.classList.remove('visible');
-  window.scrollTo({top:0, behavior:'smooth'});
+  generatePlan(true);
 }
 
 // ── Excel Export ──────────────────────────────────────────────────────────────
