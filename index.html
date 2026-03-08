@@ -83,6 +83,7 @@
     z-index: 200;
     border-right: 1px solid var(--sidebar-border);
     transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    font-family: var(--serif);
   }
 
   .sidebar-logo {
@@ -98,9 +99,13 @@
     background: var(--accent-grad);
     border-radius: 9px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 0.9rem;
+    color: white;
     flex-shrink: 0;
     box-shadow: 0 4px 12px rgba(99,102,241,0.4);
+  }
+  .sidebar-item.active .sidebar-item-icon {
+    color: #a5b4fc;
+    opacity: 1;
   }
   .sidebar-logo-text {
     font-family: var(--serif);
@@ -161,15 +166,12 @@
     color: var(--sidebar-ink-active);
     font-weight: 600;
   }
-  .sidebar-item.active .sidebar-item-icon {
-    color: #a5b4fc;
-  }
   .sidebar-item-icon {
-    font-size: 1rem;
-    width: 20px;
-    text-align: center;
+    width: 20px; height: 20px;
+    display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
-    opacity: 0.8;
+    opacity: 0.75;
+    color: #94a3b8;
   }
   .sidebar-item-dot {
     width: 6px; height: 6px;
@@ -357,7 +359,7 @@
     flex: 1;
     user-select: none;
   }
-  .bottom-nav-item .bn-icon { font-size: 1.15rem; }
+  .bottom-nav-item .bn-icon { display:flex; align-items:center; justify-content:center; width:22px; height:22px; }
   .bottom-nav-item.active { color: #a5b4fc; }
   .bottom-nav-item:active { transform: scale(0.92); }
 
@@ -451,37 +453,100 @@
   }
 
   /* PLANUNGSWOCHE INLINE-BAR */
+  /* ── PLANWEEK BAR ─────────────────────────────────────────────────────────── */
   .planweek-bar {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    background: var(--surface);
+    flex-direction: column;
+    gap: 0;
+    background: white;
     border: 1.5px solid var(--border);
-    border-radius: 12px;
-    padding: 12px 18px;
+    border-radius: 14px;
     margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,.04);
   }
-  .planweek-bar label {
-    font-size: .8rem;
+  .pwb-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 16px;
+  }
+  .pwb-row + .pwb-row { border-top: 1px solid var(--border); }
+  .pwb-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: .6rem;
     font-weight: 700;
-    color: var(--ink-soft);
     text-transform: uppercase;
-    letter-spacing: .06em;
+    letter-spacing: .1em;
+    color: #94a3b8;
     white-space: nowrap;
-    margin: 0;
+    min-width: 90px;
   }
+  .pwb-label svg { flex-shrink: 0; opacity: .7; }
+  .pwb-divider { width: 1px; height: 20px; background: var(--border); flex-shrink: 0; }
   .planweek-bar input[type=week] {
     border: 1.5px solid var(--border);
     border-radius: 8px;
-    padding: 7px 10px;
+    padding: 6px 10px;
     font-family: var(--sans);
-    font-size: .9rem;
+    font-size: .88rem;
     color: var(--ink);
-    background: white;
-    flex: 1;
-    max-width: 220px;
+    background: var(--surface);
+    transition: border .15s;
   }
   .planweek-bar input[type=week]:focus { outline: none; border-color: var(--accent); }
+  .pwb-step-btn {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    width: 28px; height: 28px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-soft);
+    font-size: 1rem;
+    transition: all .15s;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .pwb-step-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+  #kwLabel {
+    font-family: var(--serif);
+    font-size: .88rem;
+    font-weight: 700;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  /* ── NOTDIENST PILLS ──────────────────────────────────────────────────────── */
+  .nd-check {
+    display: flex; align-items: center; gap: 0;
+    cursor: pointer; user-select: none;
+    position: relative;
+  }
+  .nd-check input[type=checkbox] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .nd-pill {
+    padding: 5px 11px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: white;
+    font-size: .78rem;
+    font-weight: 600;
+    color: #64748b;
+    transition: all .15s;
+    white-space: nowrap;
+  }
+  .nd-check:has(input:checked) .nd-pill {
+    border-color: #16a34a;
+    background: #f0fdf4;
+    color: #15803d;
+  }
+  .nd-weekend .nd-pill { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+  .nd-weekend:has(input:checked) .nd-pill { background: #fef3c7; border-color: #f59e0b; color: #92400e; }
+  .nd-sunday .nd-pill { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+  .nd-sunday:has(input:checked) .nd-pill { background: #dbeafe; border-color: #3b82f6; color: #1e40af; }
 
 
   .container { max-width: 1160px; margin: 0 auto; padding: 36px 32px; }
@@ -557,6 +622,20 @@
     transition: box-shadow 0.2s;
   }
   .card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+
+  /* Einheitliche Zwischenüberschriften */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--serif);
+    font-size: .88rem;
+    font-weight: 700;
+    color: #374151;
+    letter-spacing: -.01em;
+    margin-bottom: 10px;
+  }
+  .section-label svg { color: #6366f1; flex-shrink: 0; }
   .card-title {
     font-family: var(--serif);
     font-size: 1.3rem;
@@ -609,7 +688,70 @@
 
   /* EMPLOYEE TABLE */
   /* ── Mitarbeiterliste ─────────────────────────────────────────── */
-  .employee-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+  .employee-list { display: flex; flex-direction: column; gap: 2px; margin-bottom: 4px; }
+
+  /* ── Team-Liste Items ─────────────────────────────────────────── */
+  .emp-list-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 10px; border-radius: 9px; cursor: pointer;
+    transition: background .12s; border: 1.5px solid transparent; margin-bottom: 1px;
+  }
+  .emp-list-item:hover { background: #f8fafc; }
+  .emp-list-item.active { background: #f5f3ff; border-color: #c7d2fe; }
+  .emp-list-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .72rem; font-weight: 700; color: white; flex-shrink: 0;
+  }
+  .emp-list-name { font-size: .85rem; font-weight: 600; color: #0f1623; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .emp-list-pos  { font-size: .68rem; color: #94a3b8; white-space: nowrap; }
+  .emp-list-item.drag-over {
+    border: 1.5px dashed #6366f1;
+    background: #eef2ff;
+  }
+  .emp-list-item.dragging { opacity: .35; }
+  .emp-list-drag { cursor: grab; color: #cbd5e1; font-size: .85rem; flex-shrink: 0; user-select: none; }
+  .emp-list-drag:hover { color: #94a3b8; }
+
+  /* ── Profil-Card Felder ───────────────────────────────────────── */
+  .emp-field-label {
+    font-size: .65rem; font-weight: 700; color: #94a3b8;
+    text-transform: uppercase; letter-spacing: .07em; margin-bottom: 5px;
+  }
+  .emp-field-wrap {
+    background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 9px;
+    padding: 8px 12px; transition: border .15s, background .15s;
+  }
+  .emp-field-wrap:focus-within { border-color: #a5b4fc; background: #f5f3ff; }
+  .emp-field-input {
+    background: transparent; border: none; outline: none;
+    font-family: var(--sans); font-size: .88rem; color: #0f1623; width: 100%; font-weight: 500;
+  }
+  textarea.emp-field-input {
+    background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 9px;
+    padding: 8px 12px; transition: border .15s, background .15s; display: block;
+  }
+  textarea.emp-field-input:focus { border-color: #a5b4fc; background: #f5f3ff; outline: none; }
+  .pf-pref-btn {
+    background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 8px;
+    padding: 5px 12px; font-size: .78rem; font-weight: 600; color: #64748b;
+    cursor: pointer; transition: all .12s; font-family: var(--sans);
+  }
+  .pf-pref-btn:hover { border-color: #a5b4fc; color: #4f46e5; background: #f5f3ff; }
+  .pf-pref-btn.active { background: #ede9fe; border-color: #a5b4fc; color: #4f46e5; }
+  .pf-qual-btn {
+    background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 20px;
+    padding: 4px 12px; font-size: .72rem; font-weight: 600; color: #94a3b8;
+    cursor: pointer; transition: all .12s; font-family: var(--sans);
+  }
+  .pf-qual-btn:hover { border-color: #a5b4fc; color: #6366f1; }
+  .pf-qual-btn.active { background: #ede9fe; border-color: #a5b4fc; color: #4f46e5; font-weight: 700; }
+  .profile-badge {
+    display: inline-flex; align-items: center;
+    background: #ede9fe; color: #4f46e5; border: 1px solid #c4b5fd;
+    border-radius: 20px; padding: 2px 9px; font-size: .65rem; font-weight: 700;
+  }
+  @media (max-width: 900px) { #emp-layout { grid-template-columns: 1fr !important; } }
 
   .employee-row {
     display: grid;
@@ -904,18 +1046,47 @@
   .result-section { display: none; }
   .result-section.visible { display: block; }
 
+  /* ── RESULT HEADER ────────────────────────────────────────────────────────── */
   .result-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
+    gap: 12px;
+    flex-wrap: wrap;
   }
-  .result-header h2 {
+  .result-header h2 { display: none; } /* KW-Banner übernimmt den Titel */
+
+  .export-btns {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .export-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 13px;
+    border-radius: 8px;
     font-family: var(--serif);
-    font-size: 1.6rem;
-    font-weight: 800;
-    letter-spacing: -0.03em;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1.5px solid var(--border);
+    background: white;
+    color: var(--ink-soft);
+    transition: all 0.15s;
   }
+  .export-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+  .export-btn.primary {
+    background: linear-gradient(135deg, #1e3a8a, #4338ca);
+    color: white;
+    border: none;
+    font-size: .82rem;
+    padding: 8px 16px;
+  }
+  .export-btn.primary:hover { opacity: 0.88; }
 
   /* KW-Header über Schichtplan */
   .kw-header-block {
@@ -957,28 +1128,13 @@
   }
 
   /* KW-Tabs */
-  .export-btns { display: flex; gap: 10px; }
-  .export-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-family: var(--sans);
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1.5px solid var(--border);
-    background: white;
-    color: var(--ink);
-    transition: all 0.2s;
-  }
-  .export-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .export-btn.primary { background: var(--accent-grad); color: white; border: none; }
-  .export-btn.primary:hover { opacity: 0.9; }
 
   /* SHIFT TABLE */
-  .shift-table-wrap { overflow-x: auto; margin-bottom: 24px; -webkit-overflow-scrolling: touch; }
+  .shift-table-wrap { overflow-x: auto; margin-bottom: 24px; margin-top: 0; -webkit-overflow-scrolling: touch; }
+  #kwHeader + * .shift-table-wrap,
+  #kwHeader[style*="display: block"] ~ .shift-table-wrap { margin-top: 0; }
+  #kwHeader[style*="display: block"] { margin-bottom: 0; }
+  .shift-table-wrap { border-top: none; }
   table {
     width: 100%;
     border-collapse: collapse;
@@ -997,8 +1153,8 @@
     letter-spacing: 0.06em;
     white-space: nowrap;
   }
-  thead th:first-child { border-radius: 8px 0 0 0; min-width: 130px; text-align: left; padding-left: 12px; }
-  thead th:last-child { border-radius: 0 8px 0 0; }
+  thead th:first-child { min-width: 130px; text-align: left; padding-left: 12px; }
+  thead th:last-child { }
   tbody tr:nth-child(even) { background: var(--surface); }
   tbody td {
     padding: 7px 6px;
@@ -1133,19 +1289,20 @@
   .shift-picker {
     position: fixed;
     background: white;
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 12px;
-    box-shadow: 0 16px 48px rgba(0,0,0,0.18);
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.16), 0 4px 16px rgba(0,0,0,0.08);
     z-index: 9999;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 7px;
-    width: 290px;
+    gap: 8px;
+    width: 360px;
+    font-family: 'Space Grotesk', var(--sans);
     opacity: 0;
     pointer-events: none;
-    transform: scale(0.95) translateY(-4px);
-    transition: opacity 0.15s ease, transform 0.15s ease;
+    transform: scale(0.96) translateY(-6px);
+    transition: opacity 0.18s ease, transform 0.18s ease;
   }
   .shift-picker.open {
     opacity: 1;
@@ -1154,13 +1311,13 @@
   }
   .shift-picker-title {
     grid-column: 1 / -1;
-    font-size: 0.72rem;
+    font-family: 'Space Grotesk', var(--sans);
+    font-size: 0.8rem;
     font-weight: 700;
-    color: var(--ink-soft);
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    padding: 0 2px 8px;
-    border-bottom: 1px solid var(--border);
+    color: #0f1623;
+    letter-spacing: 0.01em;
+    padding: 0 2px 10px;
+    border-bottom: 1px solid #f1f5f9;
     margin-bottom: 2px;
   }
   .shift-option {
@@ -1168,25 +1325,26 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 3px;
-    padding: 10px 6px 8px;
-    border-radius: 10px;
-    font-family: var(--sans);
-    font-size: 0.78rem;
-    font-weight: 700;
+    gap: 4px;
+    padding: 13px 8px 11px;
+    border-radius: 12px;
+    font-family: 'Space Grotesk', var(--sans);
+    font-size: 0.82rem;
+    font-weight: 600;
     cursor: pointer;
     border: 1.5px solid transparent;
-    transition: all 0.12s;
+    transition: all 0.13s;
     text-align: center;
     line-height: 1.2;
   }
   .shift-option .shift-time {
     font-family: var(--mono);
-    font-size: 0.64rem;
+    font-size: 0.66rem;
     font-weight: 400;
-    opacity: 0.7;
+    opacity: 0.65;
+    letter-spacing: -.01em;
   }
-  .shift-option:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.10); }
+  .shift-option:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.10); }
   .shift-option.active-shift { outline: 2.5px solid var(--accent); outline-offset: 1px; font-weight: 800; }
   .shift-option.frueh     { background: #fef9c3; color: #854d0e; border-color: #fde68a; }
   .shift-option.spaet     { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
@@ -1195,7 +1353,25 @@
   .shift-option.urlaub    { background: #fdf4ff; color: #7e22ce; border-color: #e9d5ff; }
   .shift-option.krank     { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
   .shift-option.feiertag  { background: #fff7ed; color: #9a3412; border-color: #fed7aa; grid-column: 1/-1; }
-  .shift-option.notdienst { background: linear-gradient(135deg,#2563eb,#7c3aed); color: white; border-color: transparent; grid-column: 1/-1; }
+  .shift-option.notdienst { background: linear-gradient(135deg,#2563eb,#7c3aed); color: white; border-color: transparent; grid-column: 1/-1; font-size: .85rem; padding: 13px; }
+  #pickerAusfall {
+    grid-column: 1 / -1;
+    font-family: 'Space Grotesk', var(--sans);
+    font-size: .82rem;
+    font-weight: 700;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-top: 2px;
+    background: #fff7ed;
+    color: #c2410c;
+    border: 1.5px solid #fed7aa;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all .13s;
+  }
+  #pickerAusfall:hover { background: #ffedd5; transform: translateY(-1px); }
 
   /* Save banner */
   .save-banner {
@@ -1232,19 +1408,6 @@
   .save-banner-undo:hover { background: rgba(255,255,255,0.25); }
 
 
-  .nd-check {
-    display:flex;align-items:center;gap:5px;
-    font-size:0.82rem;font-weight:500;text-transform:none;letter-spacing:0;
-    cursor:pointer;padding:5px 12px;border-radius:8px;
-    border:1.5px solid var(--border);background:white;
-    transition:all 0.15s;user-select:none;
-  }
-  .nd-check:has(input:checked) { border-color:var(--accent);background:var(--accent-light);color:var(--accent); }
-  .nd-weekend { background:#fef9ec; border-color:#f0d070; }
-  .nd-weekend:has(input:checked) { background:#fef3c7; border-color:#f59e0b; color:#92400e; }
-  .nd-sunday { background:#eff6ff; border-color:#bfdbfe; }
-  .nd-sunday:has(input:checked) { background:#dbeafe; border-color:#3b82f6; color:#1e40af; }
-  .nd-check input[type=checkbox] { accent-color:var(--accent); width:14px;height:14px; }
   @media (max-width: 640px) {
     .form-row, .form-row.three { grid-template-columns: 1fr; }
     .employee-row { grid-template-columns: 20px 1fr 1fr 32px; gap: 8px; }
@@ -1274,16 +1437,14 @@
   .feiertag-chip:hover { background:#fee2e2; border-color:#fca5a5; color:#991b1b; }
   .history-entry { padding:10px 14px; border:1.5px solid var(--border); border-radius:10px; cursor:pointer; transition:all .15s; margin-bottom:8px; }
   .history-entry:hover { border-color:var(--accent); background:#f0f7ff; }
-  .day-note-input { width:100%; font-family:var(--sans); font-size:.72rem; border:1.5px solid var(--border); border-radius:8px; padding:6px 8px; resize:none; min-height:52px; color:var(--ink); background:white; transition:border .15s; box-sizing:border-box; }
-  .day-note-input:focus { outline:none; border-color:var(--accent); }
-  .day-note-label { font-size:.7rem; font-weight:600; color:var(--ink-soft); margin-bottom:3px; }
+
   .chip-remove { font-size:0.65rem; color:#93c5fd; margin-left:3px; }
   @media (max-width:640px) {
     .form-row,.form-row.three { grid-template-columns:1fr; }
     .employee-row { grid-template-columns: 20px 1fr; }
     .container { padding:24px 12px; }
     .result-header { flex-direction:column; gap:10px; align-items:flex-start; }
-    .export-btns { flex-wrap:wrap; }
+    .export-btns { flex-wrap:wrap; gap:5px; }
   }
   @media print {
     @page { size:A4 landscape; margin:10mm 12mm; }
@@ -1320,7 +1481,10 @@
 <aside class="sidebar" id="sidebar">
   <!-- Logo -->
   <div class="sidebar-logo">
-    <div class="sidebar-logo-icon">💊</div>
+    <div class="sidebar-logo-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M10.5 20.5L3.5 13.5a5 5 0 0 1 7.07-7.07l7 7a5 5 0 0 1-7.07 7.07z"/>
+  <line x1="8.5" y1="11.5" x2="15.5" y2="11.5"/>
+</svg></div>
     <span class="sidebar-logo-text">ApoShift</span>
     <span class="sidebar-logo-badge">Beta</span>
   </div>
@@ -1329,12 +1493,25 @@
   <nav class="sidebar-nav">
     <div class="sidebar-section-label">Planung</div>
     <div class="sidebar-item active" id="nav-dienstplan" onclick="navigatePage('dienstplan')">
-      <span class="sidebar-item-icon">📅</span>
+      <span class="sidebar-item-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="3" y="4" width="18" height="18" rx="3"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  <circle cx="8" cy="15" r="1" fill="currentColor" stroke="none"/>
+  <circle cx="12" cy="15" r="1" fill="currentColor" stroke="none"/>
+  <circle cx="16" cy="15" r="1" fill="currentColor" stroke="none"/>
+</svg></span>
       Dienstplan
       <span class="sidebar-item-dot"></span>
     </div>
     <div class="sidebar-item" id="nav-mitarbeiter" onclick="navigatePage('mitarbeiter')">
-      <span class="sidebar-item-icon">👥</span>
+      <span class="sidebar-item-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="9" cy="7" r="3"/>
+  <path d="M3 21v-2a5 5 0 0 1 10 0v2"/>
+  <circle cx="17" cy="8" r="2.5"/>
+  <path d="M21 21v-1.5a4 4 0 0 0-5-3.85"/>
+</svg></span>
       Mitarbeiter
       <span class="sidebar-item-dot"></span>
     </div>
@@ -1380,34 +1557,38 @@
   </div>
 
   <!-- PLANUNGSWOCHE BAR -->
-  <div class="planweek-bar" style="flex-direction:column;gap:0">
+  <div class="planweek-bar">
 
-    <!-- Zeile 1: Planungswoche -->
-    <div style="display:flex;align-items:center;gap:10px;padding:12px 16px">
-      <span style="font-size:.72rem;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">📅 Planungswoche</span>
-      <button onclick="stepWeek(-1)" style="background:var(--surface);border:1.5px solid var(--border);border-radius:7px;width:28px;height:28px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;color:var(--ink);transition:all .15s;flex-shrink:0" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'" title="Vorherige Woche">‹</button>
+    <!-- Zeile 1: Woche wählen -->
+    <div class="pwb-row">
+      <span class="pwb-label">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="3"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Woche
+      </span>
+      <div class="pwb-divider"></div>
+      <button class="pwb-step-btn" onclick="stepWeek(-1)" title="Vorherige Woche">‹</button>
       <input type="week" id="planWeek" onchange="loadFeiertage(); updateKwLabel(); renderPlanHistory()" style="border:1.5px solid var(--border);border-radius:8px;padding:6px 10px;font-family:var(--sans);font-size:.9rem;color:var(--ink);background:white;max-width:190px">
-      <button onclick="stepWeek(1)" style="background:var(--surface);border:1.5px solid var(--border);border-radius:7px;width:28px;height:28px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;color:var(--ink);transition:all .15s;flex-shrink:0" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'" title="Nächste Woche">›</button>
+      <button class="pwb-step-btn" onclick="stepWeek(1)" title="Nächste Woche">›</button>
+      <div class="pwb-divider"></div>
+      <div id="kwLabel"></div>
+      <div id="feiertageChipsInline" style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;flex:1;margin-left:4px"></div>
     </div>
 
-    <!-- Zeile 2: KW + Datum + Feiertage -->
-    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 16px;border-top:1px solid var(--border);background:var(--surface);border-radius:0">
-      <span style="font-size:.72rem;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">📆 Zeitraum</span>
-      <div id="kwLabel" style="font-size:.88rem;font-weight:700;color:var(--accent);white-space:nowrap"></div>
-      <div id="feiertageChipsInline" style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;flex:1"></div>
-    </div>
-
-    <!-- Zeile 3: Notdienst -->
-    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 16px;border-top:1px solid var(--border)">
-      <span style="font-size:.72rem;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">🌙 Notdienst</span>
-      <div id="notdienstWrap" style="display:flex;flex-wrap:wrap;gap:6px;align-items:center">
-        <label class="nd-check"><input type="checkbox" value="Montag" class="nd-box"> Mo</label>
-        <label class="nd-check"><input type="checkbox" value="Dienstag" class="nd-box"> Di</label>
-        <label class="nd-check"><input type="checkbox" value="Mittwoch" class="nd-box"> Mi</label>
-        <label class="nd-check"><input type="checkbox" value="Donnerstag" class="nd-box"> Do</label>
-        <label class="nd-check"><input type="checkbox" value="Freitag" class="nd-box"> Fr</label>
-        <label class="nd-check nd-weekend"><input type="checkbox" value="Samstag" class="nd-box"> Sa</label>
-        <label class="nd-check nd-sunday"><input type="checkbox" value="Sonntag" class="nd-box"> So</label>
+    <!-- Zeile 2: Notdienst -->
+    <div class="pwb-row">
+      <span class="pwb-label">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg>
+        Notdienst
+      </span>
+      <div class="pwb-divider"></div>
+      <div id="notdienstWrap" style="display:flex;flex-wrap:wrap;gap:5px;align-items:center">
+        <label class="nd-check"><input type="checkbox" value="Montag" class="nd-box"><span class="nd-pill">Mo</span></label>
+        <label class="nd-check"><input type="checkbox" value="Dienstag" class="nd-box"><span class="nd-pill">Di</span></label>
+        <label class="nd-check"><input type="checkbox" value="Mittwoch" class="nd-box"><span class="nd-pill">Mi</span></label>
+        <label class="nd-check"><input type="checkbox" value="Donnerstag" class="nd-box"><span class="nd-pill">Do</span></label>
+        <label class="nd-check"><input type="checkbox" value="Freitag" class="nd-box"><span class="nd-pill">Fr</span></label>
+        <label class="nd-check nd-weekend"><input type="checkbox" value="Samstag" class="nd-box"><span class="nd-pill">Sa</span></label>
+        <label class="nd-check nd-sunday"><input type="checkbox" value="Sonntag" class="nd-box"><span class="nd-pill">So</span></label>
       </div>
     </div>
 
@@ -1417,7 +1598,7 @@
   <!-- WOCHENPLÄNE -->
   <div id="planHistorySection" style="margin-top:12px;margin-bottom:28px;display:none">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-      <span style="font-size:.72rem;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.07em">📋 Wochenpläne</span>
+      <span class="section-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><rect x="3" y="4" width="18" height="18" rx="3"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Wochenpläne</span>
       <button onclick="clearPlanHistory()" title="Alle Pläne löschen" style="font-size:.7rem;color:#cbd5e1;background:none;border:none;cursor:pointer;padding:2px 6px;border-radius:4px;transition:color .15s" onmouseover="this.style.color='#dc2626'" onmouseout="this.style.color='#cbd5e1'">Alle löschen</button>
     </div>
     <!-- Aktuelle KW: eigene Zeile -->
@@ -1456,22 +1637,46 @@
         <div id="printDate" style="font-size:0.72rem;color:#6e7787"></div>
       </div>
       <div class="result-header">
-        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-          <h2 style="margin:0">Ihr Schichtplan ✦</h2>
-          <div id="resultKwBadge" style="font-size:.82rem;font-weight:700;background:linear-gradient(135deg,#ede9fe,#dbeafe);border:1.5px solid #c4b5fd;border-radius:20px;padding:4px 14px;color:#4c1d95;white-space:nowrap"></div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <div id="resultKwBadge" style="display:none"></div>
         </div>
         <div class="export-btns">
-          <button class="export-btn" onclick="planNextWeek()" style="background:linear-gradient(135deg,#2563eb,#7c3aed);color:white;border:none;font-weight:700" title="Planungswoche auf nächste Woche setzen und nach oben scrollen">→ Nächste Woche planen</button>
-          <button class="export-btn" onclick="confirmRegen()">↺ Neu generieren</button>
-          <button class="export-btn" onclick="exportExcel()">📊 Excel</button>
-          <button class="export-btn" onclick="window.print()">🖨 Drucken</button>
-          <button class="export-btn primary" onclick="exportPDF()">📄 PDF</button>
+          <button class="export-btn primary" onclick="planNextWeek()" title="Nächste Woche planen">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            Nächste Woche
+          </button>
+          <button class="export-btn" onclick="confirmRegen()" title="Plan neu generieren">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+            Neu
+          </button>
+          <button class="export-btn" onclick="exportExcel()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+            Excel
+          </button>
+          <button class="export-btn" onclick="window.print()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            Drucken
+          </button>
+          <button class="export-btn" onclick="exportPDF()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            PDF
+          </button>
         </div>
       </div>
-      <div id="regenConfirm" style="display:none;background:#fef3c7;border:1.5px solid #fde047;border-radius:10px;padding:12px 16px;margin-bottom:16px;align-items:center;gap:12px;font-size:0.85rem;">
-        <span>⚠ Manuelle Änderungen gehen verloren. Wirklich neu generieren?</span>
-        <button onclick="doRegen()" style="background:#dc2626;color:white;border:none;border-radius:7px;padding:6px 14px;font-size:0.82rem;font-weight:600;cursor:pointer;margin-left:8px">Ja</button>
-        <button onclick="document.getElementById('regenConfirm').style.display='none'" style="background:white;border:1.5px solid var(--border);border-radius:7px;padding:6px 14px;font-size:0.82rem;cursor:pointer;margin-left:4px">Abbrechen</button>
+
+      <!-- Regen-Confirm Modal -->
+      <div id="regenConfirm" style="display:none;position:fixed;inset:0;background:rgba(15,22,35,.45);backdrop-filter:blur(3px);z-index:1300;align-items:center;justify-content:center">
+        <div style="background:white;border-radius:16px;padding:28px 32px;max-width:380px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.2);text-align:center">
+          <div style="width:48px;height:48px;border-radius:50%;background:#fef3c7;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div style="font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:6px">Plan neu generieren?</div>
+          <div style="font-size:.82rem;color:var(--ink-soft);margin-bottom:22px;line-height:1.5">Alle manuellen Änderungen am aktuellen Plan gehen verloren.</div>
+          <div style="display:flex;gap:10px;justify-content:center">
+            <button onclick="document.getElementById('regenConfirm').style.display='none'" style="flex:1;padding:9px 0;border-radius:9px;border:1.5px solid var(--border);background:white;font-size:.85rem;font-weight:600;cursor:pointer;color:var(--ink-soft)">Abbrechen</button>
+            <button onclick="doRegen()" style="flex:1;padding:9px 0;border-radius:9px;border:none;background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;font-size:.85rem;font-weight:700;cursor:pointer">Neu generieren</button>
+          </div>
+        </div>
       </div>
 
 
@@ -1492,11 +1697,7 @@
         </div>
       </div>
 
-      <!-- Tagesnotizen -->
-      <div id="dayNotesSection" style="margin-top:18px">
-        <div style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);margin-bottom:8px">📝 Tagesnotizen</div>
-        <div id="dayNotesGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px"></div>
-      </div>
+
 
       <div id="hoursSummary"></div>
     </div><!-- /card -->
@@ -1512,56 +1713,158 @@
   <div class="page-header">
     <div>
       <h2 class="page-title">Mitarbeiter</h2>
-      <p class="page-sub">Name, Position, Stunden/Woche und Schicht-Präferenz eintragen</p>
+      <p class="page-sub">Team verwalten und Profile pflegen</p>
     </div>
     <button onclick="saveData()" style="display:flex;align-items:center;gap:7px;font-family:var(--sans);font-size:.85rem;font-weight:600;padding:10px 20px;border-radius:10px;border:1.5px solid #22c55e;background:#f0fdf4;color:#166534;cursor:pointer;transition:all .15s;white-space:nowrap" onmouseover="this.style.background='#dcfce7'" onmouseout="this.style.background='#f0fdf4'">
       💾 Speichern
     </button>
   </div>
 
-  <div class="card" id="section-mitarbeiter">
-    <div style="display:grid;grid-template-columns:1.4fr 1.1fr 0.7fr 0.9fr 80px 64px 32px;gap:8px;padding:0 14px;margin-bottom:4px;">
-      <span class="col-label">Name</span>
-      <span class="col-label">Position</span>
-      <span class="col-label">Std/Wo</span>
-      <span class="col-label">Schicht</span>
-      <span class="col-label" title="Datum des letzten Samstags-Einsatzes – wird für die faire Samstags-Rotation verwendet">Letzter Sa ⓘ</span>
-      <span class="col-label" style="text-align:center" title="Stunden-Übertrag aus der Vorwoche. Positiv = Überstunden, Negativ = Minusstunden.">Übertrag ⓘ</span>
-      <span></span>
+  <!-- Zweispaltig: Team-Liste | Profil-Card -->
+  <div id="emp-layout" style="display:grid;grid-template-columns:300px 1fr;gap:16px;align-items:start">
+
+    <!-- LINKE SPALTE: Team-Liste -->
+    <div>
+      <!-- Team-Liste Card -->
+      <div class="card" id="section-mitarbeiter" style="padding:0;overflow:hidden">
+        <div style="padding:14px 16px 10px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between">
+          <span style="font-size:.7rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.07em">Team · <span id="empCount">0</span> Mitarbeitende</span>
+        </div>
+        <div class="employee-list" id="employeeList" style="padding:6px 8px"></div>
+        <div style="padding:8px">
+          <button class="add-btn" style="width:100%;justify-content:center" onclick="addEmployee()">+ Mitarbeiter hinzufügen</button>
+        </div>
+      </div>
+
+      <!-- Beispieldaten -->
+      <div id="testScenarioBlock" style="background:#f8fafc;border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;margin-top:12px">
+        <div style="font-size:.7rem;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">🧪 Beispieldaten</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <button class="scenario-btn" onclick="loadScenario(0)">🏙️ Stadt</button>
+          <button class="scenario-btn" onclick="loadScenario(1)">🏡 Klein</button>
+          <button class="scenario-btn" onclick="loadScenario(2)">🏖️ Urlaub</button>
+          <button class="scenario-btn" onclick="loadScenario(3)">🌙 Notdienst</button>
+          <button class="scenario-btn" onclick="loadScenario(4)">🏢 Groß</button>
+        </div>
+        <div id="scenarioDesc" style="font-size:.78rem;color:var(--ink-soft);margin-top:8px;display:none;padding:8px 10px;background:white;border:1px solid var(--border);border-radius:8px"></div>
+      </div>
     </div>
-    <div class="employee-list" id="employeeList"></div>
-    <div id="carryoverWarning" style="display:none;margin-top:10px;padding:10px 14px;background:#fef3c7;border:1.5px solid #f59e0b;border-radius:10px;font-size:.82rem;color:#92400e;line-height:1.5"></div>
-    <div style="margin-top:12px">
-      <button class="add-btn" onclick="addEmployee()">+ Mitarbeiter hinzufügen</button>
+
+    <!-- RECHTE SPALTE: Profil-Card + Hinweise -->
+    <div>
+      <!-- Leer-Zustand -->
+      <div id="empProfileEmpty" class="card" style="text-align:center;padding:56px 24px;color:#94a3b8;border:2px dashed #e2e8f0;background:#fafafa">
+        <div style="font-size:2.5rem;margin-bottom:12px;opacity:.3">👤</div>
+        <div style="font-size:.9rem;font-weight:600;color:#94a3b8;margin-bottom:6px">Mitarbeiter auswählen</div>
+        <div style="font-size:.78rem;color:#cbd5e1">Wähle links einen Mitarbeiter<br>aus um sein Profil zu bearbeiten</div>
+      </div>
+
+      <!-- Profil-Card (wird per JS befüllt) -->
+      <div id="empProfileCard" class="card" style="display:none">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+          <div style="flex:1;min-width:0">
+            <div style="font-size:.65rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Mitarbeiterprofil</div>
+            <input id="pf-name" type="text" placeholder="Name eingeben…" class="emp-field-input" style="font-size:1.05rem;font-weight:700;color:#0f1623;background:transparent;border:none;outline:none;width:100%;padding:0" oninput="if(_activeEmpIdx!==null&&_employees[_activeEmpIdx]){_employees[_activeEmpIdx].name=this.value;renderTeamList();}">
+            <div id="profileBadges" style="display:flex;flex-wrap:wrap;gap:5px;margin-top:6px"></div>
+          </div>
+          <button onclick="deleteActiveEmployee()" title="Mitarbeiter löschen" style="background:none;border:1.5px solid #fecaca;color:#dc2626;border-radius:8px;padding:5px 10px;cursor:pointer;font-size:.75rem;font-weight:600;transition:all .15s;margin-left:12px;flex-shrink:0" onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background='none'">✕ Löschen</button>
+        </div>
+
+        <!-- Position & Stunden -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+          <div>
+            <div class="emp-field-label">Position</div>
+            <div class="emp-field-wrap">
+              <select id="pf-pos" class="emp-field-input" onchange="syncActiveEmployee()">
+                <option>Apotheker/in</option>
+                <option>PTA</option>
+                <option>Azubi PTA</option>
+                <option>PKA</option>
+                <option>Azubi PKA</option>
+                <option>Praktikant/in</option>
+                <option>Aushilfe</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <div class="emp-field-label">Arbeitsumfang</div>
+            <div class="emp-field-wrap" style="display:flex;align-items:center;gap:6px">
+              <input id="pf-hours" type="number" min="5" max="48" class="emp-field-input" style="flex:1" onchange="syncActiveEmployee()">
+              <span style="font-size:.8rem;color:#94a3b8;white-space:nowrap">Std./Wo.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wünsche -->
+        <div style="margin-bottom:14px">
+          <div class="emp-field-label">Wünsche & Präferenzen</div>
+          <div style="position:relative">
+            <textarea id="pf-note" class="emp-field-input" style="width:100%;min-height:64px;resize:vertical;box-sizing:border-box" placeholder="z.B. 'Mo–Mi Früh bevorzugt', 'Fr frei wegen Arzt'" oninput="syncActiveEmployee()"></textarea>
+            <span id="pf-note-saved" style="position:absolute;right:10px;bottom:8px;font-size:.65rem;font-weight:700;color:#22c55e;opacity:0;transition:opacity .4s">Gespeichert</span>
+          </div>
+        </div>
+
+        <!-- Schichtpräferenz -->
+        <div style="margin-bottom:14px">
+          <div class="emp-field-label">Schichtpräferenz</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px" id="pf-shiftpref-btns">
+            <button class="pf-pref-btn" data-val="flexibel"    onclick="setPref(this)">Flexibel</button>
+            <button class="pf-pref-btn" data-val="rotation"    onclick="setPref(this)">Wochenrotation</button>
+            <button class="pf-pref-btn" data-val="immer_frueh" onclick="setPref(this)">Immer Früh</button>
+            <button class="pf-pref-btn" data-val="immer_spaet" onclick="setPref(this)">Immer Spät</button>
+            <button class="pf-pref-btn" data-val="immer_voll"  onclick="setPref(this)">Immer Voll</button>
+          </div>
+          <input type="hidden" id="pf-shiftpref" value="flexibel">
+        </div>
+
+        <!-- Qualifikations-Badges -->
+        <div style="margin-bottom:14px">
+          <div class="emp-field-label">Qualifikationen & Rollen</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px" id="pf-qual-btns">
+            <button class="pf-qual-btn" data-val="Approbiert"        onclick="toggleQual(this)"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" style="vertical-align:middle;margin-right:3px"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Approbiert</button>
+            <button class="pf-qual-btn" data-val="PTA-Anleitung"     onclick="toggleQual(this)"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" style="vertical-align:middle;margin-right:3px"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>PTA-Anleitung</button>
+            <button class="pf-qual-btn" data-val="Ausbilder"         onclick="toggleQual(this)"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" style="vertical-align:middle;margin-right:3px"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Ausbilder</button>
+            <button class="pf-qual-btn" data-val="Notdienstberechtigt" onclick="toggleQual(this)"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" style="vertical-align:middle;margin-right:3px"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Notdienstberechtigt</button>
+            <button class="pf-qual-btn" data-val="Rezeptprüfung"     onclick="toggleQual(this)"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" style="vertical-align:middle;margin-right:3px"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Rezeptprüfung</button>
+          </div>
+        </div>
+
+        <!-- Letzter Samstag & Übertrag -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:6px">
+          <div>
+            <div class="emp-field-label">Letzter Samstags-Einsatz <span title="Für faire Samstags-Rotation" style="cursor:help;opacity:.6">ⓘ</span></div>
+            <div class="emp-field-wrap">
+              <input id="pf-lastsat" type="date" class="emp-field-input" onchange="syncActiveEmployee()">
+            </div>
+          </div>
+          <div>
+            <div class="emp-field-label">Stunden-Übertrag Vorwoche <span title="Positiv = Überstunden, Negativ = Minusstunden" style="cursor:help;opacity:.6">ⓘ</span></div>
+            <div class="emp-field-wrap" style="display:flex;align-items:center;gap:6px">
+              <input id="pf-carryover" type="number" step="0.5" min="-20" max="20" class="emp-field-input" style="flex:1" onchange="syncActiveEmployee()">
+              <span style="font-size:.8rem;color:#94a3b8">h</span>
+            </div>
+          </div>
+        </div>
+        <div id="carryoverWarning" style="display:none;margin-top:10px;padding:10px 14px;background:#fef3c7;border:1.5px solid #f59e0b;border-radius:10px;font-size:.82rem;color:#92400e;line-height:1.5"></div>
+      </div>
+
+      <!-- Globale Hinweise -->
+      <div class="card" style="margin-top:16px" id="section-hinweise">
+        <div class="card-title" style="margin-bottom:12px">
+          <div class="icon">📋</div> Allgemeine Hinweise für diese Woche
+        </div>
+        <div class="form-group">
+          <textarea id="notes" placeholder="z.B.&#10;– Samstag min. 2 PKA&#10;– Donnerstag Nachmittag ist Liefertag, mehr Personal einrechnen&#10;– Inventur Freitag, alle verfügbaren Kräfte benötigt" style="min-height:110px"></textarea>
+        </div>
+        <div style="margin-top:8px;padding:10px 14px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;font-size:.78rem;color:#0369a1;line-height:1.6">
+          💡 Die KI liest diese Hinweise direkt beim Planen – natürliche Sprache reicht.
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- GLOBALE HINWEISE -->
-  <div class="card" style="margin-top:16px" id="section-hinweise">
-    <div class="card-title" style="margin-bottom:12px">
-      <div class="icon">📋</div> Allgemeine Hinweise für diese Woche
-    </div>
-    <div class="form-group">
-      <textarea id="notes" placeholder="z.B.&#10;– Samstag min. 2 PKA&#10;– Donnerstag Nachmittag ist Liefertag, mehr Personal einrechnen&#10;– Inventur Freitag, alle verfügbaren Kräfte benötigt" style="min-height:110px"></textarea>
-    </div>
-    <div style="margin-top:8px;padding:10px 14px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;font-size:.78rem;color:#0369a1;line-height:1.6">
-      💡 Die KI liest diese Hinweise direkt beim Planen – natürliche Sprache reicht.
-    </div>
-  </div>
-
-  <div id="testScenarioBlock" style="background:#f8fafc;border:1.5px solid var(--border);border-radius:14px;padding:16px 20px;margin-top:16px">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
-      <span style="font-size:.8rem;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em">🧪 Beispieldaten laden</span>
-    </div>
-    <div style="display:flex;flex-wrap:wrap;gap:8px">
-      <button class="scenario-btn" onclick="loadScenario(0)">🏙️ Stadtapotheke</button>
-      <button class="scenario-btn" onclick="loadScenario(1)">🏡 Kleinstapotheke</button>
-      <button class="scenario-btn" onclick="loadScenario(2)">🏖️ Urlaubswoche</button>
-      <button class="scenario-btn" onclick="loadScenario(3)">🌙 Notdienst-Woche</button>
-      <button class="scenario-btn" onclick="loadScenario(4)">🏢 Großapotheke</button>
-    </div>
-    <div id="scenarioDesc" style="font-size:.78rem;color:var(--ink-soft);margin-top:10px;display:none;padding:8px 12px;background:white;border:1px solid var(--border);border-radius:8px"></div>
-  </div>
+  <!-- Hidden employee data store (unsichtbare Zeilen für getEmployees-Kompatibilität) -->
+  <div id="employeeDataStore" style="display:none"></div>
 
 </div><!-- /page-mitarbeiter -->
 
@@ -1682,10 +1985,23 @@
 <!-- Bottom Navigation (Mobile only) -->
 <nav class="bottom-nav" id="bottomNav">
   <div class="bottom-nav-item active" id="bn-dienstplan" onclick="navigatePage('dienstplan')">
-    <span class="bn-icon">📅</span>Plan
+    <span class="bn-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="3" y="4" width="18" height="18" rx="3"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  <circle cx="8" cy="15" r="1" fill="currentColor" stroke="none"/>
+  <circle cx="12" cy="15" r="1" fill="currentColor" stroke="none"/>
+  <circle cx="16" cy="15" r="1" fill="currentColor" stroke="none"/>
+</svg></span>Plan
   </div>
   <div class="bottom-nav-item" id="bn-mitarbeiter" onclick="navigatePage('mitarbeiter')">
-    <span class="bn-icon">👥</span>Team
+    <span class="bn-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="9" cy="7" r="3"/>
+  <path d="M3 21v-2a5 5 0 0 1 10 0v2"/>
+  <circle cx="17" cy="8" r="2.5"/>
+  <path d="M21 21v-1.5a4 4 0 0 0-5-3.85"/>
+</svg></span>Team
   </div>
 </nav>
 <div class="shift-picker" id="shiftPicker">
@@ -1696,8 +2012,49 @@
   <div class="shift-option frei"                           data-shift="Frei"         onclick="applyShift(this)">💤 Frei<span class="shift-time">freier Tag</span></div>
   <div class="shift-option urlaub"                         data-shift="Urlaub"       onclick="applyShift(this)">🏖 Urlaub<span class="shift-time">ganzer Tag</span></div>
   <div class="shift-option krank"                          data-shift="Krank"        onclick="applyShift(this)">🤒 Krank<span class="shift-time">Krankmeld.</span></div>
+  <div id="pickerAusfall" style="background:#fff7ed;color:#c2410c;border:1px solid #fed7aa;margin-top:6px;border-radius:7px;padding:6px 10px;cursor:pointer;font-size:.78rem;font-weight:700;display:flex;align-items:center;gap:6px" onclick="closeShiftPicker();openAusfallModal(activeTag)">🚨 Einspringer finden<span style="font-size:.68rem;font-weight:400;color:#ea580c">KI-Analyse</span></div>
   <div class="shift-option feiertag"  id="pickerFeiertag"  data-shift="Feiertag"    onclick="applyShift(this)" style="display:none">🎌 Feiertag</div>
   <div class="shift-option notdienst" id="pickerNotdienst" data-shift="Notdienst"   onclick="applyShift(this)">🌙 Notdienst – 24h-Dienst</div>
+</div>
+
+<!-- ══ AUSFALL-MODAL ══════════════════════════════════════════════════════════ -->
+<div id="ausfallOverlay" style="display:none;position:fixed;inset:0;background:rgba(15,22,35,.55);z-index:1200;backdrop-filter:blur(3px)" onclick="closeAusfallModal()"></div>
+<div id="ausfallModal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1201;background:white;border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.18);width:min(520px,96vw);max-height:85vh;overflow-y:auto;font-family:var(--sans)">
+  <div style="padding:20px 24px 0">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px">
+      <div>
+        <div style="font-size:1.05rem;font-weight:800;color:#0f1623">🚨 Ausfall-Management</div>
+        <div id="ausfallSubtitle" style="font-size:.82rem;color:#64748b;margin-top:2px"></div>
+      </div>
+      <button onclick="closeAusfallModal()" style="background:none;border:none;cursor:pointer;font-size:1.1rem;color:#94a3b8;padding:2px 6px;border-radius:6px;line-height:1" onmouseover="this.style.color='#0f1623'" onmouseout="this.style.color='#94a3b8'">✕</button>
+    </div>
+
+    <!-- Schritt 1: Ausfallgrund -->
+    <div id="ausfallStep1" style="margin-top:16px">
+      <div style="font-size:.75rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Wer fällt aus?</div>
+      <div id="ausfallInfo" style="background:#fef2f2;border:1.5px solid #fecaca;border-radius:10px;padding:12px 16px;margin-bottom:14px">
+        <div id="ausfallName" style="font-size:.95rem;font-weight:700;color:#dc2626"></div>
+        <div id="ausfallShiftInfo" style="font-size:.78rem;color:#ef4444;margin-top:2px"></div>
+      </div>
+      <label style="font-size:.8rem;font-weight:600;color:#374151;display:block;margin-bottom:6px">Grund (optional)</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+        <button class="ausfall-grund-btn" data-grund="Krank" onclick="selectGrund(this)" style="background:#fef2f2;color:#dc2626;border:1.5px solid #fecaca;border-radius:7px;padding:5px 12px;cursor:pointer;font-size:.78rem;font-weight:600">🤒 Krank</button>
+        <button class="ausfall-grund-btn" data-grund="Notfall" onclick="selectGrund(this)" style="background:#fff7ed;color:#c2410c;border:1.5px solid #fed7aa;border-radius:7px;padding:5px 12px;cursor:pointer;font-size:.78rem;font-weight:600">⚡ Notfall</button>
+        <button class="ausfall-grund-btn" data-grund="Privat" onclick="selectGrund(this)" style="background:#f8fafc;color:#475569;border:1.5px solid #e2e8f0;border-radius:7px;padding:5px 12px;cursor:pointer;font-size:.78rem;font-weight:600">📋 Privat</button>
+      </div>
+      <button onclick="startAusfallAnalyse()" style="width:100%;background:linear-gradient(135deg,#6366f1,#4f46e5);color:white;border:none;border-radius:10px;padding:11px;font-size:.88rem;font-weight:700;cursor:pointer;transition:opacity .15s" onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">KI-Analyse starten →</button>
+    </div>
+
+    <!-- Schritt 2: Ergebnis -->
+    <div id="ausfallStep2" style="display:none;margin-top:16px">
+      <div id="ausfallLoading" style="text-align:center;padding:32px 0;color:#94a3b8;font-size:.88rem">
+        <div style="font-size:1.6rem;margin-bottom:8px;animation:spin 1s linear infinite">⚙️</div>
+        KI analysiert Kapazitäten…
+      </div>
+      <div id="ausfallResult" style="display:none"></div>
+    </div>
+  </div>
+  <div style="height:20px"></div>
 </div>
 
 <!-- Save banner -->
@@ -1919,112 +2276,202 @@ const defaultEmployees = [
   {name:'Lisa Braun',        position:'PKA',           hours:'20', note:'nur Vormittag', carryover:0},
 ];
 
-function createEmployeeRow(emp) {
-  emp = emp || {};
-  const row = document.createElement('div');
-  row.className = 'employee-row';
-  const posVal = emp.position || '';
-  const positions = 'Apotheker/in,PTA,Azubi PTA,PKA,Azubi PKA,Praktikant/in,Aushilfe'.split(',');
-  const opts = positions.map(p =>
-    `<option${posVal === p ? ' selected' : ''} value="${p}">${p}</option>`
-  ).join('');
-  const shiftPrefVal = emp.shiftPref || 'flexibel';
-  const migratePref = v => v === 'alle' ? 'flexibel' : v === 'frueh' ? 'immer_frueh' : v === 'spaet' ? 'immer_spaet' : v === 'voll' ? 'immer_voll' : v;
-  const shiftPrefValMigrated = migratePref(shiftPrefVal);
-  const shiftPrefOpts = [
-    ['flexibel',    'Flexibel'],
-    ['rotation',    'Wochenrotation'],
-    ['immer_frueh', 'Immer Früh'],
-    ['immer_spaet', 'Immer Spät'],
-    ['immer_voll',  'Immer Voll'],
-  ].map(([v,l]) => `<option value="${v}"${shiftPrefValMigrated===v?' selected':''}>${l}</option>`).join('');
+// ── Mitarbeiter-Daten (In-Memory Store) ──────────────────────────────────────
+let _employees = [];   // Array of emp objects
+let _activeEmpIdx = null;
 
-  const lastSatVal = emp.lastSat || '';
-  const noteVal = emp.note || '';
-  const hasNote = noteVal.trim().length > 0;
+const AVATAR_COLORS = ['#6366f1','#0ea5e9','#10b981','#f59e0b','#ef4444','#8b5cf6','#06b6d4','#84cc16','#f97316','#ec4899'];
+function avatarColor(name) { let h=0; for(const c of (name||'?')) h=(h*31+c.charCodeAt(0))&0xfffff; return AVATAR_COLORS[h%AVATAR_COLORS.length]; }
+function getInitials(name) { const p=(name||'?').trim().split(/\s+/); return p.length>=2?(p[0][0]+p[p.length-1][0]).toUpperCase():p[0].slice(0,2).toUpperCase(); }
 
-  row.draggable = true;
-  row.innerHTML =
-    '<div class="drag-handle" title="Reihenfolge ändern">⠿</div>' +
-    '<input type="text" placeholder="Name" value="' + (emp.name||'') + '" class="emp-name">' +
-    '<select class="emp-pos">' + opts + '</select>' +
-    '<input type="number" placeholder="38" min="5" max="48" value="' + (emp.hours||38) + '" class="emp-hours">' +
-    '<select class="emp-shiftpref" title="Schicht-Präferenz (harter Constraint)">' + shiftPrefOpts + '</select>' +
-    '<input type="date" class="emp-lastsat" value="' + lastSatVal + '" title="Datum des letzten Samstags-Einsatzes (für faire Rotation)" style="font-size:.75rem;padding:3px 4px">' +
-    '<div class="emp-carryover-cell" title="Stunden-Übertrag aus Vorwoche">' +
-      '<input type="number" step="0.5" min="-20" max="20" value="' + (emp.carryover||0) + '" class="emp-carryover">' +
-      '<span>h</span>' +
-    '</div>' +
-    '<button class="remove-btn" onclick="this.closest(\'.employee-row\').remove();refreshDots();updateEmptyState()">✕</button>' +
-    '<div style="grid-column:1/-1;padding:4px 4px 6px;">' +
-      '<textarea class="emp-note" placeholder="Wünsche & Hinweise, z.B. \'Mo–Mi Früh bevorzugt\', \'Fr frei wegen Arzt\'" style="width:100%;font-family:var(--sans);font-size:.78rem;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;resize:vertical;min-height:44px;color:var(--ink);background:white;box-sizing:border-box;outline:none;transition:border .15s" onfocus="this.style.borderColor=\'#a5b4fc\';this.style.background=\'#f5f3ff\'" onblur="this.style.borderColor=\'#e2e8f0\';this.style.background=\'white\'">' + noteVal + '</textarea>' +
-    '</div>';
-  return row;
+const MIGRATE_PREF = v => v==='alle'?'flexibel':v==='frueh'?'immer_frueh':v==='spaet'?'immer_spaet':v==='voll'?'immer_voll':v||'flexibel';
+
+let _dragSrcIdx = null;
+
+function renderTeamList() {
+  const list = document.getElementById('employeeList');
+  const countEl = document.getElementById('empCount');
+  if (!list) return;
+  if (countEl) countEl.textContent = _employees.length;
+
+  if (_employees.length === 0) {
+    list.innerHTML = `
+      <div onclick="addEmployee()" style="text-align:center;padding:28px 16px;cursor:pointer;border:2px dashed #e2e8f0;border-radius:10px;margin:4px;transition:border-color .15s" onmouseover="this.style.borderColor='#a5b4fc'" onmouseout="this.style.borderColor='#e2e8f0'">
+        <div style="font-size:1.6rem;margin-bottom:8px;opacity:.4">👤</div>
+        <div style="font-size:.82rem;font-weight:700;color:#475569;margin-bottom:4px">Noch keine Mitarbeiter</div>
+        <div style="font-size:.72rem;color:#94a3b8;margin-bottom:12px">Hier klicken um zu starten</div>
+        <div style="display:inline-flex;align-items:center;gap:5px;background:linear-gradient(135deg,#6366f1,#4f46e5);color:white;padding:6px 14px;border-radius:8px;font-size:.75rem;font-weight:700">+ Ersten hinzufügen</div>
+      </div>`;
+    showProfileCard(null); return;
+  }
+
+  list.innerHTML = _employees.map((e, i) => {
+    const color = avatarColor(e.name);
+    const initials = getInitials(e.name);
+    const isActive = i === _activeEmpIdx;
+    const posShort = (e.position||'').replace('Apotheker/in','Apoth.').replace('Praktikant/in','Prakt.');
+    return `<div class="emp-list-item${isActive?' active':''}" data-idx="${i}" draggable="true">
+      <div class="emp-list-drag" title="Ziehen zum Sortieren">⠿</div>
+      <div class="emp-list-avatar" style="background:${color}">${initials}</div>
+      <div style="flex:1;min-width:0" onclick="selectEmployee(${i})">
+        <div class="emp-list-name">${e.name||'Ohne Name'}</div>
+        <div class="emp-list-pos">${posShort}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Drag & Drop Event-Listener direkt binden
+  list.querySelectorAll('.emp-list-item').forEach(item => {
+    const idx = parseInt(item.dataset.idx);
+
+    item.addEventListener('dragstart', e => {
+      _dragSrcIdx = idx;
+      item.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', idx);
+    });
+    item.addEventListener('dragend', () => {
+      item.classList.remove('dragging');
+      list.querySelectorAll('.emp-list-item').forEach(r => r.classList.remove('drag-over'));
+    });
+    item.addEventListener('dragover', e => {
+      e.preventDefault();
+      if (_dragSrcIdx === null || _dragSrcIdx === idx) return;
+      list.querySelectorAll('.emp-list-item').forEach(r => r.classList.remove('drag-over'));
+      item.classList.add('drag-over');
+    });
+    item.addEventListener('dragleave', () => item.classList.remove('drag-over'));
+    item.addEventListener('drop', e => {
+      e.preventDefault();
+      if (_dragSrcIdx === null || _dragSrcIdx === idx) return;
+      const moved = _employees.splice(_dragSrcIdx, 1)[0];
+      _employees.splice(idx, 0, moved);
+      _activeEmpIdx = idx;
+      _dragSrcIdx = null;
+      renderTeamList();
+      showProfileCard(_employees[_activeEmpIdx]);
+      saveData();
+    });
+  });
+}
+
+function selectEmployee(idx) {
+  // Sync current card back before switching
+  if (_activeEmpIdx !== null) syncActiveEmployee();
+  _activeEmpIdx = idx;
+  renderTeamList();
+  showProfileCard(_employees[idx]);
+}
+
+function showProfileCard(emp) {
+  const card  = document.getElementById('empProfileCard');
+  const empty = document.getElementById('empProfileEmpty');
+  if (!emp) { card && (card.style.display='none'); empty && (empty.style.display='block'); return; }
+  card  && (card.style.display='block');
+  empty && (empty.style.display='none');
+
+  document.getElementById('pf-name') && (document.getElementById('pf-name').value = emp.name || '');
+  document.getElementById('pf-pos').value      = emp.position  || 'Apotheker/in';
+  document.getElementById('pf-hours').value    = emp.hours     || 38;
+  document.getElementById('pf-note').value     = emp.note      || '';
+  document.getElementById('pf-lastsat').value  = emp.lastSat   || '';
+  document.getElementById('pf-carryover').value= emp.carryover || 0;
+
+  // Schichtpräferenz Buttons
+  const pref = MIGRATE_PREF(emp.shiftPref);
+  document.getElementById('pf-shiftpref').value = pref;
+  document.querySelectorAll('.pf-pref-btn').forEach(b => b.classList.toggle('active', b.dataset.val === pref));
+
+  // Qualifikations-Badges
+  const quals = emp.quals || [];
+  document.querySelectorAll('.pf-qual-btn').forEach(b => b.classList.toggle('active', quals.includes(b.dataset.val)));
+
+  // Header Badges
+  const badgeEl = document.getElementById('profileBadges');
+  badgeEl.innerHTML = quals.map(q => `<span class="profile-badge">${q}</span>`).join('');
+
+  // Name-Input im Header live aktualisieren
+  document.getElementById('pf-note').oninput = () => {
+    syncActiveEmployee();
+    const saved = document.getElementById('pf-note-saved');
+    if (saved) { saved.style.opacity='1'; clearTimeout(saved._t); saved._t=setTimeout(()=>saved.style.opacity='0',1800); }
+  };
+}
+
+function syncActiveEmployee() {
+  if (_activeEmpIdx === null || !_employees[_activeEmpIdx]) return;
+  const e = _employees[_activeEmpIdx];
+  e.position  = document.getElementById('pf-pos')?.value       || e.position;
+  e.hours     = document.getElementById('pf-hours')?.value      || e.hours;
+  e.note      = document.getElementById('pf-note')?.value       ?? '';
+  e.lastSat   = document.getElementById('pf-lastsat')?.value    ?? '';
+  e.carryover = parseFloat(document.getElementById('pf-carryover')?.value) || 0;
+  e.shiftPref = document.getElementById('pf-shiftpref')?.value  || 'flexibel';
+  e.quals     = [...document.querySelectorAll('.pf-qual-btn.active')].map(b => b.dataset.val);
+  // Name aus pf-name Input
+  const nameVal = document.getElementById('pf-name')?.value;
+  if (nameVal !== undefined) e.name = nameVal;
+}
+
+function setPref(btn) {
+  document.getElementById('pf-shiftpref').value = btn.dataset.val;
+  document.querySelectorAll('.pf-pref-btn').forEach(b => b.classList.toggle('active', b===btn));
+  syncActiveEmployee();
+}
+
+function toggleQual(btn) {
+  btn.classList.toggle('active');
+  syncActiveEmployee();
+  // Update header badges
+  const quals = [...document.querySelectorAll('.pf-qual-btn.active')].map(b => b.dataset.val);
+  const badgeEl = document.getElementById('profileBadges');
+  if (badgeEl) badgeEl.innerHTML = quals.map(q => `<span class="profile-badge">${q}</span>`).join('');
 }
 
 function addEmployee(emp) {
-  const existing = document.getElementById('empEmptyState');
-  if (existing) existing.remove();
-  const row = createEmployeeRow(emp);
-  document.getElementById('employeeList').appendChild(row);
-  initDragRow(row);
-  refreshDots();
+  syncActiveEmployee();
+  const newEmp = { name:'', position:'Apotheker/in', hours:38, note:'', shiftPref:'flexibel', lastSat:'', carryover:0, quals:[], ...(emp||{}) };
+  _employees.push(newEmp);
+  _activeEmpIdx = _employees.length - 1;
+  renderTeamList();
+  showProfileCard(newEmp);
+  // Focus name field in profile… via a small hack: put a name input at top of card
+  setTimeout(() => document.getElementById('pf-pos')?.focus(), 50);
+}
+
+function deleteActiveEmployee() {
+  if (_activeEmpIdx === null) return;
+  const name = _employees[_activeEmpIdx]?.name || 'diesen Mitarbeiter';
+  if (!confirm(`„${name}" wirklich löschen?`)) return;
+  _employees.splice(_activeEmpIdx, 1);
+  _activeEmpIdx = _employees.length > 0 ? Math.min(_activeEmpIdx, _employees.length-1) : null;
+  renderTeamList();
+  if (_activeEmpIdx !== null) showProfileCard(_employees[_activeEmpIdx]);
+  else showProfileCard(null);
   updateEmptyState();
 }
 
-// ── Drag & Drop Reihenfolge ───────────────────────────────────────────────────
-let _dragSrc = null;
+// ── Drag & Drop in der Team-Liste ─────────────────────────────────────────────
 
-function initDragRow(row) {
-  row.addEventListener('dragstart', e => {
-    _dragSrc = row;
-    row.classList.add('dragging');
-    e.dataTransfer.effectAllowed = 'move';
-  });
-  row.addEventListener('dragend', () => {
-    row.classList.remove('dragging');
-    document.querySelectorAll('.employee-row').forEach(r => r.classList.remove('drag-over'));
-    saveData();
-  });
-  row.addEventListener('dragover', e => {
-    e.preventDefault();
-    if (row === _dragSrc) return;
-    e.dataTransfer.dropEffect = 'move';
-    document.querySelectorAll('.employee-row').forEach(r => r.classList.remove('drag-over'));
-    row.classList.add('drag-over');
-  });
-  row.addEventListener('dragleave', () => row.classList.remove('drag-over'));
-  row.addEventListener('drop', e => {
-    e.preventDefault();
-    if (!_dragSrc || _dragSrc === row) return;
-    row.classList.remove('drag-over');
-    const list = document.getElementById('employeeList');
-    const rows = [...list.querySelectorAll('.employee-row')];
-    const srcIdx = rows.indexOf(_dragSrc);
-    const tgtIdx = rows.indexOf(row);
-    if (srcIdx < tgtIdx) list.insertBefore(_dragSrc, row.nextSibling);
-    else list.insertBefore(_dragSrc, row);
-  });
-  // Handle: nur vom Handle aus draggable starten
-  const handle = row.querySelector('.drag-handle');
-  if (handle) {
-    handle.addEventListener('mousedown', () => row.draggable = true);
-    // draggable bleibt true – nur visuell via handle
-  }
+function refreshDots() { /* nicht mehr benötigt */ }
+
+function updateEmptyState() {
+  const countEl = document.getElementById('empCount');
+  if (countEl) countEl.textContent = _employees.length;
 }
 
-function refreshDots() { /* Avatare entfernt */ }
-
 function getEmployees() {
-  return Array.from(document.querySelectorAll('.employee-row')).map(r => ({
-    name:      r.querySelector('.emp-name')?.value || '',
-    position:  r.querySelector('.emp-pos')?.value  || '',
-    hours:     r.querySelector('.emp-hours')?.value || '38',
-    note:      r.querySelector('.emp-note')?.value || '',
-    shiftPref: r.querySelector('.emp-shiftpref')?.value || 'flexibel',
-    lastSat:   r.querySelector('.emp-lastsat')?.value || '',
-    carryover: parseFloat(r.querySelector('.emp-carryover')?.value) || 0,
-  })).filter(e => e.name.trim() !== '');
+  // Liest direkt aus dem Store – KEIN syncActiveEmployee (würde Rekursion auslösen)
+  return _employees.filter(e => (e.name||'').trim() !== '').map(e => ({
+    name:      e.name,
+    position:  e.position  || 'Apotheker/in',
+    hours:     e.hours     || 38,
+    note:      (e.note||'') + (e.quals?.length ? ' [Qualifikationen: '+e.quals.join(', ')+']' : ''),
+    shiftPref: MIGRATE_PREF(e.shiftPref),
+    lastSat:   e.lastSat   || '',
+    carryover: parseFloat(e.carryover) || 0,
+    quals:     e.quals     || [],
+  }));
 }
 
 // ── Übertrag-Warnung ─────────────────────────────────────────────────────────
@@ -2051,10 +2498,9 @@ function checkCarryoverWarnings() {
 // ── Speichern ────────────────────────────────────────────────────────────────
 function saveData() {
   try {
+    syncActiveEmployee();
     localStorage.setItem('aposhift_emp', JSON.stringify(getEmployees()));
-    // Profil-Felder ebenfalls persistieren
     saveProfile();
-    // planWeek separat (ist kein Profil-Feld)
     localStorage.setItem('aposhift_planweek', document.getElementById('planWeek')?.value || '');
     checkCarryoverWarnings();
     showSaveBanner();
@@ -2064,12 +2510,24 @@ function saveData() {
 function loadData() {
   try {
     const emps = JSON.parse(localStorage.getItem('aposhift_emp') || 'null');
-    if (emps && emps.length) emps.forEach(e => addEmployee(e));
-    else defaultEmployees.forEach(e => addEmployee(e));
-    // Profil laden (aposhift_profile hat Vorrang, Fallback: alter aposhift_apo Key)
+    const src = (emps && emps.length) ? emps : defaultEmployees;
+    _employees = src.map(e => ({
+      name:      e.name      || '',
+      position:  e.position  || 'Apotheker/in',
+      hours:     e.hours     || 38,
+      note:      e.note      || '',
+      shiftPref: MIGRATE_PREF(e.shiftPref),
+      lastSat:   e.lastSat   || '',
+      carryover: parseFloat(e.carryover) || 0,
+      quals:     e.quals     || [],
+    }));
+    _activeEmpIdx = _employees.length > 0 ? 0 : null;
+    renderTeamList();
+    if (_activeEmpIdx !== null) showProfileCard(_employees[_activeEmpIdx]);
+
+    // Profil laden
     const profileLoaded = localStorage.getItem(PROFILE_KEY);
     if (!profileLoaded) {
-      // Migration: alter aposhift_apo Key
       const apo = JSON.parse(localStorage.getItem('aposhift_apo') || 'null');
       if (apo) {
         renderStaffingGrid(apo.staffing || null);
@@ -2078,27 +2536,27 @@ function loadData() {
           const el = document.getElementById(id);
           if (el && apo[k]) el.value = apo[k];
         });
-        saveProfile(); // ins neue Format migrieren
-      } else {
-        renderStaffingGrid(null);
-      }
-    } else {
-      renderStaffingGrid(null);
-      loadProfile();
-    }
-    // planWeek
+        saveProfile();
+      } else { renderStaffingGrid(null); }
+    } else { renderStaffingGrid(null); loadProfile(); }
+
     const pw = localStorage.getItem('aposhift_planweek');
     if (pw) { const el = document.getElementById('planWeek'); if (el) el.value = pw; }
   } catch(e) {
-    defaultEmployees.forEach(e => addEmployee(e));
+    _employees = defaultEmployees.map(e => ({...e, quals:[]}));
+    _activeEmpIdx = 0;
+    renderTeamList();
+    showProfileCard(_employees[0]);
     renderStaffingGrid(null);
   }
 }
 
 function undoSave() {
   try { localStorage.removeItem('aposhift_emp'); localStorage.removeItem('aposhift_apo'); } catch(e) {}
-  document.getElementById('employeeList').innerHTML = '';
-  defaultEmployees.forEach(e => addEmployee(e));
+  _employees = defaultEmployees.map(e => ({...e, quals:[]}));
+  _activeEmpIdx = 0;
+  renderTeamList();
+  showProfileCard(_employees[0]);
   hideSaveBanner();
 }
 
@@ -2109,9 +2567,7 @@ function showSaveBanner() {
 }
 function hideSaveBanner() { document.getElementById('saveBanner')?.classList.remove('show'); }
 
-document.getElementById('employeeList').addEventListener('input', () => {
-  clearTimeout(window._sd); window._sd = setTimeout(saveData, 1200);
-});
+// Auto-save bei Profil-Änderungen
 ['apoName','openWeek','openSat','shiftModel','bundesland','planWeek'].forEach(id => {
   document.getElementById(id)?.addEventListener('change', () => {
     clearTimeout(window._sd); window._sd = setTimeout(saveData, 800);
@@ -2237,7 +2693,7 @@ function renderFeiertageChips() {
   const hidden = document.getElementById('feiertage');
   if (!chips) return;
   if (activeFeiertage.length === 0) {
-    chips.innerHTML = '<span style="font-size:.78rem;color:var(--ink-soft)">Kein Feiertag ✓</span>';
+    chips.innerHTML = '<span style="font-size:.78rem;color:var(--ink-soft)">Kein Feiertag <svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
     if (hidden) hidden.value = 'keine';
     return;
   }
@@ -2315,13 +2771,14 @@ function planNextWeek() {
       let actual = 0;
       DAYS.forEach(d => actual += calcShiftHours((plan[d]||{})[emp.name]||'Frei', parseFloat(emp.hours)||0));
       const diff = parseFloat((actual - (parseFloat(emp.hours)||0)).toFixed(1));
-      const row = Array.from(document.querySelectorAll('.employee-row'))
-        .find(r => r.querySelector('.emp-name')?.value === emp.name);
-      if (row) {
-        const inp = row.querySelector('.emp-carryover');
-        if (inp) inp.value = diff;
-      }
+      const storeEmp = _employees.find(e => e.name === emp.name);
+      if (storeEmp) storeEmp.carryover = diff;
     });
+    if (_activeEmpIdx !== null) {
+      const ae = _employees[_activeEmpIdx];
+      const el = document.getElementById('pf-carryover');
+      if (el && ae) el.value = ae.carryover || 0;
+    }
   }
   navigatePage('mitarbeiter');
 }
@@ -2349,24 +2806,9 @@ function stepWeek(dir) {
 
 // ── Leerer Zustand Mitarbeiterliste ──────────────────────────────────────────
 function updateEmptyState() {
-  const list = document.getElementById('employeeList');
-  const existing = document.getElementById('empEmptyState');
-  const hasRows = list?.querySelectorAll('.employee-row').length > 0;
-  if (hasRows) {
-    if (existing) existing.remove();
-  } else {
-    if (existing) return;
-    const el = document.createElement('div');
-    el.id = 'empEmptyState';
-    el.innerHTML = `
-      <div style="text-align:center;padding:32px 20px;border:2px dashed var(--border);border-radius:14px;margin:8px 0;cursor:pointer" onclick="addEmployee()">
-        <div style="font-size:2rem;margin-bottom:8px">👤</div>
-        <div style="font-weight:700;font-size:.95rem;color:var(--ink);margin-bottom:4px">Noch keine Mitarbeiter</div>
-        <div style="font-size:.82rem;color:var(--ink-soft);margin-bottom:14px">Klicke hier oder auf „+ Mitarbeiter hinzufügen" um zu starten</div>
-        <span style="background:var(--accent-grad);color:white;padding:8px 20px;border-radius:9px;font-size:.84rem;font-weight:700">+ Ersten Mitarbeiter hinzufügen</span>
-      </div>`;
-    list?.appendChild(el);
-  }
+  // Im neuen System handled renderTeamList() den Empty State direkt
+  const countEl = document.getElementById('empCount');
+  if (countEl) countEl.textContent = _employees.length;
 }
 
 // ── Apotheken-Profil ─────────────────────────────────────────────────────────
@@ -2791,7 +3233,7 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
       const el = document.getElementById('ls'+i);
       if (el) { el.classList.remove('active'); el.classList.add('done'); }
       const ic = document.getElementById('ls'+i+'-icon');
-      if (ic) ic.innerHTML = '✓';
+      if (ic) ic.innerHTML = '<svg width="13" height="13" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     }
     // Aktuellen als active
     const cur = document.getElementById('ls'+n);
@@ -3154,7 +3596,7 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
       }
     });
 
-    setStep(1, `✓ ${Object.values(absences).flatMap(a => Object.keys(a)).length} Abwesenheiten, ${notdienstTage.length} Notdienst(e) gesetzt`);
+    setStep(1, `<svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> ${Object.values(absences).flatMap(a => Object.keys(a)).length} Abwesenheiten, ${notdienstTage.length} Notdienst(e) gesetzt`);
 
     // ════════════════════════════════════════════════════════════════════════
     // SCHRITT 2 – Deterministisch: Basisplan berechnen
@@ -3513,7 +3955,7 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
       return sc < fc ? s.spaet : s.frueh;
     }
 
-    setStep(2, `✓ Basisplan erstellt – alle Constraints gesetzt`); await yield_();
+    setStep(2, `<svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Basisplan erstellt – alle Constraints gesetzt`); await yield_();
 
     // ════════════════════════════════════════════════════════════════════════
     // SCHRITT 3 – Deterministisch: Stunden ausbalancieren
@@ -3655,7 +4097,7 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
       }
     }
 
-    setStep(3, `✓ Stunden balanciert`); await yield_();
+    setStep(3, `<svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Stunden balanciert`); await yield_();
 
     // ════════════════════════════════════════════════════════════════════════
     // SCHRITT 4 – KI optimiert nur Präferenzen (1 Call, kein Constraint-Risiko)
@@ -3818,7 +4260,7 @@ WICHTIG: Wenn keine Verbesserung möglich → {"changes":[],"summary":"Plan bere
       document.getElementById('ls'+i)?.classList.remove('active');
       document.getElementById('ls'+i)?.classList.add('done');
       const ic = document.getElementById('ls'+i+'-icon');
-      if (ic) ic.innerHTML = '✓';
+      if (ic) ic.innerHTML = '<svg width="13" height="13" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     }
 
     renderResult(finalResult, employees, apoNameVal, planWeekVal);
@@ -3827,14 +4269,18 @@ WICHTIG: Wenn keine Verbesserung möglich → {"changes":[],"summary":"Plan bere
     const satDate = weekDates[DAYS.indexOf('Sa')];
     if (satDate) {
       const satISO = toLocalISO(satDate);
-      document.querySelectorAll('.employee-row').forEach(row => {
-        const name = row.querySelector('.emp-name')?.value || '';
-        const satShift = (finalPlan['Sa']||{})[name] || 'Frei';
+      _employees.forEach(emp => {
+        const satShift = (finalPlan['Sa']||{})[emp.name] || 'Frei';
         if (satShift !== 'Frei' && !satShift.startsWith('Urlaub')) {
-          const inp = row.querySelector('.emp-lastsat');
-          if (inp) inp.value = satISO;
+          emp.lastSat = satISO;
         }
       });
+      // Profil-Card aktualisieren falls aktiver MA betroffen
+      if (_activeEmpIdx !== null) {
+        const ae = _employees[_activeEmpIdx];
+        const el = document.getElementById('pf-lastsat');
+        if (el && ae) el.value = ae.lastSat || '';
+      }
     }
   } catch(err) {
     showError('Fehler: ' + err.message);
@@ -4022,13 +4468,13 @@ function renderResult(result, employees, apoName, planWeek) {
   const satOk = satWorkers >= satMin;
 
   const chips = [];
-  if (noHoursViol) chips.push({icon:'✓', text:'Stunden im Rahmen',   color:'#059669', bg:'#ecfdf5', border:'#bbf7d0'});
+  if (noHoursViol) chips.push({icon:'<svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>', text:'Stunden im Rahmen',   color:'#059669', bg:'#ecfdf5', border:'#bbf7d0'});
   else             chips.push({icon:'⚠', text:'Stunden-Überschreitung', color:'#dc2626', bg:'#fef2f2', border:'#fecaca'});
-  if (noUnderstaff) chips.push({icon:'✓', text:'Besetzung gesichert', color:'#059669', bg:'#ecfdf5', border:'#bbf7d0'});
+  if (noUnderstaff) chips.push({icon:'<svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>', text:'Besetzung gesichert', color:'#059669', bg:'#ecfdf5', border:'#bbf7d0'});
   else              chips.push({icon:'⚠', text:`${understaffedDays.join(', ')} unterbesetzt`, color:'#d97706', bg:'#fffbeb', border:'#fde68a'});
-  if (noApoViol) chips.push({icon:'✓', text:'Apotheker abgedeckt',   color:'#059669', bg:'#ecfdf5', border:'#bbf7d0'});
+  if (noApoViol) chips.push({icon:'<svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>', text:'Apotheker abgedeckt',   color:'#059669', bg:'#ecfdf5', border:'#bbf7d0'});
   else           chips.push({icon:'🚨', text:`Apotheker-Lücke (${apoViolations.length} Tag${apoViolations.length>1?'e':''})`, color:'#dc2626', bg:'#fef2f2', border:'#fecaca'});
-  if (satOk) chips.push({icon:'📅', text:`Sa: ${satWorkers} Mitarbeiter`, color:'#2563eb', bg:'#eff6ff', border:'#bfdbfe'});
+  if (satOk) chips.push({icon:'<svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>', text:`Sa: ${satWorkers} Mitarbeiter`, color:'#2563eb', bg:'#eff6ff', border:'#bfdbfe'});
   else       chips.push({icon:'⚠', text:`Sa: ${satWorkers}/${satMin} Mitarbeiter`, color:'#d97706', bg:'#fffbeb', border:'#fde68a'});
 
   const chipsHtml = chips.map(c =>
@@ -4050,7 +4496,7 @@ function renderResult(result, employees, apoName, planWeek) {
       banner.innerHTML =
         '<div style="background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border:1.5px solid #86efac;border-radius:14px;padding:16px 22px">' +
           '<div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">' +
-            '<div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#059669,#10b981);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">✓</div>' +
+            '<div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#059669,#10b981);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
             '<div>' +
               '<div style="font-family:var(--serif);font-weight:800;font-size:1rem;color:#065f46;letter-spacing:-0.01em">Plan erfolgreich erstellt</div>' +
               '<div style="font-size:.78rem;color:#047857;margin-top:1px">' + wishText + ' · 0 Konflikte · Alle Regeln eingehalten</div>' +
@@ -4098,7 +4544,7 @@ function renderResult(result, employees, apoName, planWeek) {
     const cls  = over?'col-over':under?'col-under':'col-ok';
     const fill = over?'#ef4444':under?'#f59e0b':'#22c55e';
     const pct  = effSoll>0 ? Math.min((total/effSoll)*100,100) : 0;
-    const diff = over?`+${(total-effSoll).toFixed(1)}h`:under?`-${(effSoll-total).toFixed(1)}h`:'✓ ok';
+    const diff = over?`+${(total-effSoll).toFixed(1)}h`:under?`-${(effSoll-total).toFixed(1)}h`:'<svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle;margin-right:2px"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>ok';
 
     const prefLabel = emp.shiftPref === 'immer_frueh' ? '🟡 Immer Früh' : emp.shiftPref === 'immer_spaet' ? '🔵 Immer Spät' : emp.shiftPref === 'immer_voll' ? '🟢 Immer Voll' : emp.shiftPref === 'rotation' ? '🔄 Wochenrotation' : '↕ Flexibel';
     const lastSatLabel = emp.lastSat ? new Date(emp.lastSat).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'}) : '–';
@@ -4179,12 +4625,12 @@ function renderResult(result, employees, apoName, planWeek) {
         <div style="display:flex;justify-content:center;gap:4px;margin-bottom:4px;flex-wrap:wrap">
           <span style="font-size:.72rem;font-weight:800;color:#854d0e;background:#fef9c3;border:1px solid #fde68a;border-radius:4px;padding:1px 5px" title="Frühschicht">F ${frueh}</span>
           <span style="font-size:.72rem;font-weight:800;color:#1d4ed8;background:#eff6ff;border:1px solid #bfdbfe;border-radius:4px;padding:1px 5px" title="Spätschicht">S ${spaet}</span>
-          <span style="font-size:.72rem;font-weight:800;${apoPresent ? 'color:#166534;background:#f0fdf4;border:1px solid #bbf7d0' : 'color:#dc2626;background:#fef2f2;border:1px solid #fecaca'};border-radius:4px;padding:1px 5px" title="Apotheker/in: Früh- UND Spätblock abgedeckt (Notdienst zählt nicht)">A ${apoPresent ? '✓' : '⚠'}</span>
+          <span style="font-size:.72rem;font-weight:800;${apoPresent ? 'color:#166534;background:#f0fdf4;border:1px solid #bbf7d0' : 'color:#dc2626;background:#fef2f2;border:1px solid #fecaca'};border-radius:4px;padding:1px 5px" title="Apotheker/in: Früh- UND Spätblock abgedeckt (Notdienst zählt nicht)">A ${apoPresent ? '<svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>' : '⚠'}</span>
         </div>
         <div style="height:5px;border-radius:3px;background:#e2e8f0;overflow:hidden;margin:0 4px">
           <div style="height:100%;width:${barPct}%;background:${color};border-radius:3px;transition:width .3s"></div>
         </div>
-        <div style="font-size:.62rem;font-weight:700;color:${color};margin-top:3px">${working < min ? `${working}/${min} ⚠` : `${working} ✓`}</div>
+        <div style="font-size:.62rem;font-weight:700;color:${color};margin-top:3px">${working < min ? `${working}/${min} ⚠` : `${working} <svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`}</div>
       </td>`;
     }).join('');
 
@@ -4197,7 +4643,7 @@ function renderResult(result, employees, apoName, planWeek) {
   })();
 
   renderHoursSummary();
-  renderDayNotes(planWeek);
+
   renderPlanHistory();
   renderKwHeader(planWeek, employees, plan);
 
@@ -4226,7 +4672,7 @@ function renderResult(result, employees, apoName, planWeek) {
       const { effective: effSoll } = calcEffectiveSoll(emp, plan);
       const over = total > effSoll+2, under = total < effSoll-2;
       const hcls = over?'col-over':under?'col-under':'col-ok';
-      const diff = over?`+${(total-effSoll).toFixed(1)}h`:under?`-${(effSoll-total).toFixed(1)}h`:'✓';
+      const diff = over?`+${(total-effSoll).toFixed(1)}h`:under?`-${(effSoll-total).toFixed(1)}h`:'<svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
       return `<div class="shift-card">
         <div class="shift-card-header">
           <div>
@@ -4253,10 +4699,13 @@ function renderResult(result, employees, apoName, planWeek) {
     let actual = 0;
     DAYS.forEach(d => { actual += calcShiftHours((plan[d]||{})[emp.name]||'Frei', parseFloat(emp.hours)||0); });
     const diff = parseFloat((actual-(parseFloat(emp.hours)||0)).toFixed(1));
-    const row = Array.from(document.querySelectorAll('.employee-row')).find(r => r.querySelector('.emp-name')?.value === emp.name);
-    if (row) {
-      const inp = row.querySelector('.emp-carryover');
-      if (inp) { inp.value = diff; inp.style.background = diff>0?'#fef9c3':diff<0?'#fee2e2':'#f0fdf4'; setTimeout(()=>{inp.style.background='';},2500); }
+    // In _employees Store schreiben
+    const storeEmp = _employees.find(e => e.name === emp.name);
+    if (storeEmp) storeEmp.carryover = diff;
+    // Profil-Card aktualisieren falls aktiver MA betroffen
+    if (_activeEmpIdx !== null && _employees[_activeEmpIdx]?.name === emp.name) {
+      const el = document.getElementById('pf-carryover');
+      if (el) { el.value = diff; el.style.background = diff>0?'#fef9c3':diff<0?'#fee2e2':'#f0fdf4'; setTimeout(()=>{el.style.background='';},2500); }
     }
   });
 }
@@ -4403,7 +4852,7 @@ function renderHoursSummary(changedEmp = null) {
         </div>
         <div style="background:${ok?'#f0fdf4':over?'#fef2f2':'#fffbeb'};border-radius:7px;padding:5px 4px">
           <div style="font-size:.62rem;color:var(--ink-soft);margin-bottom:1px;font-family:var(--mono);letter-spacing:.06em">DIFF</div>
-          <div style="font-family:var(--serif);font-weight:800;font-size:.9rem;letter-spacing:-0.02em;color:${diffColor}">${ok?'✓':diffStr}</div>
+          <div style="font-family:var(--serif);font-weight:800;font-size:.9rem;letter-spacing:-0.02em;color:${diffColor}">${ok?'<svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>':diffStr}</div>
         </div>
       </div>
       <!-- Fortschrittsbalken -->
@@ -4481,7 +4930,7 @@ function renderHoursSummary(changedEmp = null) {
 
   container.innerHTML = '<div style="margin-top:20px">' +
     '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">' +
-      '<div style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);font-family:var(--mono)">📊 Stundenauswertung</div>' +
+      '<div class="section-label" style="margin-bottom:14px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg> Stundenauswertung</div>' +
       '<div style="display:flex;align-items:center;gap:12px">' +
         '<div style="font-size:.75rem;color:var(--ink-soft);font-family:var(--mono)">' +
           'IST <strong>' + totalAll.toFixed(1) + 'h</strong> / SOLL <strong>' + totalSoll.toFixed(1) + 'h</strong>' +
@@ -4683,14 +5132,212 @@ function openShiftPicker(tag) {
     o.style.background = isActive ? '' : '';
   });
   const rect = tag.getBoundingClientRect();
-  let left = rect.left, top = rect.bottom + 6;
-  if (left + 280 > window.innerWidth - 12) left = window.innerWidth - 292;
-  if (top  + 160 > window.innerHeight)     top  = rect.top - 160;
+  const PW = 376; // picker width + margin
+  const PH = 340; // approx picker height
+  let left = rect.left, top = rect.bottom + 8;
+  if (left + PW > window.innerWidth - 12) left = window.innerWidth - PW - 12;
+  if (left < 8) left = 8;
+  if (top + PH > window.innerHeight - 12) top = rect.top - PH - 4;
+  if (top < 8) top = 8;
   picker.style.left = left + 'px';
   picker.style.top  = top  + 'px';
   picker.classList.add('open');
 }
 function closeShiftPicker() { document.getElementById('shiftPicker')?.classList.remove('open'); activeTag = null; }
+
+// ── Ausfall-Management ────────────────────────────────────────────────────────
+let _ausfallTag = null;
+let _ausfallGrund = 'Krank';
+
+function openAusfallModal(tag) {
+  if (!tag) return;
+  _ausfallTag = tag;
+  _ausfallGrund = 'Krank';
+
+  const empName  = tag.dataset.emp  || '?';
+  const day      = tag.dataset.day  || '?';
+  const shift    = tag.getAttribute('title') || tag.textContent.trim();
+
+  document.getElementById('ausfallName').textContent      = `${empName} · ${day}`;
+  document.getElementById('ausfallShiftInfo').textContent = `Schicht: ${shift}`;
+  document.getElementById('ausfallSubtitle').textContent  = `${day} – ${shift}`;
+
+  // Grund-Buttons zurücksetzen
+  document.querySelectorAll('.ausfall-grund-btn').forEach(b => {
+    b.style.boxShadow = b.dataset.grund === 'Krank' ? '0 0 0 2px #f87171' : 'none';
+  });
+
+  // Steps zurücksetzen
+  document.getElementById('ausfallStep1').style.display = 'block';
+  document.getElementById('ausfallStep2').style.display = 'none';
+  document.getElementById('ausfallLoading').style.display = 'block';
+  document.getElementById('ausfallResult').style.display  = 'none';
+
+  document.getElementById('ausfallOverlay').style.display = 'block';
+  document.getElementById('ausfallModal').style.display   = 'block';
+}
+
+function closeAusfallModal() {
+  document.getElementById('ausfallOverlay').style.display = 'none';
+  document.getElementById('ausfallModal').style.display   = 'none';
+  _ausfallTag = null;
+}
+
+function selectGrund(btn) {
+  _ausfallGrund = btn.dataset.grund;
+  document.querySelectorAll('.ausfall-grund-btn').forEach(b => b.style.boxShadow = 'none');
+  btn.style.boxShadow = '0 0 0 2px #f87171';
+}
+
+async function startAusfallAnalyse() {
+  if (!_ausfallTag) return;
+  if (!currentResult) {
+    document.getElementById('ausfallStep1').style.display = 'none';
+    document.getElementById('ausfallStep2').style.display = 'block';
+    document.getElementById('ausfallLoading').style.display = 'none';
+    document.getElementById('ausfallResult').style.display  = 'block';
+    document.getElementById('ausfallResult').innerHTML = `<div style="color:#92400e;font-size:.82rem;padding:12px;background:#fffbeb;border-radius:8px;line-height:1.5">
+      ⚠ Kein aktiver Dienstplan geladen.<br>
+      <span style="color:#78350f">Bitte zuerst einen Plan generieren oder aus der History laden.</span>
+    </div>`;
+    return;
+  }
+
+  document.getElementById('ausfallStep1').style.display = 'none';
+  document.getElementById('ausfallStep2').style.display = 'block';
+  document.getElementById('ausfallLoading').style.display = 'block';
+  document.getElementById('ausfallResult').style.display  = 'none';
+
+  const ausfallName  = _ausfallTag.dataset.emp;
+  const ausfallDay   = _ausfallTag.dataset.day;
+  const ausfallShift = _ausfallTag.getAttribute('title') || _ausfallTag.textContent.trim();
+  const plan         = currentResult.plan || {};
+  const employees    = currentEmployees || [];
+
+  // Kontext für KI aufbereiten
+  const empContext = employees.map(e => {
+    const schichtAmTag = (plan[ausfallDay]||{})[e.name] || 'Frei';
+    const wochenstunden = DAYS.reduce((s,d) => s + calcShiftHours((plan[d]||{})[e.name]||'Frei', parseFloat(e.hours)||0), 0);
+    const soll = calcEffectiveSoll(e, plan).effective;
+    return `- ${e.name} (${e.position||'?'}): Am ${ausfallDay} → "${schichtAmTag}" | Woche: ${wochenstunden.toFixed(1)}h / Soll ${soll.toFixed(1)}h | Präferenz: ${e.shiftPref||'flexibel'}${e.note ? ' | Wunsch: '+e.note : ''}`;
+  }).join('\n');
+
+  const apoName = document.getElementById('apoName')?.value || 'Apotheke';
+  const prompt = `Du bist Planungsassistent für die ${apoName}.
+
+AUSFALL: ${ausfallName} fällt am ${ausfallDay} aus (${_ausfallGrund}).
+Ausgefallene Schicht: ${ausfallShift}
+
+AKTUELLER PLAN – alle Mitarbeiter am ${ausfallDay}:
+${empContext}
+
+AUFGABE: Analysiere wer als Einspringer geeignet ist. Berücksichtige:
+1. Hat die Person am ${ausfallDay} "Frei" oder wenige Stunden?
+2. Passt die Qualifikation (Apotheker/PTA/PKA)?
+3. Hat die Person noch Stundenkapazität (Ist < Soll)?
+4. Passt die Schichtpräferenz?
+
+Antworte NUR als JSON, kein Text drumherum:
+{
+  "vorschlaege": [
+    {
+      "name": "...",
+      "position": "...",
+      "bewertung": "gut|ok|möglich",
+      "grund": "Ein kurzer Satz warum geeignet",
+      "aktuell_am_tag": "was diese Person am ${ausfallDay} hat",
+      "stunden_diff": "z.B. +2,5h unter Soll"
+    }
+  ],
+  "hinweis": "Optionaler allgemeiner Hinweis falls Besetzung kritisch"
+}
+Maximal 4 Vorschläge, nach Eignung sortiert. Nur Personen außer ${ausfallName}.`;
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await resp.json();
+
+    // API-Fehler abfangen (z.B. 400, 529)
+    if (!resp.ok || data.error) {
+      throw new Error(data.error?.message || `HTTP ${resp.status}`);
+    }
+
+    const raw   = (data.content||[]).map(b => b.text||'').join('').trim();
+    // JSON extrahieren – auch wenn Markdown-Fences vorhanden
+    const jsonMatch = raw.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error('Kein JSON in Antwort: ' + raw.slice(0,120));
+    const parsed = JSON.parse(jsonMatch[0]);
+    renderAusfallResult(parsed, ausfallName, ausfallDay, ausfallShift);
+  } catch(err) {
+    document.getElementById('ausfallLoading').style.display = 'none';
+    document.getElementById('ausfallResult').style.display  = 'block';
+    document.getElementById('ausfallResult').innerHTML = `<div style="color:#dc2626;font-size:.82rem;padding:12px;background:#fef2f2;border-radius:8px;line-height:1.5">
+      ⚠ <strong>Analyse fehlgeschlagen</strong><br>
+      <span style="color:#7f1d1d">${err.message}</span><br>
+      <button onclick="document.getElementById('ausfallStep1').style.display='block';document.getElementById('ausfallStep2').style.display='none'" style="margin-top:8px;background:none;border:1.5px solid #fecaca;border-radius:7px;padding:5px 12px;cursor:pointer;font-size:.75rem;color:#dc2626">← Erneut versuchen</button>
+    </div>`;
+  }
+}
+
+function renderAusfallResult(data, ausfallName, day, shift) {
+  document.getElementById('ausfallLoading').style.display = 'none';
+  const el = document.getElementById('ausfallResult');
+  el.style.display = 'block';
+
+  const bewertungColor = { gut: '#16a34a', ok: '#d97706', möglich: '#94a3b8' };
+  const bewertungBg    = { gut: '#f0fdf4', ok: '#fffbeb', möglich: '#f8fafc' };
+  const bewertungBorder= { gut: '#bbf7d0', ok: '#fde68a', möglich: '#e2e8f0' };
+
+  const vorschlaege = (data.vorschlaege||[]).map((v,i) => {
+    const c = v.bewertung || 'möglich';
+    const msg = encodeURIComponent(`Hallo ${v.name}, kannst du am ${day} einspringen? ${ausfallName} ist ausgefallen.\nSchicht: ${shift}\nBitte kurz Bescheid geben. Danke! 🙏`);
+    return `<div style="background:${bewertungBg[c]||'#f8fafc'};border:1.5px solid ${bewertungBorder[c]||'#e2e8f0'};border-radius:10px;padding:12px 14px;margin-bottom:10px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:.88rem;font-weight:700;color:#0f1623">${i===0?'⭐ ':''}${v.name}</span>
+          <span style="font-size:.68rem;color:#94a3b8">${v.position||''}</span>
+          <span style="background:${bewertungColor[c]||'#94a3b8'};color:white;font-size:.6rem;font-weight:700;border-radius:8px;padding:1px 7px;text-transform:uppercase">${c}</span>
+        </div>
+        <button onclick="copyWhatsApp('${v.name}','${day}','${shift.replace(/'/g,"\\'")}','${ausfallName}')" style="background:#25d366;color:white;border:none;border-radius:7px;padding:4px 10px;cursor:pointer;font-size:.7rem;font-weight:700;display:flex;align-items:center;gap:4px" title="Anfrage kopieren">
+          📋 Kopieren
+        </button>
+      </div>
+      <div style="font-size:.78rem;color:#374151;margin-bottom:3px">${v.grund||''}</div>
+      <div style="font-size:.7rem;color:#94a3b8">${v.aktuell_am_tag ? 'Aktuell: '+v.aktuell_am_tag : ''} ${v.stunden_diff ? '· '+v.stunden_diff : ''}</div>
+    </div>`;
+  }).join('');
+
+  const hinweis = data.hinweis
+    ? `<div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:10px 14px;font-size:.78rem;color:#92400e;margin-top:4px">⚠ ${data.hinweis}</div>`
+    : '';
+
+  el.innerHTML = `
+    <div style="font-size:.72rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Einspringer-Vorschläge</div>
+    ${vorschlaege || '<div style="font-size:.82rem;color:#94a3b8;padding:12px 0">Keine geeigneten Einspringer gefunden.</div>'}
+    ${hinweis}
+    <button onclick="document.getElementById(\'ausfallStep1\').style.display=\'block\';document.getElementById(\'ausfallStep2\').style.display=\'none\'" style="margin-top:12px;background:none;border:1.5px solid var(--border);border-radius:8px;padding:6px 14px;cursor:pointer;font-size:.78rem;color:#64748b;width:100%">← Zurück</button>
+  `;
+}
+
+function copyWhatsApp(name, day, shift, ausfallName) {
+  const text = `Hallo ${name},\n\n${ausfallName} ist heute (${day}) ausgefallen.\n\nKannst du kurzfristig einspringen?\nSchicht: ${shift}\n\nBitte kurz Bescheid geben – danke! 🙏`;
+  navigator.clipboard.writeText(text).then(() => {
+    // Kurzes visuelles Feedback
+    const btns = document.querySelectorAll('#ausfallResult button');
+    btns.forEach(b => { if (b.textContent.includes('Kopieren')) b.innerHTML = '<svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Kopiert!'; });
+    setTimeout(() => btns.forEach(b => { if (b.textContent.includes('Kopiert')) b.textContent = '📋 Kopieren'; }), 2000);
+  }).catch(() => {
+    prompt('Text kopieren:', text);
+  });
+}
 
 // Live-Update der Spaltenköpfe + Status-Chips nach manueller Planänderung
 function refreshDayHeaders() {
@@ -4769,13 +5416,13 @@ function refreshDayHeaders() {
     }).length;
     const satMin = (staffing['Sa']||{}).min || 1;
     const chips = [];
-    if (!hoursViol)              chips.push({icon:'✓',  text:'Stunden im Rahmen',   color:'#059669', bg:'#ecfdf5', border:'#bbf7d0'});
+    if (!hoursViol)              chips.push({icon:'<svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>', text:'Stunden im Rahmen',   color:'#059669', bg:'#ecfdf5', border:'#bbf7d0'});
     else                         chips.push({icon:'⚠',  text:'Stunden-Überschreitung', color:'#dc2626', bg:'#fef2f2', border:'#fecaca'});
-    if (understaffedDays.length===0) chips.push({icon:'✓', text:'Besetzung gesichert', color:'#059669', bg:'#ecfdf5', border:'#bbf7d0'});
+    if (understaffedDays.length===0) chips.push({icon:'<svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>', text:'Besetzung gesichert', color:'#059669', bg:'#ecfdf5', border:'#bbf7d0'});
     else                             chips.push({icon:'⚠', text:`${understaffedDays.join(', ')} unterbesetzt`, color:'#d97706', bg:'#fffbeb', border:'#fde68a'});
-    if (apoViolDays.length===0)  chips.push({icon:'✓',  text:'Apotheker abgedeckt', color:'#059669', bg:'#ecfdf5', border:'#bbf7d0'});
+    if (apoViolDays.length===0)  chips.push({icon:'<svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>', text:'Apotheker abgedeckt', color:'#059669', bg:'#ecfdf5', border:'#bbf7d0'});
     else                         chips.push({icon:'🚨', text:`Apotheker-Lücke (${apoViolDays.length} Tag${apoViolDays.length>1?'e':''})`, color:'#dc2626', bg:'#fef2f2', border:'#fecaca'});
-    if (satWorkers >= satMin)    chips.push({icon:'📅', text:`Sa: ${satWorkers} Mitarbeiter`, color:'#2563eb', bg:'#eff6ff', border:'#bfdbfe'});
+    if (satWorkers >= satMin)    chips.push({icon:'<svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>', text:`Sa: ${satWorkers} Mitarbeiter`, color:'#2563eb', bg:'#eff6ff', border:'#bfdbfe'});
     else                         chips.push({icon:'⚠', text:`Sa: ${satWorkers}/${satMin} Mitarbeiter`, color:'#d97706', bg:'#fffbeb', border:'#fde68a'});
     const chipsWrap = banner.querySelector('.chips-wrap');
     if (chipsWrap) chipsWrap.innerHTML = chips.map(c =>
@@ -4828,12 +5475,12 @@ function refreshDayHeaders() {
         <div style="display:flex;justify-content:center;gap:4px;margin-bottom:4px;flex-wrap:wrap">
           <span style="font-size:.72rem;font-weight:800;color:#854d0e;background:#fef9c3;border:1px solid #fde68a;border-radius:4px;padding:1px 5px" title="Frühschicht">F ${frueh}</span>
           <span style="font-size:.72rem;font-weight:800;color:#1d4ed8;background:#eff6ff;border:1px solid #bfdbfe;border-radius:4px;padding:1px 5px" title="Spätschicht">S ${spaet}</span>
-          <span style="font-size:.72rem;font-weight:800;${apoPresent ? 'color:#166534;background:#f0fdf4;border:1px solid #bbf7d0' : 'color:#dc2626;background:#fef2f2;border:1px solid #fecaca'};border-radius:4px;padding:1px 5px" title="Apotheker/in: Früh- UND Spätblock abgedeckt (Notdienst zählt nicht)">A ${apoPresent ? '✓' : '⚠'}</span>
+          <span style="font-size:.72rem;font-weight:800;${apoPresent ? 'color:#166534;background:#f0fdf4;border:1px solid #bbf7d0' : 'color:#dc2626;background:#fef2f2;border:1px solid #fecaca'};border-radius:4px;padding:1px 5px" title="Apotheker/in: Früh- UND Spätblock abgedeckt (Notdienst zählt nicht)">A ${apoPresent ? '<svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>' : '⚠'}</span>
         </div>
         <div style="height:5px;border-radius:3px;background:#e2e8f0;overflow:hidden;margin:0 4px">
           <div style="height:100%;width:${barPct}%;background:${color};border-radius:3px"></div>
         </div>
-        <div style="font-size:.62rem;font-weight:700;color:${color};margin-top:3px">${working < min ? `${working}/${min} ⚠` : `${working} ✓`}</div>
+        <div style="font-size:.62rem;font-weight:700;color:${color};margin-top:3px">${working < min ? `${working}/${min} ⚠` : `${working} <svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`}</div>
       </td>`;
     }).join('');
     summaryRow.innerHTML = `<td style="padding:8px 14px;border-top:2px solid var(--border);background:#f8fafc"><div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft)">Besetzung</div></td>${dayCells}<td style="background:#f8fafc;border-top:2px solid var(--border)"></td>`;
@@ -4902,14 +5549,14 @@ function refreshDayHeaders() {
     if (liveWarnings.length === 0) {
       successBanner.innerHTML =
         '<div style="display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border:1.5px solid #86efac;border-radius:14px;padding:16px 22px;width:100%;box-sizing:border-box">' +
-          '<div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#059669,#10b981);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0">✓</div>' +
+          '<div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#059669,#10b981);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
           '<div style="flex:1">' +
             '<div style="font-family:var(--serif);font-weight:800;font-size:1rem;color:#065f46;letter-spacing:-0.01em">Plan ohne Konflikte</div>' +
             '<div style="font-size:.8rem;color:#047857;margin-top:2px">Alle Regeln eingehalten · Besetzung gesichert</div>' +
           '</div>' +
           '<div style="display:flex;gap:8px;flex-wrap:wrap">' +
-            '<span style="background:#d1fae5;color:#065f46;border:1px solid #6ee7b7;border-radius:100px;padding:4px 12px;font-size:.75rem;font-weight:600">✓ Arbeitszeitgesetz</span>' +
-            '<span style="background:#d1fae5;color:#065f46;border:1px solid #6ee7b7;border-radius:100px;padding:4px 12px;font-size:.75rem;font-weight:600">✓ Besetzung gesichert</span>' +
+            '<span style="background:#d1fae5;color:#065f46;border:1px solid #6ee7b7;border-radius:100px;padding:4px 12px;font-size:.75rem;font-weight:600"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#065f46" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Arbeitszeitgesetz</span>' +
+            '<span style="background:#d1fae5;color:#065f46;border:1px solid #6ee7b7;border-radius:100px;padding:4px 12px;font-size:.75rem;font-weight:600"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#065f46" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Besetzung gesichert</span>' +
           '</div>' +
         '</div>';
       if (aiNotes) aiNotes.style.display = 'none';
@@ -4948,7 +5595,7 @@ function applyShift(btn) {
     const cls=over?'col-over':under?'col-under':'col-ok';
     const fill=over?'#ef4444':under?'#f59e0b':'#22c55e';
     const pct=contracted>0?Math.min((total/contracted)*100,100):0;
-    const diff=over?`+${(total-contracted).toFixed(1)}h`:under?`-${(contracted-total).toFixed(1)}h`:'✓';
+    const diff=over?`+${(total-contracted).toFixed(1)}h`:under?`-${(contracted-total).toFixed(1)}h`:'<svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     // Stunden-Bar in der ersten Zelle (Namens-Zelle) aktualisieren
     const hoursWrap = row.querySelector('td:first-child .hours-inline');
     if (hoursWrap) {
@@ -5049,8 +5696,10 @@ function loadScenario(idx) {
     cb.checked = (sc.notdienst || []).includes(cb.value);
   });
   // Mitarbeiter
-  document.getElementById('employeeList').innerHTML = '';
-  sc.employees.forEach(e => addEmployee(e));
+  _employees = sc.employees.map(e => ({...e, quals: e.quals||[]}));
+  _activeEmpIdx = _employees.length > 0 ? 0 : null;
+  renderTeamList();
+  if (_activeEmpIdx !== null) showProfileCard(_employees[_activeEmpIdx]);
   // Beschreibung
   const desc = document.getElementById('scenarioDesc');
   if (desc) { desc.textContent = sc.desc; desc.style.display = 'block'; }
@@ -5058,31 +5707,7 @@ function loadScenario(idx) {
   navigatePage('mitarbeiter');
 }
 
-// ── Tagesnotizen ──────────────────────────────────────────────────────────────
-let dayNotes = {};
 
-function renderDayNotes(planWeek) {
-  const grid = document.getElementById('dayNotesGrid');
-  if (!grid) return;
-  // Lade gespeicherte Notizen für diese Woche
-  try { dayNotes = JSON.parse(localStorage.getItem('aposhift_notes_' + planWeek) || '{}'); } catch(e) { dayNotes = {}; }
-  const dates = getWeekDates(planWeek);
-  grid.innerHTML = DAYS.map((d, i) => {
-    const dt = dates[i];
-    const dateStr = dt ? `${dt.getDate().toString().padStart(2,'0')}.${(dt.getMonth()+1).toString().padStart(2,'0')}.` : '';
-    const isFt = activeFeiertage.some(f => dt && toLocalISO(dt) === f.date);
-    const ftName = isFt ? activeFeiertage.find(f => dt && toLocalISO(dt) === f.date)?.name : '';
-    return `<div>
-      <div class="day-note-label" style="${isFt?'color:#9a3412':''}">${d} <span style="font-weight:400">${dateStr}</span>${isFt?` 🎌`:''}${ftName?`<br><span style="font-size:.65rem">${ftName}</span>`:''}</div>
-      <textarea class="day-note-input" placeholder="Notiz…" oninput="saveDayNote('${d}', this.value, '${planWeek}')">${dayNotes[d]||''}</textarea>
-    </div>`;
-  }).join('');
-}
-
-function saveDayNote(day, value, planWeek) {
-  dayNotes[day] = value;
-  try { localStorage.setItem('aposhift_notes_' + planWeek, JSON.stringify(dayNotes)); } catch(e) {}
-}
 
 // ── KW-Header mit Tabs ────────────────────────────────────────────────────────
 function renderKwHeader(planWeek, employees, plan) {
@@ -5139,6 +5764,9 @@ function renderKwHeader(planWeek, employees, plan) {
   const legend = ''; // Legende entfernt (keine Dots mehr)
 
   el.style.display = 'block';
+  // Abstand zwischen Banner-Unterkante und Tabellen-Header
+  const tabContent = document.getElementById('kwTabContent');
+  if (tabContent) tabContent.style.paddingTop = '14px';
   el.innerHTML = `
     <div style="background:linear-gradient(135deg,#1e1b4b,#4338ca);border-radius:12px 12px 0 0;border:1.5px solid #4338ca;border-bottom:none;padding:16px 20px;color:white">
       <div style="font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.12em;opacity:.6;text-transform:uppercase">Schichtplan ${year}</div>
