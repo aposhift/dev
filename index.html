@@ -1192,7 +1192,12 @@
   .shift-tag.frueh { background: #fef9c3; color: #854d0e; border: 1px solid #fde68a; }
   .shift-tag.spaet { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
   .shift-tag.frei { background: #f8fafc; color: #94a3b8; border: 1px solid #e2e8f0; }
-  .shift-tag.urlaub { background: #fdf4ff; color: #7e22ce; border: 1px solid #e9d5ff; }
+  .shift-tag.urlaub { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+  .shift-tag.lang        { background:#fdf4ff; color:#7e22ce; border:1px solid #e9d5ff; }
+  .shift-tag.lang.active-shift { border-color: #a855f7 !important; }
+  .shift-option.lang     { background:#fdf4ff; color:#7e22ce; border-color:#e9d5ff; }
+  .shift-option.lang.active-shift { border-color: #a855f7 !important; }
+  .shift-tag.berufsschule { background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; }
   .shift-tag.feiertag { background: #fff7ed; color: #9a3412; border: 1px solid #fed7aa; }
   .shift-tag.notdienst { background: var(--accent-grad); color: white; font-weight: 600; border: none; }
   .shift-tag.krank { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; font-weight: 600; }
@@ -1365,12 +1370,21 @@
     letter-spacing: -.01em;
   }
   .shift-option:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.10); }
-  .shift-option.active-shift { outline: 2.5px solid var(--accent); outline-offset: 1px; font-weight: 800; }
+  .shift-option.active-shift                { font-weight: 800; }
+  .shift-option.frueh.active-shift           { border-color: #d97706 !important; }
+  .shift-option.spaet.active-shift           { border-color: #3b82f6 !important; }
+  .shift-option.voll.active-shift            { border-color: #16a34a !important; }
+  .shift-option.frei.active-shift            { border-color: #94a3b8 !important; }
+  .shift-option.urlaub.active-shift          { border-color: #ea580c !important; }
+  .shift-option.krank.active-shift           { border-color: #ef4444 !important; }
+  .shift-option.berufsschule.active-shift    { border-color: #38bdf8 !important; }
+  .shift-option.notdienst.active-shift       { box-shadow: inset 0 0 0 1.5px rgba(255,255,255,0.6); }
   .shift-option.frueh     { background: #fef9c3; color: #854d0e; border-color: #fde68a; }
   .shift-option.spaet     { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
   .shift-option.voll      { background: #f0fdf4; color: #166534; border-color: #bbf7d0; }
   .shift-option.frei      { background: #f8fafc; color: #94a3b8; border-color: #e2e8f0; }
-  .shift-option.urlaub    { background: #fdf4ff; color: #7e22ce; border-color: #e9d5ff; }
+  .shift-option.urlaub    { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
+  .shift-option.berufsschule { background: #e0f2fe; color: #0369a1; border-color: #7dd3fc; }
   .shift-option.krank     { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
   .shift-option.feiertag  { background: #fff7ed; color: #9a3412; border-color: #fed7aa; grid-column: 1/-1; }
   .shift-option.notdienst { background: linear-gradient(135deg,#2563eb,#7c3aed); color: white; border-color: transparent; grid-column: 1/-1; font-size: .85rem; padding: 13px; }
@@ -1421,8 +1435,7 @@
   .warning-banner { margin-top:12px; display:flex; flex-direction:column; gap:6px; }
   .warning-item { background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:8px 14px; font-size:0.82rem; color:#991b1b; font-weight:500; }
   .emp-carryover { text-align:center; }
-  .scenario-btn { font-family:var(--sans); font-size:0.82rem; font-weight:500; padding:7px 14px; border-radius:8px; cursor:pointer; border:1.5px solid var(--border); background:white; color:var(--ink); transition:all 0.15s; }
-  .scenario-btn:hover { background:var(--accent-light); border-color:var(--accent); color:var(--accent); }
+  
   .feiertag-chip { display:inline-flex; align-items:center; gap:5px; background:#eff6ff; border:1.5px solid #bfdbfe; border-radius:20px; padding:3px 10px 3px 8px; font-size:0.75rem; font-weight:500; color:#1e40af; cursor:pointer; transition:all 0.15s; }
   .feiertag-chip:hover { background:#fee2e2; border-color:#fca5a5; color:#991b1b; }
   .history-entry { padding:10px 14px; border:1.5px solid var(--border); border-radius:10px; cursor:pointer; transition:all .15s; margin-bottom:8px; }
@@ -1493,7 +1506,12 @@
     .shift-tag.voll      { background:#dcfce7 !important; color:#166534 !important; }
     .shift-tag.notdienst { background:#1e1b4b !important; color:white   !important; }
     .shift-tag.krank     { background:#fee2e2 !important; color:#dc2626 !important; }
-    .shift-tag.urlaub    { background:#fae8ff !important; color:#7e22ce !important; }
+    .shift-tag.urlaub    { background:#fff7ed !important; color:#c2410c !important; }
+    .shift-tag.lang        { background:#fdf4ff; color:#7e22ce; border:1px solid #e9d5ff; }
+  .shift-tag.lang.active-shift { border-color: #a855f7 !important; }
+  .shift-option.lang     { background:#fdf4ff; color:#7e22ce; border-color:#e9d5ff; }
+  .shift-option.lang.active-shift { border-color: #a855f7 !important; }
+  .shift-tag.berufsschule { background:#e0f2fe !important; color:#0369a1 !important; }
     .shift-tag.feiertag  { background:#fff7ed !important; color:#9a3412 !important; }
     .shift-tag.frei      { color:#94a3b8 !important; background:transparent !important; }
 
@@ -1662,7 +1680,7 @@
   <div id="planHistorySection" style="margin-top:12px;margin-bottom:28px;display:none">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
       <span class="section-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><rect x="3" y="4" width="18" height="18" rx="3"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Wochenpläne</span>
-      <button onclick="clearPlanHistory()" title="Alle Pläne löschen" style="font-size:.7rem;color:#cbd5e1;background:none;border:none;cursor:pointer;padding:2px 6px;border-radius:4px;transition:color .15s" onmouseover="this.style.color='#dc2626'" onmouseout="this.style.color='#cbd5e1'">Alle löschen</button>
+      <button onclick="clearPlanHistory()" title="Alle Pläne löschen" style="font-size:.72rem;color:#ef4444;background:#fef2f2;border:1px solid #fecaca;cursor:pointer;padding:3px 9px;border-radius:5px;transition:all .15s;font-weight:500" onmouseover="this.style.background='#fee2e2';this.style.borderColor='#f87171'" onmouseout="this.style.background='#fef2f2';this.style.borderColor='#fecaca'">Alle löschen</button>
     </div>
     <!-- Aktuelle KW: eigene Zeile -->
     <div id="planHistoryCurrent" style="margin-bottom:10px"></div>
@@ -1847,18 +1865,7 @@
         </div>
       </div>
 
-      <!-- Beispieldaten -->
-      <div id="testScenarioBlock" style="background:#f8fafc;border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;margin-top:12px">
-        <div style="font-size:.7rem;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Beispieldaten</div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px">
-          <button class="scenario-btn" onclick="loadScenario(0)">Kleinstapotheke</button>
-          <button class="scenario-btn" onclick="loadScenario(1)">Stadtapotheke</button>
-          <button class="scenario-btn" onclick="loadScenario(2)">Urlaubswoche</button>
-          <button class="scenario-btn" onclick="loadScenario(3)">Gemischtes Team</button>
-          <button class="scenario-btn" onclick="loadScenario(4)">Großapotheke</button>
-        </div>
-        <div id="scenarioDesc" style="font-size:.78rem;color:var(--ink-soft);margin-top:8px;display:none;padding:8px 10px;background:white;border:1px solid var(--border);border-radius:8px"></div>
-      </div>
+      
     </div>
 
     <!-- RECHTE SPALTE: Profil-Card + Hinweise -->
@@ -1935,9 +1942,22 @@
             <button class="pf-pref-btn" data-val="rotation"    onclick="setPref(this)">Wochenrotation</button>
             <button class="pf-pref-btn" data-val="immer_frueh" onclick="setPref(this)">Immer Früh</button>
             <button class="pf-pref-btn" data-val="immer_spaet" onclick="setPref(this)">Immer Spät</button>
-            <button class="pf-pref-btn" data-val="immer_voll"  onclick="setPref(this)">Immer Voll</button>
+            <button class="pf-pref-btn" data-val="immer_voll"  onclick="setPref(this)">Immer Tag</button>
           </div>
           <input type="hidden" id="pf-shiftpref" value="flexibel">
+        </div>
+
+        <!-- Langschicht möglich (nur sichtbar wenn Langschicht im Profil aktiv) -->
+        <div id="pf-lang-row" style="display:none;margin-bottom:12px">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;font-size:inherit;letter-spacing:normal;color:inherit">
+            <div style="position:relative;width:32px;height:18px;flex-shrink:0">
+              <input type="checkbox" id="pf-langmoeglich" onchange="syncActiveEmployee()" style="opacity:0;width:0;height:0;position:absolute">
+              <span id="pf-lang-track" style="position:absolute;inset:0;border-radius:9px;background:#e2e8f0;transition:background .2s"></span>
+              <span id="pf-lang-thumb" style="position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:white;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .2s"></span>
+            </div>
+            <span style="display:inline-block;background:#fdf4ff;color:#7e22ce;border-radius:4px;padding:2px 8px;font-size:.7rem;font-weight:600">L</span>
+            <span style="font-size:.78rem;color:var(--ink);font-weight:400">Langschicht möglich</span>
+          </label>
         </div>
 
         <!-- Qualifikations-Badges -->
@@ -2016,19 +2036,11 @@
         </label>
       </div>
 
-      <!-- Globale Hinweise -->
-      <div class="card" style="margin-top:16px" id="emp-hints-card">
-        <div class="card-title" style="margin-bottom:12px">
-          <div class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg></div> Allgemeine Hinweise für diese Woche
-        </div>
-        <div class="form-group">
-          <textarea id="notes" placeholder="z.B.&#10;– Samstag min. 2 PKA&#10;– Donnerstag Nachmittag ist Liefertag, mehr Personal einrechnen&#10;– Inventur Freitag, alle verfügbaren Kräfte benötigt" style="min-height:110px"></textarea>
-        </div>
-        <div style="margin-top:8px;padding:10px 14px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;font-size:.78rem;color:#0369a1;line-height:1.6">
-          <span style="display:inline-flex;align-items:center;gap:5px;vertical-align:middle"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="17" x2="12" y2="22"/><line x1="9" y1="22" x2="15" y2="22"/><path d="M12 2a7 7 0 0 1 5 11.93V17H7v-3.07A7 7 0 0 1 12 2z"/></svg></span> Die KI liest diese Hinweise direkt beim Planen – natürliche Sprache reicht.
+      <!-- Globale Hinweise (versteckt – Textarea bleibt im DOM für den Algorithmus, UI ist auf der Dienstplan-Seite) -->
+      <div style="display:none">
+          <textarea id="notes"></textarea>
         </div>
       </div>
-    </div>
   </div>
 
   <!-- Hidden employee data store (unsichtbare Zeilen für getEmployees-Kompatibilität) -->
@@ -2060,17 +2072,17 @@
       </div>
       <div class="form-row" style="margin-bottom:12px">
         <div class="form-group">
-          <label>Straße &amp; Hausnummer</label>
+          <label>Straße &amp; Hausnummer <span style="font-weight:400;font-size:.72rem;color:var(--ink-soft)">(optional)</span></label>
           <input type="text" id="apoStreet" oninput="markProfileDirty()" onchange="markProfileDirty()" placeholder="z.B. Hauptstraße 12">
         </div>
       </div>
       <div class="form-row" style="margin-bottom:16px">
         <div class="form-group" style="flex:0 0 120px">
-          <label>PLZ</label>
+          <label>PLZ <span style="font-weight:400;font-size:.72rem;color:var(--ink-soft)">(optional)</span></label>
           <input type="text" id="apoZip" oninput="markProfileDirty()" onchange="markProfileDirty()" placeholder="z.B. 49716" maxlength="5">
         </div>
         <div class="form-group">
-          <label>Ort</label>
+          <label>Ort <span style="font-weight:400;font-size:.72rem;color:var(--ink-soft)">(optional)</span></label>
           <input type="text" id="apoCity" oninput="markProfileDirty()" onchange="markProfileDirty()" placeholder="z.B. Meppen">
         </div>
       </div>
@@ -2104,12 +2116,110 @@
       <div class="form-row" style="margin-bottom:0">
         <div class="form-group">
           <label>Mo–Fr</label>
-          <input type="text" id="openWeek" oninput="markProfileDirty()" onchange="markProfileDirty()" placeholder="08:00 – 19:00" value="08:00 – 19:00">
+          <input type="text" id="openWeek" oninput="markProfileDirty()" onchange="markProfileDirty(); showDeriveShiftHint()" placeholder="08:00 – 19:00" value="08:00 – 19:00">
         </div>
         <div class="form-group">
           <label>Samstag</label>
-          <input type="text" id="openSat" oninput="markProfileDirty()" onchange="markProfileDirty()" placeholder="08:30 – 14:00" value="08:30 – 14:00">
+          <input type="text" id="openSat" oninput="markProfileDirty()" onchange="markProfileDirty(); showDeriveShiftHint()" placeholder="08:30 – 14:00" value="08:30 – 14:00">
         </div>
+      </div>
+
+      <!-- Tagesausnahmen -->
+      <div id="openExceptions" style="margin-top:10px"></div>
+      <button onclick="addOpenException()" style="margin-top:8px;font-size:.72rem;padding:5px 10px;border-radius:6px;border:1px dashed var(--border);background:transparent;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;gap:5px">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Tagesausnahme hinzufügen
+      </button>
+    </div>
+
+        <!-- Schichtzeiten & Pausen Card -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title" style="margin-bottom:14px">
+        <div class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        Schichtzeiten
+      </div>
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px">
+        <div style="font-size:.75rem;color:var(--ink-soft)">Zeiten inkl. Pause (Brutto) – max. 10h/Tag (ArbZG §3). Badges im Schichtplan passen sich automatisch an.</div>
+        <button onclick="deriveShiftTimes()" id="deriveShiftBtn" style="flex-shrink:0;font-size:.72rem;padding:5px 10px;border-radius:6px;border:1px solid var(--border);background:#f8fafc;color:var(--ink-soft);cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:5px">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>
+          Aus Öffnungszeiten ableiten
+        </button>
+      </div>
+      <div id="deriveShiftHint" style="display:none;margin-bottom:12px;padding:8px 12px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;font-size:.73rem;color:#92400e;align-items:center;justify-content:space-between;gap:8px">
+        <span>⚡ Öffnungszeiten haben sich geändert – Schichtzeiten neu ableiten?</span>
+        <div style="display:flex;gap:6px;flex-shrink:0">
+          <button onclick="deriveShiftTimes(); document.getElementById('deriveShiftHint').style.display='none'" style="font-size:.72rem;padding:3px 9px;border-radius:5px;border:none;background:#f59e0b;color:#fff;cursor:pointer;font-weight:600">Ableiten</button>
+          <button onclick="document.getElementById('deriveShiftHint').style.display='none'" style="font-size:.72rem;padding:3px 9px;border-radius:5px;border:1px solid #fde68a;background:transparent;color:#92400e;cursor:pointer">Ignorieren</button>
+        </div>
+      </div>
+
+      <!-- Tabellen-Header -->
+      <div style="display:grid;grid-template-columns:auto 1fr 1fr 1fr 72px;gap:10px 16px;align-items:center">
+        <div></div>
+        <div style="font-size:.68rem;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em">Von</div>
+        <div style="font-size:.68rem;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em">Bis</div>
+        <div style="font-size:.68rem;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em">Pause</div>
+        <div style="font-size:.68rem;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em">Netto</div>
+
+        <!-- Frühschicht -->
+        <div style="display:flex;align-items:center;gap:6px;padding-right:8px">
+          <span style="display:inline-block;background:#fef9c3;color:#854d0e;border-radius:4px;padding:2px 8px;font-size:.7rem;font-weight:600">F</span>
+          <span style="font-size:.78rem;color:var(--ink)">Früh</span>
+        </div>
+        <input type="time" id="shiftFruehStart" oninput="markProfileDirty();applyArbZGSuggestions()" onchange="markProfileDirty();applyArbZGSuggestions()" value="08:00" class="emp-field-input" style="width:100%">
+        <input type="time" id="shiftFruehEnd" oninput="markProfileDirty();applyArbZGSuggestions()" onchange="markProfileDirty();applyArbZGSuggestions()" value="14:00" class="emp-field-input" style="width:100%">
+        <div style="display:flex;align-items:center;gap:5px">
+          <input type="number" id="pauseFrueh" oninput="this.dataset.manuallySet='true';markProfileDirty();updateNettoLabels()" onchange="markProfileDirty();updateNettoLabels()" min="0" max="1.5" step="0.25" value="0.5" class="emp-field-input" style="width:72px">
+          <span style="font-size:.75rem;color:var(--ink-soft);white-space:nowrap">Std.</span>
+        </div>
+        <div id="nettoFrueh" style="font-size:.78rem;font-weight:700;color:var(--ink-soft);white-space:nowrap;text-align:right;min-width:72px"></div>
+
+        <!-- Spätschicht -->
+        <div style="display:flex;align-items:center;gap:6px;padding-right:8px">
+          <span style="display:inline-block;background:#eff6ff;color:#1d4ed8;border-radius:4px;padding:2px 8px;font-size:.7rem;font-weight:600">S</span>
+          <span style="font-size:.78rem;color:var(--ink)">Spät</span>
+        </div>
+        <input type="time" id="shiftSpaetStart" oninput="markProfileDirty();applyArbZGSuggestions()" onchange="markProfileDirty();applyArbZGSuggestions()" value="13:00" class="emp-field-input" style="width:100%">
+        <input type="time" id="shiftSpaetEnd" oninput="markProfileDirty();applyArbZGSuggestions()" onchange="markProfileDirty();applyArbZGSuggestions()" value="19:00" class="emp-field-input" style="width:100%">
+        <div style="display:flex;align-items:center;gap:5px">
+          <input type="number" id="pauseSpaet" oninput="this.dataset.manuallySet='true';markProfileDirty();updateNettoLabels()" onchange="markProfileDirty();updateNettoLabels()" min="0" max="1.5" step="0.25" value="0.5" class="emp-field-input" style="width:72px">
+          <span style="font-size:.75rem;color:var(--ink-soft);white-space:nowrap">Std.</span>
+        </div>
+        <div id="nettoSpaet" style="font-size:.78rem;font-weight:700;color:var(--ink-soft);white-space:nowrap;text-align:right;min-width:72px"></div>
+
+        <!-- Vollschicht -->
+        <div style="display:flex;align-items:center;gap:6px;padding-right:8px">
+          <span style="display:inline-block;background:#f0fdf4;color:#166534;border-radius:4px;padding:2px 8px;font-size:.7rem;font-weight:600">T</span>
+          <span style="font-size:.78rem;color:var(--ink)">Tag</span>
+        </div>
+        <input type="time" id="shiftVollStart" oninput="markProfileDirty();applyArbZGSuggestions()" onchange="markProfileDirty();applyArbZGSuggestions()" value="08:00" class="emp-field-input" style="width:100%">
+        <input type="time" id="shiftVollEnd" oninput="markProfileDirty();applyArbZGSuggestions()" onchange="markProfileDirty();applyArbZGSuggestions()" value="17:00" class="emp-field-input" style="width:100%">
+        <div style="display:flex;align-items:center;gap:5px">
+          <input type="number" id="pauseVoll" oninput="this.dataset.manuallySet='true';markProfileDirty();updateNettoLabels()" onchange="markProfileDirty();updateNettoLabels()" min="0" max="1.5" step="0.25" value="0.75" class="emp-field-input" style="width:72px">
+          <span style="font-size:.75rem;color:var(--ink-soft);white-space:nowrap">Std.</span>
+        </div>
+        <div id="nettoVoll" style="font-size:.78rem;font-weight:700;color:var(--ink-soft);white-space:nowrap;text-align:right;min-width:72px"></div>
+
+        <!-- Langschicht -->
+        <div style="display:flex;align-items:center;gap:6px;padding-right:8px">
+          <label style="display:flex;align-items:center;gap:7px;cursor:pointer;width:100%;text-transform:none;font-size:inherit;letter-spacing:normal;color:inherit">
+            <span style="display:inline-block;background:#fdf4ff;color:#7e22ce;border-radius:4px;padding:2px 8px;font-size:.7rem;font-weight:600">L</span>
+            <span style="font-size:.78rem;color:var(--ink);font-weight:400">Lang</span>
+            <div style="position:relative;width:32px;height:18px;flex-shrink:0;margin-left:auto">
+              <input type="checkbox" id="langschichtAktiv" onchange="markProfileDirty();toggleLangschicht()" style="opacity:0;width:0;height:0;position:absolute">
+              <span id="langToggleTrack" style="position:absolute;inset:0;border-radius:9px;background:#e2e8f0;transition:background .2s"></span>
+              <span id="langToggleThumb" style="position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:white;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .2s"></span>
+            </div>
+          </label>
+        </div>
+        <input type="time" id="shiftLangStart" oninput="markProfileDirty();applyArbZGSuggestions()" onchange="markProfileDirty();applyArbZGSuggestions()" value="08:00" class="emp-field-input lang-field" style="width:100%;opacity:.35;pointer-events:none">
+        <input type="time" id="shiftLangEnd" oninput="markProfileDirty();applyArbZGSuggestions()" onchange="markProfileDirty();applyArbZGSuggestions()" value="20:00" class="emp-field-input lang-field" style="width:100%;opacity:.35;pointer-events:none">
+        <div style="display:flex;align-items:center;gap:5px">
+          <input type="number" id="pauseLang" oninput="this.dataset.manuallySet='true';markProfileDirty();updateNettoLabels()" onchange="this.dataset.manuallySet='true';markProfileDirty();updateNettoLabels()" min="0" max="2" step="0.25" value="1" class="emp-field-input lang-field" style="width:72px;opacity:.35;pointer-events:none">
+          <span style="font-size:.75rem;color:var(--ink-soft);white-space:nowrap">Std.</span>
+        </div>
+        <div id="nettoLang" class="lang-field" style="font-size:.78rem;font-weight:700;color:var(--ink-soft);white-space:nowrap;text-align:right;min-width:72px;opacity:.35">th:72px"></div>
+
       </div>
     </div>
 
@@ -2130,37 +2240,6 @@
       <div class="form-group">
         <label>Mindestbesetzung pro Tag <span style="font-weight:400;font-size:0.75rem;color:var(--ink-soft)">(Personen minimum)</span></label>
         <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:4px" id="staffingGrid"></div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-bottom:16px">
-      <div class="card-title" style="margin-bottom:14px">
-        <div class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-        Pausenzeiten
-      </div>
-      <div style="font-size:.75rem;color:var(--ink-soft);margin-bottom:12px">Zur Info – Pausen sind im Vertrag enthalten und werden <strong>nicht</strong> vom Stundenkonto abgezogen</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
-        <div class="form-group">
-          <label>Frühschicht</label>
-          <div style="display:flex;align-items:center;gap:6px">
-            <input type="number" id="pauseFrueh" oninput="markProfileDirty()" onchange="markProfileDirty()" min="0" max="1.5" step="0.25" value="0.5" class="emp-field-input" style="width:90px">
-            <span style="font-size:.78rem;color:var(--ink-soft)">Std.</span>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Spätschicht</label>
-          <div style="display:flex;align-items:center;gap:6px">
-            <input type="number" id="pauseSpaet" oninput="markProfileDirty()" onchange="markProfileDirty()" min="0" max="1.5" step="0.25" value="0.5" class="emp-field-input" style="width:90px">
-            <span style="font-size:.78rem;color:var(--ink-soft)">Std.</span>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Vollschicht</label>
-          <div style="display:flex;align-items:center;gap:6px">
-            <input type="number" id="pauseVoll" oninput="markProfileDirty()" onchange="markProfileDirty()" min="0" max="1.5" step="0.25" value="0.75" class="emp-field-input" style="width:90px">
-            <span style="font-size:.78rem;color:var(--ink-soft)">Std.</span>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -2216,16 +2295,17 @@
   </div>
 </nav>
 <div class="shift-picker" id="shiftPicker">
-  <div class="shift-picker-title" id="shiftPickerTitle">Schicht ändern</div>
+  <div class="shift-picker-title" id="shiftPickerTitle" style="grid-column:span 3">Schicht ändern</div>
   <div class="shift-option frueh"     id="pickerFrueh"     data-shift="Früh 08-14"  onclick="applyShift(this)"><span style="display:flex;align-items:center;gap:5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 18a5 5 0 0 0-10 0"/><line x1="12" y1="2" x2="12" y2="9"/><line x1="4.22" y1="10.22" x2="5.64" y2="11.64"/><line x1="1" y1="18" x2="3" y2="18"/><line x1="21" y1="18" x2="23" y2="18"/><line x1="18.36" y1="11.64" x2="19.78" y2="10.22"/><line x1="23" y1="22" x2="1" y2="22"/><polyline points="8 6 12 2 16 6"/></svg> Früh</span><span class="shift-time">08:00–14:00</span></div>
   <div class="shift-option spaet"     id="pickerSpaet"     data-shift="Spät 13-19"  onclick="applyShift(this)"><span style="display:flex;align-items:center;gap:5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg> Spät</span><span class="shift-time">13:00–19:00</span></div>
-  <div class="shift-option voll"      id="pickerVoll"      data-shift="Voll 08-17"  onclick="applyShift(this)"><span style="display:flex;align-items:center;gap:5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg> Voll</span><span class="shift-time">08:00–17:00</span></div>
+  <div class="shift-option voll"      id="pickerVoll"      data-shift="Voll 08-17"  onclick="applyShift(this)"><span style="display:flex;align-items:center;gap:5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg> Tag</span><span class="shift-time">08:00–17:00</span></div>
   <div class="shift-option frei"                           data-shift="Frei"         onclick="applyShift(this)"><span style="display:flex;align-items:center;gap:5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/><line x1="8" y1="15" x2="16" y2="15"/></svg> Frei</span><span class="shift-time">freier Tag</span></div>
   <div class="shift-option urlaub"                         data-shift="Urlaub"       onclick="applyShift(this)"><span style="display:flex;align-items:center;gap:5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 8a4.5 4.5 0 1 0-9 0"/><path d="M3 21l5-8 4 4 4-6 5 10"/><line x1="2" y1="21" x2="22" y2="21"/></svg> Urlaub</span><span class="shift-time">ganzer Tag</span></div>
   <div class="shift-option krank"                          data-shift="Krank"        onclick="applyShift(this)"><span style="display:flex;align-items:center;gap:5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> Krank</span><span class="shift-time">Krankmeld.</span></div>
-  
-  <div class="shift-option feiertag"  id="pickerFeiertag"  data-shift="Feiertag"    onclick="applyShift(this)" style="display:none">🎌 Feiertag</div>
-  <div class="shift-option notdienst" id="pickerNotdienst" data-shift="Notdienst"   onclick="applyShift(this)"><span style="display:flex;align-items:center;gap:5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg> Notdienst – 24h-Dienst</span></div>
+  <div class="shift-option berufsschule" id="pickerBerufsschule" data-shift="Berufsschule" onclick="applyShift(this)"><span style="display:flex;align-items:center;gap:5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Berufsschule</span><span class="shift-time">Schulpflicht</span></div>
+  <div class="shift-option lang" id="pickerLang" data-shift="Lang" onclick="applyShift(this)" style="grid-column:span 2;display:none"><span style="display:flex;align-items:center;gap:5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Lang</span><span class="shift-time">08:00–20:00</span></div>
+  <div class="shift-option notdienst" id="pickerNotdienst"    data-shift="Notdienst"   onclick="applyShift(this)" style="grid-column:span 2"><span style="display:flex;align-items:center;gap:5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg> Notdienst</span><span class="shift-time">24h-Dienst</span></div>
+  <div class="shift-option feiertag"  id="pickerFeiertag"     data-shift="Feiertag"    onclick="applyShift(this)" style="display:none;grid-column:span 3"><span style="display:flex;align-items:center;gap:5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Feiertag</span></div>
 </div>
 
 
@@ -2270,6 +2350,21 @@
   </div>
 </div>
 
+<!-- Profil: Ungespeicherte Änderungen Warnung -->
+<div id="profileUnsavedOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:2000;align-items:center;justify-content:center;backdrop-filter:blur(4px)">
+  <div style="background:var(--card);border-radius:16px;padding:28px 32px;max-width:380px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center">
+    <div style="width:48px;height:48px;border-radius:50%;background:#fef3c7;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    </div>
+    <h3 style="font-family:var(--serif);font-size:1.1rem;font-weight:700;margin:0 0 8px;color:var(--ink)">Einstellungen nicht gespeichert</h3>
+    <p style="font-size:.85rem;color:var(--ink-soft);margin:0 0 24px;line-height:1.5">Du hast Änderungen vorgenommen, die noch nicht gespeichert wurden. Was möchtest du tun?</p>
+    <div style="display:flex;gap:10px;justify-content:center">
+      <button onclick="profileUnsavedDiscard()" style="padding:10px 18px;border-radius:50px;border:1.5px solid var(--border);background:none;color:var(--ink-soft);font-family:var(--serif);font-size:.85rem;font-weight:700;cursor:pointer">Verwerfen</button>
+      <button onclick="profileUnsavedSaveAndGo()" style="padding:10px 20px;border-radius:50px;border:none;background:var(--accent-grad);color:white;font-family:var(--serif);font-size:.85rem;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(99,102,241,0.35)">Speichern & weiter</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // ═══════════════════════════════════════════════════════════════════
 // APOSHIFT – komplettes Script, neu geschrieben März 2026
@@ -2293,7 +2388,8 @@ function unsavedSaveAndGo() {
 }
 function discardPlanChanges() {
   _planDirty = false;
-  document.getElementById('stickySaveBar')?.classList.remove('show');
+  const bar = document.getElementById('stickySaveBar');
+  if (bar) { bar.classList.remove('show'); bar.style.display = 'none'; }
 }
 
 function navigatePage(page, noScroll = false) {
@@ -2302,6 +2398,12 @@ function navigatePage(page, noScroll = false) {
   if (_planDirty && currentPage === 'dienstplan' && page !== 'dienstplan') {
     _pendingNavPage = page;
     document.getElementById('unsavedWarningOverlay').style.display = 'flex';
+    return;
+  }
+  // Warnung wenn Profil-Einstellungen ungespeichert und wir die Einstellungen verlassen
+  if (_profileDirty && currentPage === 'einstellungen' && page !== 'einstellungen') {
+    _pendingProfileNavPage = page;
+    document.getElementById('profileUnsavedOverlay').style.display = 'flex';
     return;
   }
   PAGES.forEach(p => {
@@ -2316,10 +2418,12 @@ function navigatePage(page, noScroll = false) {
   });
   document.getElementById('nav-' + page)?.classList.add('active');
   document.getElementById('bn-' + page)?.classList.add('active');
-  if (page === 'mitarbeiter') { loadData(); }
+  // loadData() wird nur beim Init aufgerufen, nicht bei jeder Navigation
   if (page === 'einstellungen') {
     loadProfile();
+    // renderOpenExceptions is called inside loadProfile already
     if (!document.getElementById('staffingGrid')?.children.length) renderStaffingGrid(null);
+    setTimeout(updateNettoLabels, 50);
   }
   currentPage = page;
   const fab = document.getElementById('fab-generate');
@@ -2341,7 +2445,24 @@ function scrollToSection(id) {
   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 function openProfileModal()  { navigatePage('einstellungen'); }
-function closeProfileModal() { document.getElementById('profileSaveBanner')?.classList.remove('show'); navigatePage('dienstplan'); }
+function profileUnsavedDiscard() {
+  _profileDirty = false;
+  document.getElementById('profileUnsavedOverlay').style.display = 'none';
+  document.getElementById('profileSaveBanner')?.classList.remove('show');
+  const target = _pendingProfileNavPage || 'dienstplan';
+  _pendingProfileNavPage = null;
+  navigatePage(target);
+}
+
+function profileUnsavedSaveAndGo() {
+  document.getElementById('profileUnsavedOverlay').style.display = 'none';
+  saveProfileModal();
+  const target = _pendingProfileNavPage || 'dienstplan';
+  _pendingProfileNavPage = null;
+  navigatePage(target);
+}
+
+function closeProfileModal() { document.getElementById('profileSaveBanner')?.classList.remove('show'); navigatePage(currentPage || 'dienstplan'); }
 function updateSidebarProfile() {
   const name = document.getElementById('apoName')?.value || 'Apotheke';
   const el = document.getElementById('sidebarProfileName');
@@ -2386,14 +2507,27 @@ function shiftToTime(shift) {
   if (l.includes('notdienst') || l === 'nd') return 'ND';
   if (l.includes('urlaub'))             return dual('<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M17.5 8a4.5 4.5 0 1 0-9 0"/><path d="M3 21l5-8 4 4 4-6 5 10"/><line x1="2" y1="21" x2="22" y2="21"/></svg> Urlaub', '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M17.5 8a4.5 4.5 0 1 0-9 0"/><path d="M3 21l5-8 4 4 4-6 5 10"/><line x1="2" y1="21" x2="22" y2="21"/></svg>');
   if (l === 'krank' || l.includes('krank')) return dual('<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> Krank', '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>');
+  if (l === 'berufsschule')         return dual('<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Berufsschule', '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>');
   if (l.startsWith('feiertag'))         return dual('<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Feiertag', '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>');
-  // Zeitformat: "Früh 07:30-14:00" → nur "07–14"
-  const m = shift.match(/(\d{1,2})[:\.]?\d{0,2}\s*[-–]\s*(\d{1,2})[:\.]?\d{0,2}/i);
+  // Zeitformat: "Früh 08:00-14:00" → "08:00–14:00" (Zeiten aus Profil = bereits Brutto inkl. Pause)
+  const m = shift.match(/(\d{1,2})[:\.]?(\d{2})?\s*[-–]\s*(\d{1,2})[:\.]?(\d{2})?/i);
   const isFrueh = l.startsWith('früh');
   const isSpaet = l.startsWith('spät');
   const isVoll  = l.startsWith('voll');
-  if (m) return dual(`${m[1]}–${m[2]}`, isFrueh ? 'F' : isSpaet ? 'S' : isVoll ? 'V' : `${m[1]}–${m[2]}`);
-  // Fallback
+  const isLang  = l.startsWith('lang');
+  if (m) {
+    const sH = m[1].padStart(2,'0'), sM = (m[2]||'00').padStart(2,'0');
+    const eH = m[3].padStart(2,'0'), eM = (m[4]||'00').padStart(2,'0');
+    const full  = `${sH}:${sM}–${eH}:${eM}`;
+    const short = isFrueh ? 'F' : isSpaet ? 'S' : isVoll ? 'T' : isLang ? 'L' : full;
+    return dual(full, short);
+  }
+  // Fallback: Schichtzeiten aus Profil direkt anzeigen
+  const t = getShiftTimes();
+  if (isFrueh) return dual(`${t.fruehStart}–${t.fruehEnd}`, 'F');
+  if (isSpaet) return dual(`${t.spaetStart}–${t.spaetEnd}`, 'S');
+  if (isVoll)  return dual(`${t.vollStart}–${t.vollEnd}`,   'T');
+  if (shift.toLowerCase().startsWith('lang'))  return dual(`${t.langStart}–${t.langEnd}`, 'L');
   return dual(shift.replace(/^(Fr\u00FCh|Sp\u00E4t|Voll)\s*/i, '').slice(0,8), shift.slice(0,1));
 }
 
@@ -2408,7 +2542,7 @@ function normalizeShift(shift, isSat) {
   // KI schreibt manchmal "Frei (krank)", "krank", "Krank", "frei(krank)" etc.
   if (s.toLowerCase().includes('krank')) return 'Krank';
   if (s.toLowerCase() === 'nd' || s.toLowerCase().startsWith('notdienst')) return s;
-  if (s.toLowerCase().startsWith('früh') || s.toLowerCase().startsWith('spät') || s.toLowerCase().startsWith('voll')) return s;
+  if (s.toLowerCase().startsWith('früh') || s.toLowerCase().startsWith('spät') || s.toLowerCase().startsWith('voll') || s.toLowerCase().startsWith('lang')) return s;
 
   // Nur Uhrzeit ohne Präfix: z.B. "07:30-14:00" oder "07:30–20:00"
   const m = s.match(/^(\d{1,2})[:\.](\d{2})\s*[-–]\s*(\d{1,2})[:\.](\d{2})$/);
@@ -2467,7 +2601,7 @@ function renderStaffingGrid(saved) {
       <div style="font-size:.7rem;font-weight:700;color:var(--ink-soft);margin-bottom:3px">${d}</div>
       <input type="number" id="staff_min_${d}" min="0" max="20" value="${def.min}"
         title="Mindestbesetzung ${d}" style="width:44px;text-align:center;font-size:.78rem;padding:3px 4px;border:1.5px solid var(--border);border-radius:5px"
-        oninput="saveData(); markProfileDirty()">
+        oninput="markProfileDirty()">
     </div>`;
   }).join('');
 }
@@ -2492,13 +2626,17 @@ let currentEmployees = null;
 let currentApo = '';
 let currentWeek = '';
 let _planDirty = false;
+let _profileDirty = false;
+let _pendingProfileNavPage = null;
 
 // ── Mitarbeiter ──────────────────────────────────────────────────────────────
 const defaultEmployees = [
-  {name:'Dr. Sabine Keller', position:'Apotheker/in', hours:'40', note:'', carryover:0},
-  {name:'Maria Hoffmann',    position:'PTA',           hours:'35', note:'kein Samstag', carryover:0},
-  {name:'Jonas Weber',       position:'PTA',           hours:'30', note:'', carryover:0},
-  {name:'Lisa Braun',        position:'PKA',           hours:'20', note:'nur Vormittag', carryover:0},
+  {name:'Dr. Julia Hartmann', position:'Apotheker/in', hours:'40', shiftPref:'flexibel',      note:'',                                               carryover:0, quals:['Approbiert','Rezeptprüfung']},
+  {name:'Dr. Tobias Wendt',   position:'Apotheker/in', hours:'32', shiftPref:'flexibel',      note:'Samstags immer frei, wegen Kinder!',             carryover:0, quals:['Approbiert','Ausbilder','Rezeptprüfung']},
+  {name:'Sabrina Moll',       position:'PTA',           hours:'32', shiftPref:'immer_frueh',   note:'',                                               carryover:0, quals:['PTA-Anleitung','Notdienstberechtigt']},
+  {name:'Dirk Haupt',         position:'PTA',           hours:'24', shiftPref:'flexibel',      note:'Montags frei',                                   carryover:0, quals:[]},
+  {name:'Lena Vogel',         position:'Azubi PTA',     hours:'40', shiftPref:'flexibel',      note:'Berufsschule Mo Di\nSamstags immer frei',        carryover:0, quals:[]},
+  {name:'Christoph Bauer',    position:'PKA',           hours:'24', shiftPref:'flexibel',      note:'nur Mo–Mi!',                                     carryover:0, quals:[]},
 ];
 
 // ── Mitarbeiter-Daten (In-Memory Store) ──────────────────────────────────────
@@ -2580,8 +2718,8 @@ function renderTeamList() {
 }
 
 function selectEmployee(idx) {
-  // Sync current card back before switching
-  if (_activeEmpIdx !== null) syncActiveEmployee();
+  // Sync current card back before switching (silent — kein dirty-Banner)
+  if (_activeEmpIdx !== null) syncActiveEmployee(true);
   _activeEmpIdx = idx;
   renderTeamList();
   showProfileCard(_employees[idx]);
@@ -2594,6 +2732,7 @@ function showProfileCard(emp) {
   card  && (card.style.display='block');
   empty && (empty.style.display='none');
 
+  _profileLoading = true;
   document.getElementById('pf-name') && (document.getElementById('pf-name').value = emp.name || '');
   document.getElementById('pf-pos').value      = emp.position  || 'Apotheker/in';
   document.getElementById('pf-hours').value    = emp.hours     || 38;
@@ -2626,6 +2765,20 @@ function showProfileCard(emp) {
   badgeEl.innerHTML = quals.map(q => `<span class="profile-badge">${q}</span>`).join('');
 
   // Name-Input im Header live aktualisieren
+  // Langschicht möglich
+  const langMoeglichCb = document.getElementById('pf-langmoeglich');
+  if (langMoeglichCb) {
+    langMoeglichCb.checked = emp.langMoeglich || false;
+    const t = document.getElementById('pf-lang-track');
+    const th = document.getElementById('pf-lang-thumb');
+    if (t)  t.style.background  = emp.langMoeglich ? '#7c3aed' : '#e2e8f0';
+    if (th) th.style.transform  = emp.langMoeglich ? 'translateX(14px)' : 'translateX(0)';
+  }
+  const pfLangRow = document.getElementById('pf-lang-row');
+  if (pfLangRow) pfLangRow.style.display = isLangschichtAktiv() ? 'block' : 'none';
+
+  _profileLoading = false;
+
   document.getElementById('pf-note').oninput = () => {
     syncActiveEmployee();
     const saved = document.getElementById('pf-note-saved');
@@ -2651,6 +2804,12 @@ function syncActiveEmployee(silent = false) {
   const einEl  = document.getElementById('pf-einspringer');
   e.einspringer = einEl ? einEl.checked : (e.einspringer || false);
   updateEinspringerToggle(e.einspringer);
+  const langMoeglichEl = document.getElementById('pf-langmoeglich');
+  e.langMoeglich = langMoeglichEl ? langMoeglichEl.checked : (e.langMoeglich || false);
+  const lt = document.getElementById('pf-lang-track');
+  const lth = document.getElementById('pf-lang-thumb');
+  if (lt)  lt.style.background = e.langMoeglich ? '#7c3aed' : '#e2e8f0';
+  if (lth) lth.style.transform = e.langMoeglich ? 'translateX(14px)' : 'translateX(0)';
   e.lastSat      = document.getElementById('pf-lastsat')?.value    ?? '';
   e.carryover    = parseFloat(document.getElementById('pf-carryover')?.value) || 0;
   e.vacationTotal   = parseInt(document.getElementById('pf-vacation-total')?.value) || 28;
@@ -2858,7 +3017,7 @@ function loadData() {
 }
 
 function undoSave() {
-  try { localStorage.removeItem('aposhift_emp'); localStorage.removeItem('aposhift_apo'); } catch(e) {}
+  try { localStorage.removeItem('aposhift_emp'); } catch(e) {}
   _employees = defaultEmployees.map(e => ({...e, quals:[]}));
   _activeEmpIdx = 0;
   renderTeamList();
@@ -2867,7 +3026,99 @@ function undoSave() {
 }
 
 let _saveTimer;
+let _profileLoading = false;
+function toggleLangschicht() {
+  const cb = document.getElementById('langschichtAktiv');
+  const aktiv = cb && cb.checked;
+  // Toggle-Track Farbe
+  const track = document.getElementById('langToggleTrack');
+  const thumb = document.getElementById('langToggleThumb');
+  if (track) track.style.background = aktiv ? '#7c3aed' : '#e2e8f0';
+  if (thumb) thumb.style.transform = aktiv ? 'translateX(14px)' : 'translateX(0)';
+  // Felder ein-/ausblenden
+  document.querySelectorAll('.lang-field').forEach(el => {
+    el.style.opacity = aktiv ? '1' : '0.35';
+    el.style.pointerEvents = aktiv ? '' : 'none';
+  });
+  // Langschicht-möglich-Zeile in allen Mitarbeiterkarten
+  const pfLangRow = document.getElementById('pf-lang-row');
+  if (pfLangRow) pfLangRow.style.display = aktiv ? 'block' : 'none';
+  // Picker-Button: wird beim Öffnen via updateShiftPicker gesteuert —
+  // aber auch hier direkt updaten falls Picker gerade offen
+  const langBtn = document.getElementById('pickerLang');
+  if (langBtn && langBtn.style.display !== 'none') {
+    if (!aktiv) langBtn.style.display = 'none';
+  }
+}
+
+function isLangschichtAktiv() {
+  const cb = document.getElementById('langschichtAktiv');
+  return cb ? cb.checked : false;
+}
+
+function updateNettoLabels() {
+  const toMin = id => {
+    const el = document.getElementById(id);
+    if (!el || !el.value) return null;
+    const [h, m] = el.value.split(':').map(Number);
+    return h * 60 + (m || 0);
+  };
+  const pauseH = id => parseFloat(document.getElementById(id)?.value || 0) || 0;
+
+  const shifts = [
+    { start: 'shiftFruehStart', end: 'shiftFruehEnd', pause: 'pauseFrueh', netto: 'nettoFrueh' },
+    { start: 'shiftSpaetStart', end: 'shiftSpaetEnd', pause: 'pauseSpaet', netto: 'nettoSpaet' },
+    { start: 'shiftVollStart',  end: 'shiftVollEnd',  pause: 'pauseVoll',  netto: 'nettoVoll'  },
+    { start: 'shiftLangStart',  end: 'shiftLangEnd',  pause: 'pauseLang',  netto: 'nettoLang'  },
+  ];
+
+  shifts.forEach(({ start, end, pause, netto }) => {
+    const el = document.getElementById(netto);
+    if (!el) return;
+    const s = toMin(start), e = toMin(end);
+    if (s === null || e === null) { el.textContent = ''; return; }
+    const bruttoH = (e - s) / 60;
+    const nettoH  = Math.max(0, bruttoH - pauseH(pause));
+    el.textContent = `${nettoH.toFixed(2).replace('.00','').replace(/\.(\d)0$/,'.$1')}h netto`;
+    el.style.color = nettoH < 4 ? '#ef4444' : 'var(--ink-soft)';
+  });
+}
+
+// ArbZG-Vorschlag: 30 Min ab 6h, 45 Min ab 9h Arbeitszeit
+function arbZGPause(bruttoH) {
+  if (bruttoH > 9)  return 0.75;
+  if (bruttoH >= 6) return 0.5;
+  return 0;
+}
+
+function applyArbZGSuggestions() {
+  const toMin = id => {
+    const el = document.getElementById(id);
+    if (!el || !el.value) return null;
+    const [h, m] = el.value.split(':').map(Number);
+    return h * 60 + (m || 0);
+  };
+  const shifts = [
+    { start: 'shiftFruehStart', end: 'shiftFruehEnd', pause: 'pauseFrueh' },
+    { start: 'shiftSpaetStart', end: 'shiftSpaetEnd', pause: 'pauseSpaet' },
+    { start: 'shiftVollStart',  end: 'shiftVollEnd',  pause: 'pauseVoll'  },
+    { start: 'shiftLangStart',  end: 'shiftLangEnd',  pause: 'pauseLang'  },
+  ];
+  shifts.forEach(({ start, end, pause }) => {
+    const s = toMin(start), e = toMin(end);
+    const el = document.getElementById(pause);
+    if (s === null || e === null || !el) return;
+    // Nur setzen wenn Feld noch auf Default/leer steht (nicht manuell geändert)
+    const bruttoH = (e - s) / 60;
+    const suggested = arbZGPause(bruttoH);
+    if (el.dataset.manuallySet !== 'true') el.value = suggested;
+  });
+  updateNettoLabels();
+}
+
 function markProfileDirty() {
+  if (_profileLoading) return;
+  _profileDirty = true;
   document.getElementById('profileSaveBanner')?.classList.add('show');
 }
 
@@ -2893,11 +3144,14 @@ function markEmpDirty() {
 function showSaveBanner() { markEmpDirty(); }
 function hideSaveBanner() { document.getElementById('saveBanner')?.classList.remove('show'); }
 
-// Auto-save bei Profil-Änderungen
-['apoName','openWeek','openSat','shiftModel','bundesland','planWeek'].forEach(id => {
+// Auto-save bei Profil-Änderungen (Profil-Felder → saveProfile, Planwoche → saveData)
+['apoName','openWeek','openSat','shiftModel','bundesland'].forEach(id => {
   document.getElementById(id)?.addEventListener('change', () => {
-    clearTimeout(window._sd); window._sd = setTimeout(saveData, 800);
+    clearTimeout(window._spd); window._spd = setTimeout(saveProfile, 800);
   });
+});
+document.getElementById('planWeek')?.addEventListener('change', () => {
+  clearTimeout(window._sd); window._sd = setTimeout(saveData, 800);
 });
 
 // ── Feiertage ─────────────────────────────────────────────────────────────────
@@ -3312,13 +3566,14 @@ function saveProfile() {
 
   function domVal(id, fallback) {
     const el = document.getElementById(id);
-    // Nur übernehmen wenn das Element im DOM existiert (Seite ist geöffnet)
-    if (el && el.offsetParent !== null || el && el.value !== '') return el?.value || fallback;
+    // Element muss im DOM existieren; value wird immer übernommen (auch leer = bewusste Eingabe)
+    if (el) return el.value !== undefined ? el.value : fallback;
+    // Kein Element → gespeicherten Wert beibehalten
     return existing[id] !== undefined ? existing[id] : fallback;
   }
   function domFloat(id, fallback) {
     const el = document.getElementById(id);
-    if (el && el.closest('.spa-page')?.style.display !== 'none') {
+    if (el) {
       const v = parseFloat(el.value);
       return isNaN(v) ? fallback : v;
     }
@@ -3335,18 +3590,31 @@ function saveProfile() {
     bundesland: domVal('bundesland', existing.bundesland || 'NW'),
     shiftModel: domVal('shiftModel', existing.shiftModel || 'gemischt'),
     staffing:   getStaffing() || existing.staffing || {},
-    pauseFrueh: domFloat('pauseFrueh', existing.pauseFrueh ?? 0.5),
-    pauseSpaet: domFloat('pauseSpaet', existing.pauseSpaet ?? 0.5),
-    pauseVoll:  domFloat('pauseVoll',  existing.pauseVoll  ?? 0.75),
+    pauseFrueh:     domFloat('pauseFrueh',     existing.pauseFrueh     ?? 0.5),
+    pauseSpaet:     domFloat('pauseSpaet',     existing.pauseSpaet     ?? 0.5),
+    pauseVoll:      domFloat('pauseVoll',      existing.pauseVoll      ?? 0.75),
+    shiftFruehStart: domVal('shiftFruehStart', existing.shiftFruehStart || '08:00'),
+    shiftFruehEnd:   domVal('shiftFruehEnd',   existing.shiftFruehEnd   || '14:00'),
+    shiftSpaetStart: domVal('shiftSpaetStart', existing.shiftSpaetStart || '13:00'),
+    shiftSpaetEnd:   domVal('shiftSpaetEnd',   existing.shiftSpaetEnd   || '19:00'),
+    shiftVollStart:  domVal('shiftVollStart',  existing.shiftVollStart  || '08:00'),
+    shiftVollEnd:    domVal('shiftVollEnd',    existing.shiftVollEnd    || '17:00'),
+    langschichtAktiv: document.getElementById('langschichtAktiv')?.checked || false,
+    shiftLangStart:  domVal('shiftLangStart', '08:00'),
+    shiftLangEnd:    domVal('shiftLangEnd',   '20:00'),
+    pauseLang:       domVal('pauseLang',      '1'),
+    openExceptions:  _openExceptions,
   };
   try { localStorage.setItem(PROFILE_KEY, JSON.stringify(profile)); } catch(e) {}
   updateProfileChip();
 }
 
 function loadProfile() {
+  _profileDirty = false;
+  _profileLoading = true;
   try {
     const p = JSON.parse(localStorage.getItem(PROFILE_KEY) || 'null');
-    if (!p) return;
+    if (!p) { _profileLoading = false; return; }
     const set = (id, v) => { const el = document.getElementById(id); if (el && v !== undefined) el.value = v; };
     set('apoName',    p.apoName);
     set('apoStreet',  p.apoStreet);
@@ -3356,9 +3624,26 @@ function loadProfile() {
     set('openSat',    p.openSat);
     set('bundesland', p.bundesland);
     set('shiftModel', p.shiftModel);
-    set('pauseFrueh', p.pauseFrueh ?? 0.5);
-    set('pauseSpaet', p.pauseSpaet ?? 0.5);
-    set('pauseVoll',  p.pauseVoll  ?? 0.75);
+    set('pauseFrueh',      p.pauseFrueh      ?? 0.5);
+    set('pauseSpaet',      p.pauseSpaet      ?? 0.5);
+    set('pauseVoll',       p.pauseVoll       ?? 0.75);
+    // Schichtzeiten: falls noch nie gespeichert → automatisch aus Öffnungszeiten ableiten
+    if (p.shiftFruehStart) {
+      set('shiftFruehStart', p.shiftFruehStart);
+      set('shiftFruehEnd',   p.shiftFruehEnd   || '14:00');
+      set('shiftSpaetStart', p.shiftSpaetStart || '13:00');
+      set('shiftSpaetEnd',   p.shiftSpaetEnd   || '19:00');
+      set('shiftVollStart',  p.shiftVollStart  || '08:00');
+      set('shiftVollEnd',    p.shiftVollEnd    || '17:00');
+    sV('shiftLangStart', p.shiftLangStart || '08:00');
+    sV('shiftLangEnd',   p.shiftLangEnd   || '20:00');
+    sV('pauseLang',      p.pauseLang      || '1');
+    const langCb = document.getElementById('langschichtAktiv');
+    if (langCb) { langCb.checked = !!p.langschichtAktiv; toggleLangschicht(); }
+    } else {
+      // Erstmalig: aus Öffnungszeiten ableiten (nach kurzem Timeout damit DOM bereit ist)
+      setTimeout(() => deriveShiftTimes(true), 50);
+    }
     // Staffing Grid
     if (p.staffing) {
       ['Mo','Di','Mi','Do','Fr','Sa'].forEach(d => {
@@ -3366,8 +3651,13 @@ function loadProfile() {
         if (el && p.staffing[d]) el.value = p.staffing[d].min || 1;
       });
     }
+    // Tagesausnahmen laden
+    _openExceptions = p.openExceptions || {};
+    renderOpenExceptions();
   } catch(e) {}
   updateProfileChip();
+  // Small timeout so any pending browser onchange events from el.value= fire before we re-enable dirty
+  setTimeout(() => { _profileLoading = false; }, 100);
 }
 
 function updateProfileChip() {
@@ -3377,7 +3667,15 @@ function updateProfileChip() {
 }
 
 function saveProfileModal() {
+  _profileLoading = true; // prevent re-render from triggering dirty
+  _profileDirty = false;
   saveProfile();
+  // Tagesausnahmen aus gespeichertem Profil zurücklesen und neu rendern
+  try {
+    const saved = JSON.parse(localStorage.getItem(PROFILE_KEY) || '{}');
+    _openExceptions = saved.openExceptions || {};
+  } catch(e) {}
+  renderOpenExceptions();
   loadFeiertage();
   updateSidebarProfile();
   // Kurzes Häkchen-Feedback, dann Banner wegsliden
@@ -3388,8 +3686,10 @@ function saveProfileModal() {
     setTimeout(() => { btn.innerHTML = orig; }, 1200);
     // Banner sofort verstecken – nicht nach Timeout (Race Condition)
     document.getElementById('profileSaveBanner')?.classList.remove('show');
+    setTimeout(() => { _profileLoading = false; }, 100);
   } else {
     document.getElementById('profileSaveBanner')?.classList.remove('show');
+    setTimeout(() => { _profileLoading = false; }, 100);
   }
 }
 
@@ -3411,48 +3711,191 @@ function fmtTime(mins) {
   return String(Math.floor(mins/60)).padStart(2,'0') + ':' + String(mins%60).padStart(2,'0');
 }
 
-function getShifts(isSat) {
-  // Read opening times
-  const openStr = isSat
-    ? (document.getElementById('openSat')?.value  || '08:30 – 14:00')
-    : (document.getElementById('openWeek')?.value || '08:00 – 19:00');
 
-  const parts = openStr.split(/[–\-]/);
-  const open  = parseTime(parts[0]) ?? 8*60;
-  const close = parseTime(parts[1]) ?? 19*60;
-  const span  = close - open; // total open minutes
+// ── Tagesausnahmen für Öffnungszeiten ────────────────────────────────────────
+let _openExceptions = {}; // { 'Mi': '08:00 – 13:00', 'Fr': '08:00 – 20:00' }
+const EXCEPTION_DAYS = ['Mo','Di','Mi','Do','Fr'];
 
-  // Früh: open → open + half of span (min 5h, max 7h)
-  const fruehEnd  = open + Math.min(Math.max(Math.round(span/2/30)*30, 5*60), 7*60);
-  // Spät: fruehEnd - 30min overlap → close
+function renderOpenExceptions() {
+  const container = document.getElementById('openExceptions');
+  if (!container) return;
+  const usedDays = Object.keys(_openExceptions);
+  container.innerHTML = Object.entries(_openExceptions).map(([day, val]) => {
+    const opts = EXCEPTION_DAYS.map(d =>
+      `<option value="${d}" ${d === day ? 'selected' : ''} ${usedDays.includes(d) && d !== day ? 'disabled' : ''}>${d}</option>`
+    ).join('');
+    return `
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <select onchange="changeExceptionDay('${day}', this.value)" class="emp-field-input" style="width:64px;font-size:.78rem;font-weight:600;padding:4px 6px">
+        ${opts}
+      </select>
+      <input type="text" value="${val}" placeholder="08:00 – 13:00"
+        oninput="updateOpenException('${day}', this.value); markProfileDirty(); showDeriveShiftHint()"
+        onchange="markProfileDirty(); showDeriveShiftHint()"
+        class="emp-field-input" style="flex:1;max-width:160px">
+      <button onclick="removeOpenException('${day}')" style="background:none;border:none;cursor:pointer;color:#94a3b8;padding:2px;display:flex;align-items:center" title="Entfernen">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>`
+  }).join('');
+}
+
+function changeExceptionDay(oldDay, newDay) {
+  if (oldDay === newDay) return;
+  const val = _openExceptions[oldDay];
+  delete _openExceptions[oldDay];
+  _openExceptions[newDay] = val;
+  renderOpenExceptions();
+  markProfileDirty();
+}
+
+function addOpenException() {
+  // Nächsten noch nicht belegten Wochentag vorschlagen
+  const used = Object.keys(_openExceptions);
+  const next = EXCEPTION_DAYS.find(d => !used.includes(d));
+  if (!next) return; // alle Tage bereits belegt
+  const baseVal = document.getElementById('openWeek')?.value || '08:00 – 19:00';
+  _openExceptions[next] = baseVal;
+  renderOpenExceptions();
+  markProfileDirty();
+}
+
+function updateOpenException(day, val) {
+  _openExceptions[day] = val;
+}
+
+function removeOpenException(day) {
+  delete _openExceptions[day];
+  renderOpenExceptions();
+  markProfileDirty();
+}
+
+function getOpenTimeForDay(day) {
+  // Gibt die Öffnungszeit für einen bestimmten Tag zurück (Ausnahme hat Vorrang)
+  if (_openExceptions[day]) return _openExceptions[day];
+  if (day === 'Sa') return document.getElementById('openSat')?.value || '09:00 – 14:00';
+  return document.getElementById('openWeek')?.value || '08:00 – 19:00';
+}
+
+function showDeriveShiftHint() {
+  const hint = document.getElementById('deriveShiftHint');
+  if (hint) hint.style.display = 'flex';
+}
+
+function deriveShiftTimes(silent = false) {
+  // Schichtzeiten aus Öffnungszeiten ableiten
+  const openWeekStr = document.getElementById('openWeek')?.value || '08:00 – 19:00';
+  const parts = openWeekStr.split(/[–\-]/);
+  const toMins = s => { const [h,m] = (s||'').trim().split(':').map(Number); return (h||0)*60+(m||0); };
+  const fmtT   = m => `${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;
+
+  const open  = toMins(parts[0]) || 8*60;
+  const close = toMins(parts[1]) || 19*60;
+  const span  = close - open;
+
+  // Früh: Öffnung → Öffnung + halbe Spanne (min 5h, max 6h)
+  const fruehDur   = Math.min(Math.max(Math.round(span/2/30)*30, 5*60), 6*60);
+  const fruehEnd   = open + fruehDur;
+  // Spät: 30min Überlapp vor Früh-Ende → Schließung
   const spaetStart = fruehEnd - 30;
-  // Voll: open → close (full day)
-  const frueh = `Früh ${fmtTime(open)}-${fmtTime(fruehEnd)}`;
-  const spaet = `Spät ${fmtTime(spaetStart)}-${fmtTime(close)}`;
-  const voll  = `Voll ${fmtTime(open)}-${fmtTime(close)}`;
+  // Voll: Öffnung → Öffnung + 8h (max 10h, nie über Schließung)
+  const vollEnd    = Math.min(open + 8*60, close, open + 10*60);
 
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
+  set('shiftFruehStart', fmtT(open));
+  set('shiftFruehEnd',   fmtT(fruehEnd));
+  set('shiftSpaetStart', fmtT(spaetStart));
+  set('shiftSpaetEnd',   fmtT(close));
+  set('shiftVollStart',  fmtT(open));
+  set('shiftVollEnd',    fmtT(vollEnd));
+
+  if (!silent) markProfileDirty();
+
+  // Button kurz als Bestätigung einfärben
+  const btn = document.getElementById('deriveShiftBtn');
+  if (btn) {
+    btn.style.background = '#f0fdf4';
+    btn.style.color = '#166534';
+    btn.style.borderColor = '#bbf7d0';
+    btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Abgeleitet';
+    setTimeout(() => {
+      btn.style.background = '';
+      btn.style.color = '';
+      btn.style.borderColor = '';
+      btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg> Aus Öffnungszeiten ableiten';
+    }, 2000);
+  }
+}
+
+function getShiftTimes() {
+  // Liest Schichtzeiten aus Profil (localStorage) oder DOM-Feldern
+  let p = {};
+  try { p = JSON.parse(localStorage.getItem(PROFILE_KEY) || '{}'); } catch(e) {}
+  const tGet = (domId, fallback) => {
+    const el = document.getElementById(domId);
+    if (el && el.value) return el.value;
+    return p[domId] || fallback;
+  };
   return {
-    frueh, spaet, voll,
-    fruehH: (fruehEnd - open) / 60,
-    spaetH: (close - spaetStart) / 60,
-    vollH:  span / 60,
+    fruehStart: tGet('shiftFruehStart', '08:00'),
+    fruehEnd:   tGet('shiftFruehEnd',   '14:00'),
+    spaetStart: tGet('shiftSpaetStart', '13:00'),
+    spaetEnd:   tGet('shiftSpaetEnd',   '19:00'),
+    vollStart:  tGet('shiftVollStart',  '08:00'),
+    vollEnd:    tGet('shiftVollEnd',    '17:00'),
+    langStart:  tGet('shiftLangStart',  '08:00'),
+    langEnd:    tGet('shiftLangEnd',    '20:00'),
   };
 }
 
-function updateShiftPicker(isSat) {
+function getShifts(isSat, day) {
+  const t = getShiftTimes();
+  const frueh = `Früh ${t.fruehStart}-${t.fruehEnd}`;
+  const spaet = `Spät ${t.spaetStart}-${t.spaetEnd}`;
+  const voll  = `Voll ${t.vollStart}-${t.vollEnd}`;
+  const toParts = (str) => { const [h,m] = (str||'').split(':').map(Number); return (h||0)*60+(m||0); };
+  const lang  = `Lang ${t.langStart}-${t.langEnd}`;
+  return {
+    frueh, spaet, voll, lang,
+    fruehH: (toParts(t.fruehEnd)  - toParts(t.fruehStart)) / 60,
+    spaetH: (toParts(t.spaetEnd)  - toParts(t.spaetStart)) / 60,
+    vollH:  (toParts(t.vollEnd)   - toParts(t.vollStart))  / 60,
+    langH:  (toParts(t.langEnd)   - toParts(t.langStart))  / 60,
+    // Öffnungszeit dieses Tags (für Validierung / KI-Kontext)
+    openStr: day ? getOpenTimeForDay(day) : (isSat ? getOpenTimeForDay('Sa') : getOpenTimeForDay('Mo')),
+  };
+}
+
+function updateShiftPicker(isSat, empPosition) {
   const s = getShifts(isSat);
   const ndH = calcNotdienstHours();
   const ndLabel = `Notdienst ${ndH}h`;
 
-  const f = document.getElementById('pickerFrueh');
-  const sp = document.getElementById('pickerSpaet');
-  const v = document.getElementById('pickerVoll');
-  const nd = document.getElementById('pickerNotdienst');
+  // Nur .shift-time span + data-shift updaten — SVG+Label-Spans bleiben erhalten
+  function setPickerShift(id, shiftValue, timeDisplay) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.dataset.shift = shiftValue;
+    const t = el.querySelector('.shift-time');
+    if (t) t.textContent = timeDisplay;
+  }
+  function shiftTime(val) {
+    const m = val.match(/(\d{1,2}:\d{2})\s*[-–]\s*(\d{1,2}:\d{2})/);
+    return m ? `${m[1]}–${m[2]}` : val.replace(/^[^\s]+\s*/, '');
+  }
 
-  if (f)  { f.dataset.shift  = s.frueh; f.textContent  = s.frueh; }
-  if (sp) { sp.dataset.shift = s.spaet; sp.textContent = s.spaet; }
-  if (v)  { v.dataset.shift  = s.voll;  v.textContent  = s.voll;  }
-  if (nd) { nd.dataset.shift = ndLabel; nd.textContent = ndLabel; }
+  setPickerShift('pickerFrueh',     s.frueh,  shiftTime(s.frueh));
+  setPickerShift('pickerSpaet',     s.spaet,  shiftTime(s.spaet));
+  setPickerShift('pickerVoll',      s.voll,   shiftTime(s.voll));
+  setPickerShift('pickerLang',      s.lang,   shiftTime(s.lang));
+  setPickerShift('pickerNotdienst', ndLabel,  `${ndH}h-Dienst`);
+
+  // Lang nur für Apotheker UND wenn Langschicht im Profil aktiviert
+  const langBtn = document.getElementById('pickerLang');
+  if (langBtn) {
+    const isApo = empPosition && empPosition.toLowerCase().includes('apotheker');
+    langBtn.style.display = (isApo && isLangschichtAktiv()) ? '' : 'none';
+  }
 }
 
 function calcNotdienstHours() {
@@ -3480,6 +3923,7 @@ function calcShiftHours(shift, empHoursPerWeek) {
   const s = shift.toLowerCase().trim();
   if (s === 'nd' || s.includes('notdienst')) return calcNotdienstHours();
   if (s === 'krank' || s.includes('krank')) return 0;
+  if (s === 'berufsschule') { const daily = empHoursPerWeek >= 35 ? empHoursPerWeek/5 : empHoursPerWeek >= 25 ? empHoursPerWeek/4 : empHoursPerWeek >= 15 ? empHoursPerWeek/3 : empHoursPerWeek/2; return Math.round(daily * 4) / 4; }
   if (s.includes('frei') || s.includes('urlaub')) return 0;
   // Feiertag: Tagessollstunden werden gutgeschrieben
   // Berechnung: Wochenstunden / Arbeitstage (Vollzeit=5, Teilzeit proportional)
@@ -3525,6 +3969,31 @@ function calcEffectiveSoll(emp, plan) {
       if (sh.startsWith('urlaub') || sh.includes('krank')) absenceDays++;
     });
   }
+  // Dauerregeln: nurTage-Beschränkung → maximal verfügbare Arbeitstage beachten
+  // Gespeicherte freeTage aus empNoteWish ggf. aus emp.note ableiten (standalone-Kontext)
+  const noteRaw = (emp.note || '');
+  const rangeM = noteRaw.match(/\b(Mo|Di|Mi|Do|Fr|Sa)\s*[-\u2013]\s*(Mo|Di|Mi|Do|Fr|Sa)\b/i);
+  const hasNur = /\bnur\b/i.test(noteRaw) || /!/.test(noteRaw);
+  if (rangeM && hasNur) {
+    const allW = ['Mo','Di','Mi','Do','Fr','Sa'];
+    const from = allW.findIndex(d => d.toLowerCase() === rangeM[1].toLowerCase());
+    const to   = allW.findIndex(d => d.toLowerCase() === rangeM[2].toLowerCase());
+    if (from !== -1 && to !== -1) {
+      const availableDays = Math.abs(to - from) + 1;
+      const cappedContracted = Math.min(contracted, availableDays * avgDay);
+      const afterAbsence = Math.max(0, cappedContracted - absenceDays * avgDay);
+      const carryover = parseFloat(emp.carryover) || 0;
+      const carryoverReduction = carryover > 0
+        ? Math.min(carryover, 8, cappedContracted * 0.25) : 0;
+      const effective = Math.max(0, afterAbsence - carryoverReduction);
+      return {
+        base: contracted,
+        effective: Math.round(effective * 4) / 4,
+        absenceDays, avgDay: Math.round(avgDay * 4) / 4,
+        carryoverReduction: Math.round(carryoverReduction * 4) / 4
+      };
+    }
+  }
   const afterAbsence = Math.max(0, contracted - absenceDays * avgDay);
 
   // Carryover-Abbau: nur wenn Überstunden vorhanden (carryover > 0)
@@ -3547,6 +4016,7 @@ function calcEffectiveSoll(emp, plan) {
 
 function shiftClass(s) {
   if (!s || s === 'Frei') return 'frei';
+  if (s === 'Berufsschule') return 'berufsschule';
   if (s === 'Urlaub' || s.toLowerCase().startsWith('urlaub')) return 'urlaub';
   if (s.startsWith('Feiertag')) return 'feiertag';
   const l = s.toLowerCase().trim();
@@ -3554,6 +4024,7 @@ function shiftClass(s) {
   if (l === 'nd' || l.includes('notdienst')) return 'notdienst';
   if (l.includes('früh')) return 'frueh';
   if (l.includes('voll')) return 'voll';
+  if (l.startsWith('lang')) return 'lang';
   if (l.includes('frei')) return 'frei';
   return 'spaet';
 }
@@ -3561,7 +4032,10 @@ function shiftClass(s) {
 // ── Hauptfunktion ─────────────────────────────────────────────────────────────
 async function generatePlan(skipCheck = false) {
   // Validation
-  const apoNameVal  = (document.getElementById('apoName')?.value  || '').trim();
+  // Apothekenname: DOM zuerst, dann localStorage-Fallback (falls Profil geändert aber noch nicht gespeichert)
+  const _apoNameDom = (document.getElementById('apoName')?.value || '').trim();
+  const _apoNameStored = (() => { try { return JSON.parse(localStorage.getItem('aposhift_profile') || '{}').apoName || ''; } catch(e) { return ''; } })();
+  const apoNameVal = _apoNameDom || _apoNameStored;
   const planWeekVal =  document.getElementById('planWeek')?.value || '';
   const openWeekVal = (document.getElementById('openWeek')?.value || '').trim();
   const openSatVal  = (document.getElementById('openSat')?.value  || '').trim();
@@ -3569,7 +4043,6 @@ async function generatePlan(skipCheck = false) {
   if (!apoNameVal)  { showError('Name der Apotheke fehlt.');       return; }
   if (!planWeekVal) { showError('Bitte Planungswoche auswählen.'); return; }
   if (!openWeekVal) { showError('Öffnungszeiten Mo–Fr fehlen.');   return; }
-  if (!openSatVal)  { showError('Öffnungszeiten Samstag fehlen.'); return; }
 
   syncActiveEmployee(); // sicherstellen dass aktiver MA vollständig gespeichert ist
   const employees = getEmployees();
@@ -3625,7 +4098,7 @@ async function generatePlan(skipCheck = false) {
   const ndH        = calcNotdienstHours();
   const shiftsWeek = getShifts(false);
   const shiftsSat  = getShifts(true);
-  const shiftLine = `Mo–Fr: "${shiftsWeek.frueh}" | "${shiftsWeek.spaet}" | "${shiftsWeek.voll}" | "Notdienst ${ndH}h" | "Urlaub" | "Frei"
+  const shiftLine = `Mo–Fr: "${shiftsWeek.frueh}" | "${shiftsWeek.spaet}" | "${shiftsWeek.voll}" (Tag) | "Notdienst ${ndH}h" | "Urlaub" | "Frei"
 Sa: "${shiftsSat.frueh}" | "${shiftsSat.spaet}" | "${shiftsSat.voll}" | "Notdienst ${ndH}h" | "Urlaub" | "Frei"
 So: NUR "Frei" oder "Notdienst ${ndH}h" (Sonntag ist kein regulärer Arbeitstag!)`;
   const notdienst = Array.from(document.querySelectorAll('.nd-box:checked')).map(c=>c.value).join(', ') || 'kein Notdienst';
@@ -3702,12 +4175,36 @@ So: NUR "Frei" oder "Notdienst ${ndH}h" (Sonntag ist kein regulärer Arbeitstag!
 
     const prefLabel = e.shiftPref === 'immer_frueh'    ? 'Immer Früh'
                     : e.shiftPref === 'immer_spaet'    ? 'Immer Spät'
-                    : e.shiftPref === 'immer_voll'     ? 'Immer Vollzeit'
+                    : e.shiftPref === 'immer_voll'     ? 'Immer Tag'
                     : e.shiftPref === 'wochenrotation' ? `Wochenrotation (KW ${kwNum} ist ${kwParitaet} → ${kwNum % 2 === 1 ? 'Früh' : 'Spät'})`
                     : e.shiftPref === 'tagesrotation'  ? 'Tagesrotation (täglich wechselnd)'
                     : 'Flexibel';
 
-    return `${i+1}. ${e.name} | ${e.position} | ${e.hours}h/Wo | ${stundenZiel} | Schichtpräferenz: ${prefLabel} | Hinweis: ${note}${satRule}`
+    // Azubi-Berufsschulregel aus Dauerregeln ableiten (harte Regel = Schulpflicht)
+    let azubiRule = '';
+    if (e.position && e.position.startsWith('Azubi')) {
+      const bsMatch = noteL.match(/berufsschule\s+([^,.]+)/i);
+      if (bsMatch) {
+        azubiRule = ` 🎓 SCHULPFLICHT: Berufsschule ${bsMatch[1].trim()} → diese Tage ZWINGEND frei (gesetzliche Schulpflicht, nicht verhandelbar!)`;
+      }
+    }
+
+    // „nur Mo–Mi"-artige Beschränkungen für KI-Prompt aufbereiten
+    let nurTageRule = '';
+    const rangeM = (e.note||'').match(/\b(Mo|Di|Mi|Do|Fr|Sa)\s*[-\u2013]\s*(Mo|Di|Mi|Do|Fr|Sa)\b/i);
+    const hasNur  = /\bnur\b/i.test(e.note||'') || /!/.test(e.note||'');
+    if (rangeM && hasNur) {
+      const allW = ['Mo','Di','Mi','Do','Fr','Sa'];
+      const from = allW.findIndex(d => d.toLowerCase() === rangeM[1].toLowerCase());
+      const to   = allW.findIndex(d => d.toLowerCase() === rangeM[2].toLowerCase());
+      if (from !== -1 && to !== -1) {
+        const work = allW.slice(Math.min(from,to), Math.max(from,to)+1);
+        const frei = allW.filter(d => !work.includes(d));
+        nurTageRule = ` ⚑ TAGE-REGEL: Arbeitet NUR ${work.join('/')} → ${frei.join('/')} ZWINGEND frei!`;
+      }
+    }
+
+    return `${i+1}. ${e.name} | ${e.position} | ${e.hours}h/Wo | ${stundenZiel} | Schichtpräferenz: ${prefLabel} | Hinweis: ${note}${satRule}${azubiRule}${nurTageRule}`
       + (carryover ? ` | Übertrag: ${carryover>0?'+':''}${carryover}h` : '');
   }).join('\n');
 
@@ -3740,7 +4237,7 @@ So: NUR "Frei" oder "Notdienst ${ndH}h" (Sonntag ist kein regulärer Arbeitstag!
 
 APOTHEKE: ${apoNameVal}
 WOCHE: ${planWeekVal} (KW ${kwNum}, ${kwParitaet}e KW)
-ÖFFNUNG Mo–Fr: ${openWeekVal} | Samstag: ${openSatVal}
+ÖFFNUNG: Mo ${getOpenTimeForDay('Mo')} | Di ${getOpenTimeForDay('Di')} | Mi ${getOpenTimeForDay('Mi')} | Do ${getOpenTimeForDay('Do')} | Fr ${getOpenTimeForDay('Fr')} | Sa ${getOpenTimeForDay('Sa')}
 NOTDIENST: ${notdienst} (ca. ${ndH}h)
 FEIERTAGE: ${feiertage}
 MINDESTBESETZUNG: ${staffLine}
@@ -3841,10 +4338,11 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
     const fp = JSON.parse(JSON.stringify(plan));
     const model = document.getElementById('shiftModel')?.value || 'gemischt';
     const openDays = ['Mo','Di','Mi','Do','Fr','Sa'].filter(d => {
-      const v = d === 'Sa'
-        ? (document.getElementById('openSat')?.value||'').trim()
-        : (document.getElementById('openWeek')?.value||'').trim();
-      if (!v || v === 'geschlossen') return false;
+      const v = (getOpenTimeForDay(d)||'').trim();
+      if (!v || v === 'geschlossen') {
+        // Geschlossen/leer → trotzdem einschließen wenn Notdienst an diesem Tag
+        if (!notdienstTage.includes(d)) return false;
+      }
       // Feiertage überspringen (außer wenn Notdienst an diesem Tag)
       const weekDatesLocal = getWeekDates(planWeekVal);
       const dayIdx = DAYS.indexOf(d);
@@ -3876,7 +4374,7 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
     };
     const isAbsent = (name, day) => {
       const sh = (fp[day]||{})[name]||'Frei';
-      return sh.startsWith('Urlaub') || sh.startsWith('Feiertag');
+      return sh.startsWith('Urlaub') || sh.startsWith('Feiertag') || sh === 'Berufsschule';
     };
 
     const pickBalanced = (day, assignees) => {
@@ -4149,11 +4647,50 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
         if (segHasFrei) wish.freeTage.push(kuerzel);
       });
 
+      // ── „nur Mo–Mi" / „nur Mo, Di" → Umkehr-Logik: genannte Tage = Arbeitstage, Rest = frei ──
+      const ALL_WORK_DAYS = ['Mo','Di','Mi','Do','Fr','Sa'];
+      const noteOrig = (emp.note || '');
+
+      // Bereichs-Syntax erkennen: "Mo–Mi", "Mo-Mi", "Mo bis Mi"
+      const rangeMatches = noteOrig.match(/\b(Mo|Di|Mi|Do|Fr|Sa)\s*[-–]\s*(Mo|Di|Mi|Do|Fr|Sa)\b/gi) || [];
+      rangeMatches.forEach(range => {
+        const parts = range.match(/(Mo|Di|Mi|Do|Fr|Sa)/gi);
+        if (!parts || parts.length < 2) return;
+        const from = ALL_WORK_DAYS.findIndex(d => d.toLowerCase() === parts[0].toLowerCase());
+        const to   = ALL_WORK_DAYS.findIndex(d => d.toLowerCase() === parts[1].toLowerCase());
+        if (from === -1 || to === -1) return;
+        const rangeDays = ALL_WORK_DAYS.slice(Math.min(from,to), Math.max(from,to)+1);
+        // Kontext prüfen: "nur Mo–Mi" oder "Mo–Mi!" → Arbeitstage, Rest frei
+        const seg = noteOrig.toLowerCase();
+        const isNurPattern = /\bnur\b/.test(seg) || /!/.test(seg);
+        if (isNurPattern) {
+          // Alle Tage AUSSERHALB des Bereichs als frei markieren
+          ALL_WORK_DAYS.forEach(d => {
+            if (!rangeDays.includes(d) && !wish.freeTage.includes(d)) {
+              wish.freeTage.push(d);
+            }
+          });
+        }
+      });
+
       // Schicht-Präferenz
       if (/nur\s*(früh|fruh|morgens?|vormittags?)|immer\s*(früh|fruh|morgens?)|keine?\s*spät/.test(raw)) {
         wish.schicht = 'frueh';
       } else if (/nur\s*(spät|spaet|nachmittags?|abends?)|immer\s*(spät|spaet)|keine?\s*früh/.test(raw)) {
         wish.schicht = 'spaet';
+      }
+
+      // Azubi: Berufsschultage = implizit frei (Schulpflicht)
+      if (emp.position && emp.position.startsWith('Azubi')) {
+        const bsSegments = (emp.note || '').toLowerCase().replace(/[.:,;]/g, ' ').split(/[\n]+/);
+        bsSegments.forEach(seg => {
+          if (!seg.includes('berufsschule') && !seg.includes('bs ') && !seg.includes('schule')) return;
+          tagAliases.forEach(({ kuerzel, patterns }) => {
+            if (patterns.some(p => seg.includes(p)) && !wish.freeTage.includes(kuerzel)) {
+              wish.freeTage.push(kuerzel);
+            }
+          });
+        });
       }
 
       if (wish.freeTage.length > 0 || wish.schicht) empNoteWish[emp.name] = wish;
@@ -4220,8 +4757,27 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
     employees.forEach(emp => {
       const w = empNoteWish[emp.name];
       if (!w || !w.freeTage.length) return;
+      // Azubi BS-Tage: nur Tage die tatsächlich im BS-Segment stehen → 'Berufsschule'
+      const isAzubi = emp.position && emp.position.startsWith('Azubi');
+      const bsTage = new Set();
+      if (isAzubi) {
+        const bsSegs = (emp.note||'').toLowerCase().replace(/[.:,;]/g,' ').split(/\n/);
+        const dayAliases = [
+          {k:'Mo',p:['mo','montag','montags']},{k:'Di',p:['di','dienstag','dienstags']},
+          {k:'Mi',p:['mi','mittwoch','mittwochs']},{k:'Do',p:['do','donnerstag','donnerstags']},
+          {k:'Fr',p:['fr','freitag','freitags']},{k:'Sa',p:['sa','samstag','samstags']},
+        ];
+        bsSegs.forEach(seg => {
+          if (!seg.includes('berufsschule') && !seg.includes('bs ') && !seg.includes('schule')) return;
+          dayAliases.forEach(({k,p}) => {
+            if (p.some(pat => seg.split(/\s+/).includes(pat))) bsTage.add(k);
+          });
+        });
+      }
       w.freeTage.forEach(d => {
-        if (!absences[emp.name][d]) absences[emp.name][d] = 'Frei';
+        if (!absences[emp.name][d]) {
+          absences[emp.name][d] = bsTage.has(d) ? 'Berufsschule' : 'Frei';
+        }
       });
     });
 
@@ -4293,10 +4849,10 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
     await yield_(); setStep(2, 'Berechne garantierten Basisplan...');
 
     const openDays = ['Mo','Di','Mi','Do','Fr','Sa'].filter(d => {
-      const v = d === 'Sa'
-        ? (document.getElementById('openSat')?.value||'').trim()
-        : (document.getElementById('openWeek')?.value||'').trim();
-      if (!v || v === 'geschlossen') return false;
+      const v = (getOpenTimeForDay(d)||'').trim();
+      if (!v || v === 'geschlossen') {
+        if (!notdienstTage.includes(d)) return false;
+      }
       // Feiertage: Tag ist geschlossen, außer wenn Notdienst an diesem Tag
       const isFeiertag = feiertageThisWeek.some(f => f.day === d);
       const hasNotdienst = notdienstTage.includes(d);
@@ -4311,21 +4867,21 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
     const isBlocked    = (name, day) => {
       const sh = (plan[day]||{})[name]||'';
       if (sh === 'Urlaub' || sh.startsWith('Feiertag') || sh === 'Krank'
-          || sh.startsWith('Notdienst') || sh === 'Frei') return true;
+          || sh.startsWith('Notdienst') || sh === 'Frei' || sh === 'Berufsschule') return true;
       // Harte Frei-Wünsche – immer blockiert
       if (empNoteWish[name]?.freeTage?.includes(day)) return true;
       return false;
     };
     const isBlockedHard = (name, day) => {
       const sh = (plan[day]||{})[name]||'';
-      if (sh === 'Urlaub' || sh.startsWith('Feiertag') || sh === 'Krank' || sh.startsWith('Notdienst')) return true;
+      if (sh === 'Urlaub' || sh.startsWith('Feiertag') || sh === 'Krank' || sh.startsWith('Notdienst') || sh === 'Berufsschule') return true;
       // Harte Frei-Wünsche aus individueller Mitarbeiterkarte – IMMER blockiert, egal ob Slot schon Frei ist oder noch leer
       if (empNoteWish[name]?.freeTage?.includes(day)) return true;
       return false;
     };
     const isWorking    = (name, day) => {
       const sh = (plan[day]||{})[name]||'Frei';
-      return sh !== 'Frei' && !sh.startsWith('Urlaub') && !sh.startsWith('Feiertag')
+      return sh !== 'Frei' && sh !== 'Berufsschule' && !sh.startsWith('Urlaub') && !sh.startsWith('Feiertag')
           && !sh.includes('krank') && !sh.startsWith('Notdienst');
     };
     const weekHours    = emp => {
@@ -4527,9 +5083,7 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
         return; // kein weiteres Einplanen
       }
       const openSpan = (() => {
-        const str = day === 'Sa'
-          ? (document.getElementById('openSat')?.value||'')
-          : (document.getElementById('openWeek')?.value||'');
+        const str = getOpenTimeForDay(day) || '';
         const p = str.split(/[–\-]/);
         const o = parseTime(p[0]) ?? 8*60, c = parseTime(p[1]) ?? 19*60;
         return (c - o) / 60;
@@ -4773,6 +5327,35 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
       while (upgradeChanged() && vLim-- > 0) { /* iterate */ }
     }
 
+    // ── Lang-Pass: nur wenn Langschicht aktiv + MA hat langMoeglich=true + Defizit bleibt ──
+    if (isLangschichtAktiv()) {
+      const langEmps = employees.filter(e =>
+        e.langMoeglich &&
+        e.position && e.position.toLowerCase().includes('apotheker') &&
+        deficit(e) > 0
+      ).sort((a, b) => deficit(b) - deficit(a));
+
+      for (const emp of langEmps) {
+        const { effective } = calcEffectiveSoll(emp, plan);
+        // Suche einen Tag wo der MA bereits arbeitet (Früh/Spät/Tag) und
+        // ein Upgrade auf Lang das Defizit schließt ohne 48h zu überschreiten
+        const upgradeDay = openDays.find(d => {
+          const sh = (plan[d]||{})[emp.name] || '';
+          if (!sh.startsWith('Früh') && !sh.startsWith('Spät') && !sh.startsWith('Voll')) return false;
+          const langSh = shiftForDay(d).lang;
+          if (!langSh) return false;
+          const gain = calcShiftHours(langSh, parseFloat(emp.hours)||0)
+                     - calcShiftHours(sh, parseFloat(emp.hours)||0);
+          if (gain <= 0) return false;
+          if (weekHours(emp) + gain > 48) return false;
+          return true;
+        });
+        if (upgradeDay) {
+          plan[upgradeDay][emp.name] = shiftForDay(upgradeDay).lang;
+        }
+      }
+    }
+
     // MA mit zu vielen Stunden → Frei-Tage wiederherstellen
     changed = true; lim = 40;
     while (changed && lim-- > 0) {
@@ -4821,7 +5404,7 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
     const planTabelle = DAYS.map(d => {
       const row = employees.map(emp => {
         const sh = (plan[d]||{})[emp.name] || 'Frei';
-        return `${getFirstName(emp.name)}:${sh.startsWith('Früh')?'F':sh.startsWith('Spät')?'S':sh.startsWith('Voll')?'V':sh.startsWith('Notdienst')?'ND':sh==='Frei'?'-':sh.startsWith('Urlaub')?'U':sh==='Krank'?'K':'?'}`;
+        return `${getFirstName(emp.name)}:${sh.startsWith('Früh')?'F':sh.startsWith('Spät')?'S':sh.startsWith('Voll')?'T':sh.startsWith('Notdienst')?'ND':sh==='Frei'?'-':sh.startsWith('Urlaub')?'U':sh==='Krank'?'K':'?'}`;
       }).join(' | ');
       return `${d}: ${row}`;
     }).join('\n');
@@ -4906,6 +5489,8 @@ WICHTIG: Wenn keine Verbesserung möglich → {"changes":[],"summary":"Plan bere
           // Nur Früh/Spät/Voll-Tausch erlaubt – harter Guard
           const isWorkShift = s => s.startsWith('Früh') || s.startsWith('Spät') || s.startsWith('Voll');
           if (!isWorkShift(current) || !isWorkShift(shift)) return;
+          // Berufsschultage niemals durch KI überschreiben
+          if (current === 'Berufsschule') return;
           // Schicht-Präferenz des MA respektieren
           const empObj = employees.find(e => e.name === name);
           if (empObj && shiftPrefBlocks(empObj, shift)) return;
@@ -5209,7 +5794,7 @@ function renderResult(result, employees, apoName, planWeek) {
   currentResult = result; currentEmployees = employees; currentApo = apoName; currentWeek = planWeek;
   _planDirty = false;
   const _saveBar = document.getElementById('stickySaveBar');
-  if (_saveBar) _saveBar.style.display = 'none';
+  if (_saveBar) { _saveBar.style.display = 'none'; _saveBar.classList.remove('show'); }
 
   // Feiertage immer für die angezeigte Woche laden – unabhängig vom aktuellen Input-Wert
   _lastFtWeek = ''; loadFeiertage(planWeek);
@@ -5442,7 +6027,7 @@ function renderResult(result, employees, apoName, planWeek) {
     const pct  = effSoll>0 ? Math.min((total/effSoll)*100,100) : 0;
     const diff = over?`+${(total-effSoll).toFixed(1)}h`:under?`-${(effSoll-total).toFixed(1)}h`:'<svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle;margin-right:2px"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>ok';
 
-    const prefLabel = emp.shiftPref === 'immer_frueh' ? '🟡 Immer Früh' : emp.shiftPref === 'immer_spaet' ? '🔵 Immer Spät' : emp.shiftPref === 'immer_voll' ? '🟢 Immer Voll' : emp.shiftPref === 'rotation' ? '🔄 Wochenrotation' : '↕ Flexibel';
+    const prefLabel = emp.shiftPref === 'immer_frueh' ? '🟡 Immer Früh' : emp.shiftPref === 'immer_spaet' ? '🔵 Immer Spät' : emp.shiftPref === 'immer_voll' ? '🟢 Immer Tag' : emp.shiftPref === 'rotation' ? '🔄 Wochenrotation' : '↕ Flexibel';
     const lastSatLabel = emp.lastSat ? new Date(emp.lastSat).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'}) : '–';
     const lastNdLabel  = emp.lastNotdienst ? new Date(emp.lastNotdienst).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'}) : '–';
     const carryLabel = emp.carryover > 0 ? `+${emp.carryover}h` : emp.carryover < 0 ? `${emp.carryover}h` : '0h';
@@ -5453,11 +6038,13 @@ function renderResult(result, employees, apoName, planWeek) {
       <td style="padding:8px 12px;font-weight:600;font-size:.8rem;border-bottom:1px solid var(--border)">
         <div title="${tooltip}" style="cursor:default;min-width:0">
           <div>${emp.name}</div>
-          <div style="font-size:.68rem;color:var(--ink-soft);font-weight:400">${emp.position}</div>
-          <div class="hours-inline" style="display:flex;align-items:center;gap:6px;margin-top:3px">
+          <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap">
+            <span style="font-size:.68rem;color:var(--ink-soft);font-weight:400">${emp.position}</span>
+            ${emp.position && emp.position.startsWith('Azubi') ? '<span style="font-size:.62rem;font-weight:700;background:#fde68a;color:#92400e;border-radius:3px;padding:1px 5px;letter-spacing:.03em">AZ</span>' : ''}
+          </div>
+          <div class="hours-inline" data-emp="${emp.name}" style="display:flex;align-items:center;gap:6px;margin-top:3px">
             <span class="hours-inline-val ${cls}" style="font-family:var(--mono);font-size:.68rem;font-weight:700">${total.toFixed(1)}h</span>
             <div style="flex:1;height:4px;background:#e2e8f0;border-radius:2px;min-width:36px"><div class="hours-inline-fill" style="height:100%;border-radius:2px;background:${fill};width:${pct}%"></div></div>
-            <span class="hours-inline-diff ${cls}" style="font-family:var(--mono);font-size:.62rem">${diff}</span>
           </div>
         </div>
       </td>${cells}</tr>`;
@@ -5576,7 +6163,7 @@ function renderResult(result, employees, apoName, planWeek) {
         <div class="shift-card-header">
           <div>
             <div class="shift-card-name">${emp.name}</div>
-            <div class="shift-card-pos">${emp.position}</div>
+            <div class="shift-card-pos" style="display:flex;align-items:center;gap:4px">${emp.position}${emp.position && emp.position.startsWith('Azubi') ? ' <span style="font-size:.6rem;font-weight:700;background:#fde68a;color:#92400e;border-radius:3px;padding:1px 5px">AZ</span>' : ''}</div>
           </div>
           <div class="shift-card-hours ${hcls}">${total.toFixed(1)}h <span style="font-size:.65rem;font-weight:400">${diff}</span></div>
         </div>
@@ -5625,14 +6212,16 @@ function renderHoursSummary(changedEmp = null) {
   let data = currentEmployees.map((emp, i) => {
     let actual = 0;
     const shiftCounts = { frueh: 0, spaet: 0, voll: 0, notdienst: 0, urlaub: 0, krank: 0, feiertag: 0, frei: 0 };
+    let fruehSum = 0, spaetSum = 0, vollSum = 0;
     const plan = (currentResult && currentResult.plan) || {};
     DAYS.forEach(d => {
       const s = (plan[d]||{})[emp.name] || 'Frei';
-      actual += calcShiftHours(s, parseFloat(emp.hours)||0);
+      const h = calcShiftHours(s, parseFloat(emp.hours)||0);
+      actual += h;
       const sc = shiftClass(s);
-      if (sc === 'frueh') shiftCounts.frueh++;
-      else if (sc === 'spaet') shiftCounts.spaet++;
-      else if (sc === 'voll') shiftCounts.voll++;
+      if (sc === 'frueh') { shiftCounts.frueh++; fruehSum += h; }
+      else if (sc === 'spaet') { shiftCounts.spaet++; spaetSum += h; }
+      else if (sc === 'voll')  { shiftCounts.voll++;  vollSum  += h; }
       else if (sc === 'notdienst') shiftCounts.notdienst++;
       else if (sc === 'urlaub') shiftCounts.urlaub++;
       else if (sc === 'krank') shiftCounts.krank++;
@@ -5644,7 +6233,7 @@ function renderHoursSummary(changedEmp = null) {
     const diff = Math.round((actual - contracted) * 4) / 4;
     const carryover = parseFloat(emp.carryover) || 0;
     const newCarryover = Math.round((carryover + diff) * 4) / 4;
-    return { emp, i, actual, contracted, effective, absenceDays, avgDay, carryoverReduction, diff, carryover, newCarryover, shiftCounts };
+    return { emp, i, actual, contracted, effective, absenceDays, avgDay, carryoverReduction, diff, carryover, newCarryover, shiftCounts, fruehSum, spaetSum, vollSum };
   });
 
   // Originalreihenfolge beibehalten
@@ -5656,7 +6245,7 @@ function renderHoursSummary(changedEmp = null) {
   // Rotations-Historie für Anzeige laden
   const rotHist = getShiftRotationHistory(currentEmployees, 4);
 
-  const cards = sorted.map(({ emp, i, actual, contracted, effective, absenceDays, avgDay, carryoverReduction, diff, carryover, newCarryover, shiftCounts }) => {
+  const cards = sorted.map(({ emp, i, actual, contracted, effective, absenceDays, avgDay, carryoverReduction, diff, carryover, newCarryover, shiftCounts, fruehSum, spaetSum, vollSum }) => {
     const over  = diff >  0.5;
     const under = diff < -0.5;
     const ok    = !over && !under;
@@ -5700,17 +6289,7 @@ function renderHoursSummary(changedEmp = null) {
       : '';
 
     // Schicht-Badges (Arbeitsschichten)
-    // Durchschnittliche Brutto-Schichtstunden aus dem Plan berechnen
-    const _plan2 = (currentResult && currentResult.plan) || {};
-    let fruehSum = 0, spaetSum = 0, vollSum = 0;
-    DAYS.forEach(d => {
-      const sh = (_plan2[d]||{})[emp.name] || 'Frei';
-      const sc = shiftClass(sh);
-      const h  = calcShiftHours(sh, parseFloat(emp.hours)||0);
-      if (sc === 'frueh') fruehSum += h;
-      if (sc === 'spaet') spaetSum += h;
-      if (sc === 'voll')  vollSum  += h;
-    });
+    // Ø Brutto-Stunden pro Schichttyp (bereits im Haupt-Loop berechnet)
     const fruehAvg = shiftCounts.frueh ? (fruehSum / shiftCounts.frueh).toFixed(1) : 0;
     const spaetAvg = shiftCounts.spaet ? (spaetSum / shiftCounts.spaet).toFixed(1) : 0;
     const vollAvg  = shiftCounts.voll  ? (vollSum  / shiftCounts.voll ).toFixed(1) : 0;
@@ -5718,7 +6297,7 @@ function renderHoursSummary(changedEmp = null) {
     const badges = [
       shiftCounts.frueh     ? `<span style="background:#fef9c3;color:#854d0e;border-radius:4px;padding:1px 6px;font-size:.62rem">${shiftCounts.frueh}× Früh <span style="opacity:.6">${fruehAvg}h</span></span>` : '',
       shiftCounts.spaet     ? `<span style="background:#eff6ff;color:#1d4ed8;border-radius:4px;padding:1px 6px;font-size:.62rem">${shiftCounts.spaet}× Spät <span style="opacity:.6">${spaetAvg}h</span></span>` : '',
-      shiftCounts.voll      ? `<span style="background:#f0fdf4;color:#166534;border-radius:4px;padding:1px 6px;font-size:.62rem">${shiftCounts.voll}× Voll <span style="opacity:.6">${vollAvg}h</span></span>` : '',
+      shiftCounts.voll      ? `<span style="background:#f0fdf4;color:#166534;border-radius:4px;padding:1px 6px;font-size:.62rem">${shiftCounts.voll}× Tages <span style="opacity:.6">${vollAvg}h</span></span>` : '',
       shiftCounts.notdienst ? `<span style="background:#ede9fe;color:#5b21b6;border-radius:4px;padding:1px 6px;font-size:.62rem">${shiftCounts.notdienst}× ND</span>` : '',
       shiftCounts.feiertag  ? `<span style="background:#fff7ed;color:#9a3412;border-radius:4px;padding:1px 6px;font-size:.62rem">${shiftCounts.feiertag}× Feiertag</span>` : '',
     ].filter(Boolean).join(' ');
@@ -5757,6 +6336,7 @@ function renderHoursSummary(changedEmp = null) {
       <div style="display:flex;align-items:center;gap:8px">
         <span style="font-weight:700;font-size:.82rem;flex:1">${emp.name}</span>
         <span style="font-size:.68rem;color:var(--ink-soft);white-space:nowrap">${emp.position}</span>
+      ${emp.position && emp.position.startsWith('Azubi') ? '<span style="font-size:.62rem;font-weight:700;background:#fde68a;color:#92400e;border-radius:3px;padding:1px 5px;letter-spacing:.03em;margin-left:3px">AZ</span>' : ''}
       </div>
       <!-- Verfügbarkeits-Status -->
       ${availBar}
@@ -5811,7 +6391,7 @@ function renderHoursSummary(changedEmp = null) {
           var shiftSummary = [
             shiftCounts.frueh      ? shiftCounts.frueh      + '× Früh'        : '',
             shiftCounts.spaet      ? shiftCounts.spaet      + '× Spät'        : '',
-            shiftCounts.voll       ? shiftCounts.voll       + '× Voll'        : '',
+            shiftCounts.voll       ? shiftCounts.voll       + '× Tages'        : '',
             shiftCounts.notdienst  ? shiftCounts.notdienst  + '× ND'          : '',
             shiftCounts.urlaub     ? '🏖 ' + shiftCounts.urlaub + '× Urlaub' : '',
             shiftCounts.krank      ? '🤒 ' + shiftCounts.krank  + '× Krank'  : '',
@@ -6023,7 +6603,9 @@ function openShiftPicker(tag) {
   if (!picker) return;
   activeTag = tag;
   const isSat = tag.dataset.day === 'Sa' || tag.dataset.day === 'So';
-  updateShiftPicker(isSat);
+  const empName = tag.dataset.emp || '';
+  const empObj = currentEmployees && currentEmployees.find(e => e.name === empName);
+  updateShiftPicker(isSat, empObj?.position || '');
 
   // Feiertag-Button: zeigen wenn dieser Tag ein Feiertag ist
   const ftBtn = document.getElementById('pickerFeiertag');
@@ -6046,9 +6628,10 @@ function openShiftPicker(tag) {
   const currentShift = tag.getAttribute('title') || tag.textContent.trim();
   picker.querySelectorAll('.shift-option').forEach(o => {
     const isActive = o.dataset.shift === currentShift;
-    o.style.outline    = isActive ? '2px solid var(--accent)' : 'none';
-    o.style.fontWeight = isActive ? '700' : '500';
-    o.style.background = isActive ? '' : '';
+    o.classList.toggle('active-shift', isActive);
+    o.style.outline = '';
+    o.style.fontWeight = '';
+    o.style.background = '';
   });
   const rect = tag.getBoundingClientRect();
   const PW = 376; // picker width + margin
@@ -6079,12 +6662,38 @@ function applyShift(optionEl) {
   const cls         = shiftClass(newShift);
   const displayText = shiftToTime(newShift);
 
-  activeTag.className   = `shift-tag ${cls}`;
-  activeTag.innerHTML   = displayText;
-  activeTag.setAttribute('title', newShift);
+  // Alle Tags mit gleichem emp+day synchronisieren (Desktop-Tabelle + Mobile-Cards)
+  document.querySelectorAll(`.shift-tag[data-emp="${emp}"][data-day="${day}"]`).forEach(tag => {
+    tag.className = `shift-tag ${cls}`;
+    tag.innerHTML = displayText;
+    tag.setAttribute('title', newShift);
+  });
 
   // Stunden-Summary neu berechnen
   renderHoursSummary();
+
+  // hours-inline unter dem Namen in der Tabelle direkt aktualisieren
+  if (currentEmployees && currentResult) {
+    const empObj = currentEmployees.find(e => e.name === emp);
+    if (empObj) {
+      const plan = currentResult.plan;
+      let total = 0;
+      DAYS.forEach(d => total += calcShiftHours((plan[d]||{})[emp]||'Frei', parseFloat(empObj.hours)||0));
+      const contracted = parseFloat(empObj.hours) || 0;
+      const { effective } = calcEffectiveSoll(empObj, plan);
+      const diffVal = Math.round((total - effective) * 4) / 4;
+      const cls = total > effective + 0.5 ? 'col-over' : total < effective - 0.5 ? 'col-under' : 'col-ok';
+      const fill = total > effective + 0.5 ? '#ef4444' : total < effective - 0.5 ? '#f59e0b' : '#22c55e';
+      const pct = effective > 0 ? Math.min((total / effective) * 100, 100) : 100;
+      const diffStr = (diffVal > 0 ? '+' : '') + diffVal.toFixed(1) + 'h';
+      document.querySelectorAll(`.hours-inline[data-emp="${emp}"]`).forEach(el => {
+        const valEl  = el.querySelector('.hours-inline-val');
+        const fillEl = el.querySelector('.hours-inline-fill');
+        if (valEl)  { valEl.textContent = total.toFixed(1) + 'h'; valEl.className = `hours-inline-val ${cls}`; }
+        if (fillEl) { fillEl.style.width = pct + '%'; fillEl.style.background = fill; }
+      });
+    }
+  }
 
   // Staffing-Zeile direkt im DOM updaten (gleiche Logik wie renderResult)
   const _plan = currentResult.plan;
@@ -6276,145 +6885,8 @@ document.addEventListener('click', e => {
 });
 
 // ── Testszenarios ─────────────────────────────────────────────────────────────
-const TEST_SCENARIOS = [
-  {
-    name: 'Kleinstapotheke',
-    desc: 'Nur ein Apotheker – muss jeden Tag anwesend sein. Knappe Besetzung.',
-    apo: 'Linden-Apotheke Meppen', openWeek: '08:30 – 18:00', openSat: '09:00 – 13:00',
-    minW: 1, minS: 1, model: 'voll',
-    employees: [
-      { name: 'Dr. Markus Stein',   position: 'Apotheker/in', hours: '40', note: 'Einziger Apotheker – darf nicht fehlen', carryover: 0 },
-      { name: 'Renate Fuchs',       position: 'PTA',          hours: '30', note: 'kein Samstag', carryover: 1.5 },
-      { name: 'Kevin Brandt',       position: 'PKA',          hours: '20', note: 'nur Vormittag', carryover: 0 },
-    ],
-    notes: 'Nur ein Apotheker vorhanden – täglich anwesend. Samstag nur Notbesetzung.'
-  },
-  {
-    name: 'Stadtapotheke',
-    desc: 'Früh/Spät-Betrieb, Notdienst Donnerstag, ein Azubi im Team.',
-    apo: 'Rats-Apotheke Osnabrück', openWeek: '08:00 – 19:00', openSat: '09:00 – 14:00',
-    minW: 3, minS: 2, model: 'frueh_spaet', notdienst: ['Donnerstag'],
-    employees: [
-      { name: 'Dr. Julia Hartmann', position: 'Apotheker/in', hours: '40', note: '', carryover: 0 },
-      { name: 'Dr. Tobias Wendt',   position: 'Apotheker/in', hours: '32', note: 'Freitag frei – Kinderbetreuung', carryover: -2 },
-      { name: 'Sabrina Moll',       position: 'PTA',          hours: '38', note: '', carryover: 0 },
-      { name: 'Dirk Haupt',         position: 'PTA',          hours: '25', note: 'kein Samstag', carryover: 0 },
-      { name: 'Lena Vogel',         position: 'Azubi PTA',    hours: '40', note: 'Berufsschule dienstags', carryover: 0 },
-      { name: 'Christoph Bauer',    position: 'PKA',          hours: '20', note: 'nur Mo–Mi', carryover: 3 },
-    ],
-    notes: 'Notdienst Donnerstagnacht – Folgetag Freitag für Notdienst-MA frei halten.'
-  },
-  {
-    name: 'Urlaubswoche',
-    desc: 'Sommerloch: 3 MA gleichzeitig im Urlaub, Krankmeldung einkalkuliert.',
-    apo: 'Marien-Apotheke Freiburg', openWeek: '08:00 – 18:30', openSat: '08:30 – 13:00',
-    minW: 2, minS: 1, model: 'gemischt',
-    employees: [
-      { name: 'Dr. Andrea Sommer',  position: 'Apotheker/in', hours: '40', note: 'Urlaub Mo–Do', carryover: 0 },
-      { name: 'Dr. Florian Beck',   position: 'Apotheker/in', hours: '40', note: '', carryover: -4 },
-      { name: 'Monika Pfeiffer',    position: 'PTA',          hours: '35', note: 'Urlaub ganze Woche', carryover: 0 },
-      { name: 'Hanna Ziegler',      position: 'PTA',          hours: '30', note: 'krank Mo–Di (voraussichtlich)', carryover: 2 },
-      { name: 'Emre Yilmaz',        position: 'PKA',          hours: '25', note: 'Urlaub Fr', carryover: 0 },
-      { name: 'Stefanie Kern',      position: 'Aushilfe',     hours: '16', note: 'nur Nachmittag', carryover: 0 },
-    ],
-    notes: 'Bitte Samstag mit mindestens 2 Personen besetzen. Aushilfe flexibel einsetzbar.'
-  },
-  {
-    name: 'Gemischtes Team',
-    desc: 'Diverse Teilzeitmodelle, Wochenwünsche und Einschränkungen.',
-    apo: 'Brunnen-Apotheke Münster', openWeek: '07:30 – 19:30', openSat: '09:00 – 15:00',
-    minW: 3, minS: 2, model: 'gemischt',
-    employees: [
-      { name: 'Dr. Petra Lange',    position: 'Apotheker/in', hours: '40', note: '', carryover: 0 },
-      { name: 'Dr. Simon Krause',   position: 'Apotheker/in', hours: '20', note: 'nur Frühdienst, kein Samstag', carryover: 0 },
-      { name: 'Birgit Scholz',      position: 'PTA',          hours: '35', note: 'lieber Spät', carryover: -1 },
-      { name: 'Fatima Al-Hassan',   position: 'PTA',          hours: '30', note: 'Mittwoch immer frei', carryover: 0 },
-      { name: 'Jonas Richter',      position: 'PTA',          hours: '15', note: 'Student, nur Mo/Di/Fr', carryover: 0 },
-      { name: 'Ingrid Baum',        position: 'PKA',          hours: '25', note: '', carryover: 4 },
-      { name: 'Marko Petrovic',     position: 'Azubi PKA',    hours: '40', note: 'Berufsschule Mo+Mi', carryover: 0 },
-    ],
-    notes: 'Frühschicht ab 07:30 muss besetzt sein. Spätschicht bis 19:30 mindestens 2 Personen.'
-  },
-  {
-    name: 'Großapotheke',
-    desc: 'Langer Betrieb, 2 Notdienste, hohes Personalaufkommen.',
-    apo: 'Zentral-Apotheke Frankfurt', openWeek: '07:00 – 20:00', openSat: '08:00 – 16:00',
-    minW: 5, minS: 3, model: 'frueh_spaet', notdienst: ['Dienstag', 'Samstag'],
-    employees: [
-      { name: 'Dr. Claudia Mayer',  position: 'Apotheker/in', hours: '40', note: '', carryover: 0 },
-      { name: 'Dr. Stefan Wolf',    position: 'Apotheker/in', hours: '40', note: 'kein Samstag', carryover: -3 },
-      { name: 'Dr. Yasmin Öztürk', position: 'Apotheker/in', hours: '32', note: 'Donnerstag frei', carryover: 0 },
-      { name: 'Nicole Schäfer',     position: 'PTA',          hours: '38', note: '', carryover: 2 },
-      { name: 'Björn Peters',       position: 'PTA',          hours: '35', note: 'lieber Früh', carryover: 0 },
-      { name: 'Anja Kruse',         position: 'PTA',          hours: '30', note: 'kein Samstag', carryover: 0 },
-      { name: 'Thomas Engel',       position: 'PKA',          hours: '25', note: '', carryover: 1 },
-      { name: 'Monika Roth',        position: 'PKA',          hours: '20', note: 'nur Vormittag', carryover: 0 },
-      { name: 'Zeynep Arslan',      position: 'Azubi PTA',    hours: '40', note: 'Berufsschule Mi', carryover: 0 },
-    ],
-    notes: 'Notdienst Di + Sa – Folgetage jeweils für die eingeteilte Person freihalten.'
-  },
-];
 
-function loadScenario(i) {
-  const sc = TEST_SCENARIOS[i];
-  if (!sc) return;
 
-  // 1. Profil direkt in localStorage schreiben (DOM-Felder evtl. nicht aktiv)
-  const staffing = {};
-  ['Mo','Di','Mi','Do','Fr','Sa'].forEach(d => {
-    staffing[d] = { min: d === 'Sa' ? sc.minS : sc.minW };
-  });
-  const existing = (() => { try { return JSON.parse(localStorage.getItem(PROFILE_KEY) || '{}'); } catch(e) { return {}; } })();
-  const profile = {
-    ...existing,
-    apoName:    sc.apo,
-    openWeek:   sc.openWeek,
-    openSat:    sc.openSat,
-    shiftModel: sc.model,
-    staffing,
-  };
-  try { localStorage.setItem(PROFILE_KEY, JSON.stringify(profile)); } catch(e) {}
-
-  // 2. Mitarbeiter in localStorage schreiben
-  _employees = sc.employees.map(e => ({
-    ...e,
-    quals:         e.quals         || [],
-    email:         e.email         || '',
-    shiftPref:     e.shiftPref     || 'flexibel',
-    einspringer:   e.einspringer   || false,
-    carryover:     e.carryover     ?? 0,
-    lastSat:       e.lastSat       || '',
-    lastNotdienst: e.lastNotdienst || '',
-    vacationTotal: e.vacationTotal || 28,
-  }));
-  try { localStorage.setItem('aposhift_emp', JSON.stringify(_employees)); } catch(e) {}
-
-  // 3. DOM-Felder aktualisieren falls sichtbar
-  const set = (id, val) => { const el = document.getElementById(id); if (el && val !== undefined) el.value = val; };
-  set('apoName', sc.apo); set('openWeek', sc.openWeek); set('openSat', sc.openSat);
-  set('shiftModel', sc.model);
-
-  // 4. Notdienst-Checkboxen
-  document.querySelectorAll('.nd-box').forEach(cb => {
-    cb.checked = (sc.notdienst || []).includes(cb.value);
-  });
-
-  // 5. Team rendern
-  _activeEmpIdx = _employees.length > 0 ? 0 : null;
-  renderTeamList();
-  if (_activeEmpIdx !== null) showProfileCard(_employees[_activeEmpIdx]);
-
-  // 6. Sidebar-Chip + Feiertage aktualisieren
-  updateProfileChip();
-  updateSidebarProfile();
-  loadFeiertage();
-
-  // 7. Beschreibung
-  const desc = document.getElementById('scenarioDesc');
-  if (desc) { desc.textContent = sc.desc; desc.style.display = 'block'; }
-
-  navigatePage('mitarbeiter');
-}
 
 
 
