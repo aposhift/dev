@@ -311,13 +311,16 @@
   @media (max-width: 768px) {
     .sidebar {
       transform: translateX(-100%);
+      width: 240px !important;
     }
     .sidebar.open {
       transform: translateX(0);
-      box-shadow: 4px 0 32px rgba(0,0,0,0.4);
+      box-shadow: 4px 0 32px rgba(0,0,0,0.5);
     }
     .app-main {
-      margin-left: 0;
+      margin-left: 0 !important;
+      width: 100% !important;
+      overflow-x: hidden !important;
     }
     .topbar {
       display: flex;
@@ -719,6 +722,27 @@
     padding: 8px 12px; transition: border .15s, background .15s;
   }
   .emp-field-wrap:focus-within { border-color: #a5b4fc; background: #f5f3ff; }
+  /* Größere Kalender-Icons bei Date-Inputs */
+  input[type="date"].emp-field-input {
+    font-size: 1rem; padding: 2px 0; cursor: pointer; min-height: 32px;
+  }
+  input[type="date"].emp-field-input::-webkit-calendar-picker-indicator {
+    width: 18px; height: 18px; cursor: pointer; opacity: .65;
+    filter: invert(30%) sepia(60%) saturate(500%) hue-rotate(210deg);
+    transform: scale(1.1); margin-left: 4px;
+  }
+  input[type="date"].emp-field-input::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+  }
+  /* Urlaubs-Datumsfelder */
+  input[type="date"]:not(.emp-field-input)::-webkit-calendar-picker-indicator {
+    width: 16px; height: 16px; cursor: pointer; opacity: .55;
+    filter: invert(30%) sepia(60%) saturate(500%) hue-rotate(210deg);
+    transform: scale(1.1);
+  }
+  input[type="date"]:not(.emp-field-input)::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+  }
   .emp-field-input {
     background: transparent; border: none; outline: none;
     font-family: var(--sans); font-size: .88rem; color: #0f1623; width: 100%; font-weight: 500;
@@ -742,6 +766,13 @@
   }
   .pf-pref-btn:hover { border-color: #a5b4fc; color: #4f46e5; background: #f5f3ff; }
   .pf-pref-btn.active { background: #ede9fe; border-color: #a5b4fc; color: #4f46e5; }
+  .pf-freeday-btn {
+    background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 8px;
+    padding: 5px 10px; font-size: .78rem; font-weight: 600; color: #64748b;
+    cursor: pointer; transition: all .12s; font-family: var(--mono); min-width: 36px; text-align: center;
+  }
+  .pf-freeday-btn:hover { border-color: #fca5a5; color: #dc2626; background: #fef2f2; }
+  .pf-freeday-btn.active { background: #fee2e2; border-color: #fca5a5; color: #dc2626; font-weight: 700; }
   .pf-qual-btn {
     background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 20px;
     padding: 4px 12px; font-size: .72rem; font-weight: 600; color: #94a3b8;
@@ -891,7 +922,7 @@
     display: none;
     position: fixed;
     inset: 0;
-    z-index: 500;
+    z-index: 900;
     background: rgba(15,23,42,0.55);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
@@ -1410,6 +1441,8 @@
   }
   
   .save-banner-undo:hover { background: rgba(255,255,255,0.25); }
+  body.generating #stickySaveBar { opacity:0 !important; pointer-events:none !important; }
+
 
 
   @media (max-width: 640px) {
@@ -1448,6 +1481,234 @@
     .container { padding:24px 12px; }
     .result-header { flex-direction:column; gap:10px; align-items:flex-start; }
     .export-btns { flex-wrap:wrap; gap:5px; }
+  }
+
+  /* ══════════════════════════════════════════════════════
+     MOBILE OPTIMIERUNGEN ≤ 520px
+     ══════════════════════════════════════════════════════ */
+  @media (max-width: 520px) {
+
+    /* Grundlayout */
+    .container { padding: 14px 10px !important; }
+    .card { padding: 14px 12px !important; border-radius: 12px !important; }
+    .page-title { font-size: 1.55rem !important; margin-bottom: 3px !important; }
+    .page-subtitle { font-size: .74rem !important; margin-bottom: 12px !important; }
+
+    /* ── Sidebar: schmal + Overlay ── */
+    .sidebar { width: 220px !important; z-index: 200 !important; }
+    .sidebar.open { box-shadow: 6px 0 40px rgba(0,0,0,.45) !important; }
+    .app-main { overflow-x: hidden !important; }
+
+    /* ── Planungswoche-Bar ── */
+    .planweek-bar { border-radius: 12px !important; margin-bottom: 14px !important; }
+    .pwb-row {
+      padding: 8px 10px !important;
+      gap: 5px !important;
+      flex-wrap: wrap !important;
+      align-items: center !important;
+    }
+    .pwb-label {
+      font-size: .54rem !important;
+      letter-spacing: .05em !important;
+      min-width: 62px !important;
+      flex-shrink: 0 !important;
+    }
+    .pwb-divider { display: none !important; }
+
+    /* Woche-Input + Stepbuttons in einer Zeile */
+    #planWeek {
+      font-size: .78rem !important;
+      padding: 4px 6px !important;
+      flex: 1 1 auto !important;
+      min-width: 0 !important;
+      max-width: 100% !important;
+    }
+    .pwb-step-btn { padding: 4px 8px !important; font-size: .85rem !important; flex-shrink: 0 !important; }
+    .kw-main-label { font-size: .73rem !important; }
+    .kw-badge { font-size: .54rem !important; padding: 2px 5px !important; }
+
+    /* Notdienst-Chips wrappen */
+    .pwb-row .nd-box,
+    .pwb-row > div:last-child { flex-wrap: wrap !important; gap: 4px !important; width: 100% !important; }
+    .nd-chip, .notdienst-cb-label {
+      font-size: .68rem !important;
+      padding: 4px 8px !important;
+    }
+
+    /* Wünsche */
+    #weekWishes { font-size: .76rem !important; }
+
+    /* ── Aktions-Header (Neu / Excel / PDF) ── */
+    .result-header {
+      flex-wrap: wrap !important;
+      gap: 6px !important;
+      margin-bottom: 10px !important;
+    }
+    .result-header > *:first-child { flex: 1 1 100% !important; }
+    .export-btns {
+      flex-wrap: wrap !important;
+      gap: 4px !important;
+      width: 100% !important;
+    }
+    .export-btn {
+      font-size: .68rem !important;
+      padding: 5px 8px !important;
+      gap: 3px !important;
+      flex: 1 1 auto !important;
+      justify-content: center !important;
+    }
+    .export-btn svg { width: 11px !important; height: 11px !important; }
+
+    /* ── KW-Banner ── */
+    #kwHeader { border-radius: 10px !important; padding: 10px 14px !important; }
+    #kwHeader .kw-title { font-size: 1.35rem !important; }
+
+    /* ── Plan Card-View ── */
+    .shift-card-header { padding: 8px 10px !important; gap: 7px !important; }
+    .shift-card-header .avatar { width: 28px !important; height: 28px !important; font-size: .64rem !important; }
+    .shift-card-name { font-size: .78rem !important; }
+    .shift-card-sub  { font-size: .65rem !important; }
+    .shift-card-days { gap: 4px !important; padding: 8px 10px !important; }
+    .shift-card-day  { padding: 5px 3px !important; }
+    .shift-card-day-label { font-size: .56rem !important; }
+    .shift-card-day-date  { font-size: .56rem !important; }
+    .shift-tag { font-size: .63rem !important; padding: 2px 4px !important; min-width: 20px !important; }
+
+    /* Besetzungs-Zeile */
+    .staffing-row { font-size: .68rem !important; padding: 5px 10px !important; flex-wrap: wrap !important; gap: 4px !important; }
+    .staffing-badge { font-size: .58rem !important; padding: 1px 5px !important; }
+
+    /* ── Stundenauswertung ── */
+    #hoursSummary { padding: 12px 10px !important; }
+    #hoursSummary > .card-title { font-size: .8rem !important; }
+    .hours-emp-card { padding: 10px 10px !important; border-radius: 8px !important; }
+    .hours-emp-name { font-size: .73rem !important; }
+    .hours-emp-top  { gap: 5px !important; margin-bottom: 6px !important; }
+
+    /* Soll/Ist nebeneinander, aber nicht abschneiden */
+    .hours-soll-ist {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 0 !important;
+      margin-bottom: 6px !important;
+    }
+    .soll-block, .ist-block {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      padding: 4px 0 !important;
+    }
+    .soll-label, .ist-label { font-size: .56rem !important; margin-bottom: 1px !important; }
+    .soll-value, .ist-value { font-size: 1.15rem !important; font-weight: 700 !important; }
+
+    .hours-bar-wrap { margin: 4px 0 6px !important; }
+    .shift-count-chips { gap: 3px !important; flex-wrap: wrap !important; }
+    .shift-count-chip  { font-size: .63rem !important; padding: 2px 6px !important; }
+    .hours-carryover   { font-size: .68rem !important; }
+
+    /* ── Mitarbeiterprofil ── */
+    #pf-name-display { font-size: 1.05rem !important; }
+    .pf-pref-btn { font-size: .68rem !important; padding: 5px 9px !important; }
+    .pf-qual-btn { font-size: .66rem !important; padding: 3px 8px !important; }
+
+    /* Position + Arbeitsumfang nebeneinander (bereits grid 1fr 1fr, nur kompakter) */
+    #pf-pos-row { gap: 8px !important; }
+    #pf-pos-row select, #pf-pos-row input { font-size: .8rem !important; padding: 7px 8px !important; }
+
+    /* ── Bottom Nav ── */
+    .bottom-nav { padding: 5px 0 7px !important; }
+    .bn-label { font-size: .59rem !important; }
+    .bn-icon { width: 20px !important; height: 20px !important; }
+  }
+
+  @media (max-width: 380px) {
+    .shift-card-days { grid-template-columns: repeat(4, 1fr) !important; }
+    .export-btn span { display: none !important; } /* nur Icons auf sehr kleinen Screens */
+    .export-btn { flex: 0 0 auto !important; padding: 6px 10px !important; }
+  }
+
+
+  /* ══════════════════════════════════════════════════
+     MOBILE OPTIMIERUNGEN ≤ 520px
+  ══════════════════════════════════════════════════ */
+  @media (max-width: 520px) {
+
+    /* Grundlayout */
+    .container { padding: 14px 10px 80px !important; }
+    .card { padding: 14px 12px !important; border-radius: 12px !important; }
+    .page-title { font-size: 1.55rem !important; margin-bottom: 3px !important; }
+    .page-subtitle { font-size: .74rem !important; margin-bottom: 12px !important; }
+
+    /* ── Planungswoche-Bar ── */
+    .planweek-bar { border-radius: 12px !important; margin-bottom: 14px !important; }
+    .pwb-row { padding: 8px 10px !important; gap: 5px !important; flex-wrap: wrap !important; }
+    .pwb-label { font-size: .54rem !important; letter-spacing: .05em !important; min-width: 66px !important; flex-shrink: 0 !important; }
+    .pwb-divider { display: none !important; }
+    #planWeek { font-size: .78rem !important; padding: 4px 6px !important; flex: 1 1 auto !important; min-width: 0 !important; }
+    .pwb-step-btn { padding: 4px 9px !important; font-size: .85rem !important; flex-shrink: 0 !important; }
+    .kw-main-label { font-size: .73rem !important; }
+    .kw-badge { font-size: .54rem !important; padding: 2px 5px !important; }
+
+    /* Notdienst-Chips: wrappen in Folgezeile */
+    .nd-box { flex-wrap: wrap !important; width: 100% !important; gap: 4px !important; }
+    .nd-chip, .notdienst-cb-label { font-size: .68rem !important; padding: 4px 8px !important; }
+
+    /* Wünsche */
+    #weekWishes { font-size: .76rem !important; }
+
+    /* ── Aktionsbuttons ── */
+    .result-header { flex-wrap: wrap !important; gap: 6px !important; margin-bottom: 10px !important; }
+    .result-header > button:first-child { width: 100% !important; justify-content: center !important; }
+    .export-btns { gap: 4px !important; width: 100% !important; }
+    .export-btn { font-size: .68rem !important; padding: 5px 8px !important; flex: 1 1 auto !important; justify-content: center !important; }
+    .export-btn svg { width: 11px !important; height: 11px !important; }
+
+    /* ── KW-Banner ── */
+    #kwHeader { border-radius: 10px !important; padding: 10px 14px !important; }
+    #kwHeader .kw-title { font-size: 1.35rem !important; }
+
+    /* ── Plan Card-View ── */
+    .shift-card-header { padding: 8px 10px !important; gap: 7px !important; }
+    .shift-card-header .avatar { width: 28px !important; height: 28px !important; font-size: .64rem !important; }
+    .shift-card-name { font-size: .78rem !important; }
+    .shift-card-sub  { font-size: .65rem !important; }
+    .shift-card-days { gap: 4px !important; padding: 8px 10px !important; }
+    .shift-card-day  { padding: 5px 3px !important; }
+    .shift-card-day-label { font-size: .56rem !important; }
+    .shift-card-day-date  { font-size: .56rem !important; }
+    .shift-tag { font-size: .63rem !important; padding: 2px 4px !important; min-width: 20px !important; }
+
+    /* Besetzungs-Zeile */
+    .staffing-row { font-size: .66rem !important; padding: 5px 10px !important; flex-wrap: wrap !important; gap: 3px !important; }
+    .staffing-badge { font-size: .57rem !important; padding: 1px 5px !important; }
+
+    /* ── Stundenauswertung ── */
+    .hours-emp-card { padding: 10px 10px !important; border-radius: 8px !important; }
+    .hours-emp-name { font-size: .73rem !important; }
+    .hours-emp-top  { gap: 5px !important; margin-bottom: 6px !important; }
+    /* Soll/Ist/Diff Grid: kein Abschneiden */
+    .hours-soll-ist-grid {
+      grid-template-columns: 1fr 1fr !important;
+    }
+    .hours-soll-ist-grid > div:last-child {
+      grid-column: 1 / -1 !important;
+    }
+    .shift-count-chips { gap: 3px !important; flex-wrap: wrap !important; }
+    .shift-count-chip  { font-size: .62rem !important; padding: 2px 5px !important; }
+    .hours-carryover   { font-size: .68rem !important; }
+
+    /* ── Profil-Card ── */
+    #pf-name-display { font-size: 1.05rem !important; }
+    .pf-pref-btn { font-size: .68rem !important; padding: 5px 9px !important; }
+    .pf-qual-btn { font-size: .66rem !important; padding: 3px 8px !important; }
+
+    /* ── Bottom Nav ── */
+    .bottom-nav { padding: 5px 0 8px !important; }
+    .bn-label { font-size: .59rem !important; }
+  }
+
+  @media (max-width: 380px) {
+    .shift-card-days { grid-template-columns: repeat(4, 1fr) !important; }
   }
 
   @media print {
@@ -1530,7 +1791,7 @@
 </head>
 <body>
 
-<button id="fab-generate" onclick="generatePlan()" title="KI-Schichtplan erstellen" style="display:none">
+<button id="fab-generate" onclick="document.body.classList.add('generating');generatePlan()" title="KI-Schichtplan erstellen" style="display:none">
   <span style="font-size:1rem">✦</span> Schichtplan erstellen
 </button>
 
@@ -1682,17 +1943,14 @@
       <span class="section-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><rect x="3" y="4" width="18" height="18" rx="3"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Wochenpläne</span>
       <button onclick="clearPlanHistory()" title="Alle Pläne löschen" style="font-size:.72rem;color:#ef4444;background:#fef2f2;border:1px solid #fecaca;cursor:pointer;padding:3px 9px;border-radius:5px;transition:all .15s;font-weight:500" onmouseover="this.style.background='#fee2e2';this.style.borderColor='#f87171'" onmouseout="this.style.background='#fef2f2';this.style.borderColor='#fecaca'">Alle löschen</button>
     </div>
-    <!-- Aktuelle KW: eigene Zeile -->
-    <div id="planHistoryCurrent" style="margin-bottom:10px"></div>
-    <!-- Trennlinie + andere KWs -->
-    <div id="planHistoryOthersWrap" style="display:none">
-      <div style="font-size:.65rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">Weitere Wochen</div>
+    <div id="planHistoryCurrent"></div>
+    <div id="planHistoryOthersWrap">
       <div id="planHistoryOthers" style="display:flex;flex-wrap:wrap;gap:8px"></div>
     </div>
   </div>
 
   <!-- TESTSZENARIOS -->
-  <button id="genBtn" style="display:none" onclick="generatePlan()"></button>
+  <button id="genBtn" style="display:none" onclick="document.body.classList.add('generating');generatePlan()"></button>
   <div class="error-box" id="errorBox"></div>
 
   <!-- Dialog: Bestehender Plan -->
@@ -1773,7 +2031,6 @@
 
       <div id="successBanner" style="display:none;margin-bottom:16px"></div>
 
-      <div class="ai-notes" id="aiNotes"></div>
 
       <div id="kwHeader" style="display:none;margin-bottom:0"></div>
 
@@ -1893,7 +2150,7 @@
           <div>
             <div class="emp-field-label">Position</div>
             <div class="emp-field-wrap">
-              <select id="pf-pos" class="emp-field-input" onchange="syncActiveEmployee()">
+              <select id="pf-pos" class="emp-field-input" onchange="syncActiveEmployee(); checkApprobationWarn()">
                 <option>Apotheker/in</option>
                 <option>PTA</option>
                 <option>Azubi PTA</option>
@@ -1919,6 +2176,45 @@
           <div class="emp-field-wrap">
             <input id="pf-email" type="email" class="emp-field-input" placeholder="vorname.nachname@apotheke.de" onkeydown="if(event.key==='Enter'){event.preventDefault();document.getElementById('pf-note')?.focus();}" oninput="syncActiveEmployee()">
           </div>
+        </div>
+
+        <!-- Geburtstag & Vertragsstart -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+          <div>
+            <div class="emp-field-label">Geburtstag <span title="Wird für Jugendschutz-Hinweis bei unter 18-Jährigen verwendet" style="cursor:help;opacity:.6">ⓘ</span></div>
+            <div class="emp-field-wrap">
+              <input id="pf-birthday" type="date" class="emp-field-input" onchange="syncActiveEmployee(); checkJugendschutz()">
+            </div>
+          </div>
+          <div>
+            <div class="emp-field-label">Vertragsstart</div>
+            <div class="emp-field-wrap">
+              <input id="pf-contractstart" type="date" class="emp-field-input" onchange="syncActiveEmployee()">
+            </div>
+          </div>
+        </div>
+        <!-- Jugendschutz-Hinweis (nur wenn unter 18) -->
+        <div id="pf-jugendschutz-warn" style="display:none;margin-top:-8px;margin-bottom:14px;padding:9px 13px;background:#fef9c3;border:1.5px solid #fde047;border-radius:10px;font-size:.78rem;color:#854d0e;line-height:1.5;display:none;align-items:flex-start;gap:6px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#92400e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;flex-shrink:0;margin-right:6px"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <strong>Jugendschutz:</strong> Dieser Mitarbeiter ist unter 18. Keine Spätschichten nach 20 Uhr, max. 8h/Tag, keine Samstagsarbeit nach 13 Uhr ohne Ausgleich.
+        </div>
+
+        <!-- Teilzeit-Muster: strukturierte Dauerfrei-Tage -->
+        <div style="margin-bottom:14px">
+          <div class="emp-field-label" style="display:flex;align-items:center;gap:5px">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="9" y1="15" x2="9" y2="15" stroke-width="3" stroke-linecap="round"/><line x1="15" y1="15" x2="15" y2="15" stroke-width="3" stroke-linecap="round"/></svg>
+            Immer frei an
+            <span title="Vertragliche oder dauerhafte freie Tage – werden immer blockiert, unabhängig von der Besetzung." style="cursor:help;opacity:.6">ⓘ</span>
+          </div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap" id="pf-freedays-btns">
+            <button class="pf-freeday-btn" data-day="Mo" onclick="toggleFreeDay(this)">Mo</button>
+            <button class="pf-freeday-btn" data-day="Di" onclick="toggleFreeDay(this)">Di</button>
+            <button class="pf-freeday-btn" data-day="Mi" onclick="toggleFreeDay(this)">Mi</button>
+            <button class="pf-freeday-btn" data-day="Do" onclick="toggleFreeDay(this)">Do</button>
+            <button class="pf-freeday-btn" data-day="Fr" onclick="toggleFreeDay(this)">Fr</button>
+            <button class="pf-freeday-btn" data-day="Sa" onclick="toggleFreeDay(this)">Sa</button>
+          </div>
+          <input type="hidden" id="pf-freedays" value="">
         </div>
 
         <!-- Dauerregeln -->
@@ -1969,6 +2265,12 @@
             <button class="pf-qual-btn" data-val="Ausbilder"         onclick="toggleQual(this)"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" style="vertical-align:middle;margin-right:3px"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Ausbilder</button>
             <button class="pf-qual-btn" data-val="Notdienstberechtigt" onclick="toggleQual(this)"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" style="vertical-align:middle;margin-right:3px"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Notdienstberechtigt</button>
             <button class="pf-qual-btn" data-val="Rezeptprüfung"     onclick="toggleQual(this)"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" style="vertical-align:middle;margin-right:3px"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Rezeptprüfung</button>
+            <button class="pf-qual-btn" data-val="Inhaber/in"         onclick="toggleQual(this)"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" style="vertical-align:middle;margin-right:3px"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Inhaber/in</button>
+            <button class="pf-qual-btn" data-val="Leitung"            onclick="toggleQual(this)"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" style="vertical-align:middle;margin-right:3px"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Leitung</button>
+          </div>
+          <div id="pf-approbation-warn" style="display:none;margin-top:8px;padding:7px 11px;background:#fef2f2;border:1.5px solid #fca5a5;border-radius:8px;font-size:.75rem;color:#dc2626;font-weight:600;align-items:center;gap:6px">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            Apotheker/in ohne Approbation — bitte Qualifikation prüfen!
           </div>
         </div>
 
@@ -2021,6 +2323,26 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Urlaubszeiträume -->
+      <div style="margin-top:14px;padding:12px 14px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <span style="font-size:.72rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em">Urlaubszeiträume</span>
+          <button onclick="addVacationPeriod()" style="font-size:.7rem;font-weight:700;color:#6366f1;background:#ede9fe;border:none;border-radius:8px;padding:3px 10px;cursor:pointer">+ Hinzufügen</button>
+        </div>
+        <div id="pf-vacation-periods"></div>
+        <div id="pf-vacation-empty" style="font-size:.75rem;color:#94a3b8;font-style:italic">Keine Urlaubszeiträume eingetragen</div>
+      </div>
+
+      <!-- Stundenkonto -->
+      <div style="margin-top:14px;padding:12px 14px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <span style="font-size:.72rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em">Stundenkonto</span>
+          <span id="pf-hours-account-total" style="font-size:.78rem;font-weight:700;color:#6366f1"></span>
+        </div>
+        <div id="pf-hours-account-bars" style="display:flex;flex-direction:column;gap:5px"></div>
+        <div id="pf-hours-account-empty" style="font-size:.75rem;color:#94a3b8;font-style:italic">Noch keine Plandaten vorhanden</div>
       </div>
 
       <!-- Einspringer-Toggle -->
@@ -2387,9 +2709,7 @@ function unsavedSaveAndGo() {
   if (_pendingNavPage) { const p = _pendingNavPage; _pendingNavPage = null; navigatePage(p); }
 }
 function discardPlanChanges() {
-  _planDirty = false;
-  const bar = document.getElementById('stickySaveBar');
-  if (bar) { bar.classList.remove('show'); bar.style.display = 'none'; }
+  hideSaveBar();
 }
 
 function navigatePage(page, noScroll = false) {
@@ -2427,7 +2747,7 @@ function navigatePage(page, noScroll = false) {
   }
   currentPage = page;
   const fab = document.getElementById('fab-generate');
-  if (fab) fab.style.display = (page === 'einstellungen') ? 'none' : 'flex';
+  if (fab) fab.style.display = (page === 'dienstplan') ? 'flex' : 'none';
   if (!noScroll) window.scrollTo({ top: 0, behavior: 'smooth' });
   closeSidebar();
 }
@@ -2588,8 +2908,8 @@ function normalizePlan(plan) {
   return out;
 }
 
-// Defaults: Mo–Fr min2/max4, Sa min1/max2
-const STAFFING_DEFAULTS = {Mo:{min:1},Di:{min:1},Mi:{min:1},Do:{min:1},Fr:{min:1},Sa:{min:1}};
+// Defaults: Mo min4, Di–Sa min3
+const STAFFING_DEFAULTS = {Mo:{min:4},Di:{min:3},Mi:{min:3},Do:{min:3},Fr:{min:3},Sa:{min:3}};
 
 function renderStaffingGrid(saved) {
   const grid = document.getElementById('staffingGrid');
@@ -2609,13 +2929,14 @@ function renderStaffingGrid(saved) {
 function getStaffing() {
   const days = ['Mo','Di','Mi','Do','Fr','Sa'];
   const result = {};
-  // Fallback auf gespeicherte Werte wenn das Grid nicht im DOM ist
   let saved = {};
   try { saved = JSON.parse(localStorage.getItem(PROFILE_KEY) || '{}').staffing || {}; } catch(e) {}
   days.forEach(d => {
     const el = document.getElementById(`staff_min_${d}`);
+    const domVal = el ? parseInt(el.value) : NaN;
+    // DOM-Wert nur wenn valide; sonst saved → DEFAULTS
     result[d] = {
-      min: el ? (parseInt(el.value) || 1) : (saved[d]?.min || 1),
+      min: (domVal > 0) ? domVal : (saved[d]?.min ?? STAFFING_DEFAULTS[d]?.min ?? 1),
     };
   });
   return result;
@@ -2626,12 +2947,22 @@ let currentEmployees = null;
 let currentApo = '';
 let currentWeek = '';
 let _planDirty = false;
+
+function showSaveBar() {
+  _planDirty = true;
+  _isDirty = true;
+  document.getElementById('stickySaveBar')?.classList.add('show');
+}
+function hideSaveBar() {
+  _planDirty = false;
+  document.getElementById('stickySaveBar')?.classList.remove('show');
+}
 let _profileDirty = false;
 let _pendingProfileNavPage = null;
 
 // ── Mitarbeiter ──────────────────────────────────────────────────────────────
 const defaultEmployees = [
-  {name:'Dr. Julia Hartmann', position:'Apotheker/in', hours:'40', shiftPref:'flexibel',      note:'',                                               carryover:0, quals:['Approbiert','Rezeptprüfung']},
+  {name:'Dr. Julia Hartmann', position:'Apotheker/in', hours:'40', shiftPref:'flexibel',      note:'',                                               carryover:0, quals:['Approbiert','Rezeptprüfung'], vacationPeriods:[]},
   {name:'Dr. Tobias Wendt',   position:'Apotheker/in', hours:'32', shiftPref:'flexibel',      note:'Samstags immer frei, wegen Kinder!',             carryover:0, quals:['Approbiert','Ausbilder','Rezeptprüfung']},
   {name:'Sabrina Moll',       position:'PTA',           hours:'32', shiftPref:'immer_frueh',   note:'',                                               carryover:0, quals:['PTA-Anleitung','Notdienstberechtigt']},
   {name:'Dirk Haupt',         position:'PTA',           hours:'24', shiftPref:'flexibel',      note:'Montags frei',                                   carryover:0, quals:[]},
@@ -2744,8 +3075,15 @@ function showProfileCard(emp) {
   if (einEl) { einEl.checked = emp.einspringer || false; updateEinspringerToggle(einEl.checked); }
   document.getElementById('pf-lastsat').value  = emp.lastSat   || '';
   document.getElementById('pf-carryover').value= emp.carryover || 0;
+  const pfBirthday = document.getElementById('pf-birthday');
+  if (pfBirthday) pfBirthday.value = emp.birthday || '';
+  const pfContractStart = document.getElementById('pf-contractstart');
+  if (pfContractStart) pfContractStart.value = emp.contractStart || '';
+  checkJugendschutz();
   document.getElementById('pf-vacation-total').value = emp.vacationTotal ?? 28;
   updateVacationDisplay(emp);
+  updateHoursAccount(emp);
+  renderVacationPeriods(emp);
   document.getElementById('pf-lastnd').value = emp.lastNotdienst || '';
   // Notdienst-Zeile nur wenn Badge "Notdienstberechtigt" aktiv
   const ndRow = document.getElementById('pf-lastnd-row');
@@ -2756,9 +3094,13 @@ function showProfileCard(emp) {
   document.getElementById('pf-shiftpref').value = pref;
   document.querySelectorAll('.pf-pref-btn').forEach(b => b.classList.toggle('active', b.dataset.val === pref));
 
+  // Frei-Tage Buttons
+  renderFreeDayBtns((emp.freeDays || []).join(','));
+
   // Qualifikations-Badges
   const quals = emp.quals || [];
   document.querySelectorAll('.pf-qual-btn').forEach(b => b.classList.toggle('active', quals.includes(b.dataset.val)));
+  checkApprobationWarn(); // erst nach Setzen der aktiven Buttons prüfen
 
   // Header Badges
   const badgeEl = document.getElementById('profileBadges');
@@ -2811,11 +3153,17 @@ function syncActiveEmployee(silent = false) {
   if (lt)  lt.style.background = e.langMoeglich ? '#7c3aed' : '#e2e8f0';
   if (lth) lth.style.transform = e.langMoeglich ? 'translateX(14px)' : 'translateX(0)';
   e.lastSat      = document.getElementById('pf-lastsat')?.value    ?? '';
+  e.birthday     = document.getElementById('pf-birthday')?.value   ?? '';
+  e.contractStart= document.getElementById('pf-contractstart')?.value ?? '';
   e.carryover    = parseFloat(document.getElementById('pf-carryover')?.value) || 0;
   e.vacationTotal   = parseInt(document.getElementById('pf-vacation-total')?.value) || 28;
+  // vacationPeriods bleibt in _employees[idx] – wird direkt mutiert, nicht via DOM
   e.lastNotdienst   = document.getElementById('pf-lastnd')?.value ?? '';
   e.shiftPref = document.getElementById('pf-shiftpref')?.value  || 'flexibel';
   e.quals     = [...document.querySelectorAll('.pf-qual-btn.active')].map(b => b.dataset.val);
+  // Frei-Tage aus strukturierten Buttons
+  const freeDaysVal = document.getElementById('pf-freedays')?.value || '';
+  e.freeDays = freeDaysVal ? freeDaysVal.split(',').map(s => s.trim()).filter(Boolean) : [];
   // Name aus pf-name Input
   const nameVal = document.getElementById('pf-name')?.value;
   if (nameVal !== undefined) e.name = nameVal;
@@ -2825,6 +3173,42 @@ function setPref(btn) {
   document.getElementById('pf-shiftpref').value = btn.dataset.val;
   document.querySelectorAll('.pf-pref-btn').forEach(b => b.classList.toggle('active', b===btn));
   syncActiveEmployee();
+}
+
+function toggleFreeDay(btn) {
+  btn.classList.toggle('active');
+  const active = [...document.querySelectorAll('.pf-freeday-btn.active')].map(b => b.dataset.day);
+  document.getElementById('pf-freedays').value = active.join(',');
+  syncActiveEmployee();
+}
+
+function renderFreeDayBtns(freeDaysStr) {
+  const days = (freeDaysStr || '').split(',').map(s => s.trim()).filter(Boolean);
+  document.querySelectorAll('.pf-freeday-btn').forEach(btn => {
+    btn.classList.toggle('active', days.includes(btn.dataset.day));
+  });
+  document.getElementById('pf-freedays').value = freeDaysStr || '';
+}
+
+function checkJugendschutz() {
+  const warn = document.getElementById('pf-jugendschutz-warn');
+  if (!warn) return;
+  const val = document.getElementById('pf-birthday')?.value;
+  if (!val) { warn.style.display = 'none'; return; }
+  const birth = new Date(val);
+  const today = new Date();
+  const age = today.getFullYear() - birth.getFullYear()
+    - (today < new Date(today.getFullYear(), birth.getMonth(), birth.getDate()) ? 1 : 0);
+  warn.style.display = (age < 18) ? 'flex' : 'none';
+}
+
+function checkApprobationWarn() {
+  const warn = document.getElementById('pf-approbation-warn');
+  if (!warn) return;
+  const pos = document.getElementById('pf-pos')?.value || '';
+  const isApo = pos === 'Apotheker/in';
+  const hasApprobation = [...document.querySelectorAll('.pf-qual-btn.active')].some(b => b.dataset.val === 'Approbiert');
+  warn.style.display = (isApo && !hasApprobation) ? 'flex' : 'none';
 }
 
 function toggleQual(btn) {
@@ -2837,11 +3221,12 @@ function toggleQual(btn) {
   // Notdienst-Feld ein-/ausblenden
   const ndRow = document.getElementById('pf-lastnd-row');
   if (ndRow) ndRow.style.display = quals.includes('Notdienstberechtigt') ? 'block' : 'none';
+  checkApprobationWarn();
 }
 
 function addEmployee(emp) {
   syncActiveEmployee();
-  const newEmp = { name:'', position:'Apotheker/in', hours:38, note:'', weekWish:'', shiftPref:'flexibel', lastSat:'', lastNotdienst:'', carryover:0, quals:[], vacationTotal:28, ...(emp||{}) };
+  const newEmp = { name:'', position:'Apotheker/in', hours:38, note:'', weekWish:'', shiftPref:'flexibel', lastSat:'', lastNotdienst:'', carryover:0, quals:[], vacationTotal:28, vacationPeriods:[], ...(emp||{}) };
   _employees.push(newEmp);
   _activeEmpIdx = _employees.length - 1;
   renderTeamList();
@@ -2881,26 +3266,217 @@ function getEmployees() {
     shiftPref: MIGRATE_PREF(e.shiftPref),
     lastSat:        e.lastSat        || '',
     lastNotdienst:  e.lastNotdienst  || '',
+    birthday:       e.birthday       || '',
+    contractStart:  e.contractStart  || '',
     carryover:     parseFloat(e.carryover) || 0,
     vacationTotal: parseInt(e.vacationTotal) || 28,
+    vacationPeriods: e.vacationPeriods || [],
+    freeDays:      e.freeDays || [],
     quals:         e.quals     || [],
   }));
 }
 
 // ── Urlaubstage-Anzeige ───────────────────────────────────────────────────────
 function countVacationDaysFromPlan(empName) {
-  // Zählt Urlaubstage für diesen Mitarbeiter aus _plan (dem aktuell angezeigten Plan)
-  if (!window._plan || !empName) return 0;
+  // Zählt Urlaubstage aus ALLEN gespeicherten Wochenplänen
   let count = 0;
-  for (const dayPlan of Object.values(window._plan)) {
-    const shifts = dayPlan[empName];
-    if (!shifts) continue;
-    const arr = Array.isArray(shifts) ? shifts : [shifts];
-    for (const s of arr) {
-      if (typeof s === 'string' && s.toLowerCase().startsWith('urlaub')) count++;
+  let hist = [];
+  try { hist = JSON.parse(localStorage.getItem('aposhift_history') || '[]'); } catch(e) {}
+  // Aktuellen Plan einschließen falls nicht in History
+  const plans = [...hist.map(h => h.plan || {}), ...(window._plan ? [window._plan] : [])];
+  const seen = new Set();
+  for (const plan of plans) {
+    for (const [day, dayPlan] of Object.entries(plan)) {
+      const key = `${JSON.stringify(plan)}-${day}`;
+      if (!dayPlan[empName]) continue;
+      const arr = Array.isArray(dayPlan[empName]) ? dayPlan[empName] : [dayPlan[empName]];
+      for (const s of arr) {
+        if (typeof s === 'string' && s.toLowerCase().startsWith('urlaub')) count++;
+      }
+    }
+  }
+  // Auch aus eingetragenen Urlaubszeiträumen zählen (falls noch kein Plan existiert)
+  const emp = (_employees||[]).find(e => e.name === empName);
+  if (emp?.vacationPeriods?.length) {
+    const plannedDays = new Set();
+    for (const plan of plans) {
+      for (const dayPlan of Object.values(plan)) {
+        const arr = Array.isArray(dayPlan[empName]) ? dayPlan[empName] : [dayPlan[empName]||''];
+        if (arr.some(s => typeof s === 'string' && s.toLowerCase().startsWith('urlaub'))) {
+          // can't reverse-map to date here, skip (already counted above)
+        }
+      }
+    }
+    // Count period days that fall in weeks WITHOUT a saved plan
+    const savedWeeks = new Set(hist.map(h => h.planWeek).filter(Boolean));
+    for (const period of emp.vacationPeriods) {
+      if (!period.from || !period.to) continue;
+      const d1 = new Date(period.from), d2 = new Date(period.to);
+      if (isNaN(d1) || isNaN(d2)) continue;
+      const cur = new Date(d1);
+      while (cur <= d2) {
+        const dow = cur.getDay();
+        if (dow !== 0 && dow !== 6) {
+          // Check if this date falls in a saved plan week
+          const kw = getKWString(cur);
+          if (!savedWeeks.has(kw)) count++;
+        }
+        cur.setDate(cur.getDate() + 1);
+      }
     }
   }
   return count;
+}
+
+function getKWString(date) {
+  const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+  const yearStart = new Date(d.getFullYear(), 0, 1);
+  return `${d.getFullYear()}-W${String(Math.ceil(((d - yearStart) / 86400000 + 1) / 7)).padStart(2, '0')}`;
+}
+
+
+// ── Urlaubszeiträume ─────────────────────────────────────────────────────────
+function renderVacationPeriods(emp) {
+  if (!emp) return;
+  const container = document.getElementById('pf-vacation-periods');
+  const emptyEl   = document.getElementById('pf-vacation-empty');
+  if (!container) return;
+  const periods = emp.vacationPeriods || [];
+  if (periods.length === 0) {
+    container.innerHTML = '';
+    if (emptyEl) emptyEl.style.display = 'block';
+    return;
+  }
+  if (emptyEl) emptyEl.style.display = 'none';
+  container.innerHTML = periods.map((p, i) => {
+    const from = p.from || '';
+    const to   = p.to   || '';
+    const note = p.note || '';
+    const days = calcVacationDays(from, to);
+    const daysLabel = days > 0 ? `<span style="font-size:.7rem;color:#6366f1;font-weight:700;background:#ede9fe;border-radius:6px;padding:1px 7px;white-space:nowrap">${days} Tage</span>` : '';
+    return `<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;background:white;border:1.5px solid #e2e8f0;border-radius:10px;padding:7px 10px">
+      <input type="date" value="${from}" onchange="updateVacationPeriod(${i},'from',this.value)"
+        style="font-size:.85rem;border:none;background:transparent;color:#374151;cursor:pointer;width:130px;min-height:30px">
+      <span style="color:#94a3b8;font-size:.75rem">–</span>
+      <input type="date" value="${to}" onchange="updateVacationPeriod(${i},'to',this.value)"
+        style="font-size:.85rem;border:none;background:transparent;color:#374151;cursor:pointer;width:130px;min-height:30px">
+      ${daysLabel}
+      <input type="text" value="${note}" placeholder="Notiz…" onchange="updateVacationPeriod(${i},'note',this.value)"
+        style="flex:1;font-size:.73rem;border:none;background:transparent;color:#64748b;min-width:0">
+      <button onclick="deleteVacationPeriod(${i})" style="background:none;border:none;cursor:pointer;color:#cbd5e1;font-size:.75rem;padding:0 2px;line-height:1;transition:color .15s"
+        onmouseover="this.style.color='#dc2626'" onmouseout="this.style.color='#cbd5e1'">✕</button>
+    </div>`;
+  }).join('');
+  updateVacationDisplay(emp);
+  updateHoursAccount(emp);
+}
+
+function calcVacationDays(from, to) {
+  if (!from || !to) return 0;
+  const [y1,m1,d1] = from.split('-').map(Number);
+  const [y2,m2,d2] = to.split('-').map(Number);
+  const start = new Date(y1, m1-1, d1);
+  const end   = new Date(y2, m2-1, d2);
+  if (isNaN(start) || isNaN(end) || end < start) return 0;
+  let count = 0;
+  const cur = new Date(start);
+  while (cur <= end) {
+    const dow = cur.getDay();
+    if (dow !== 0) count++; // Mo–Sa (Sonntag ausgeschlossen)
+    cur.setDate(cur.getDate() + 1);
+  }
+  return count;
+}
+
+function addVacationPeriod() {
+  if (_profileLoading) return;
+  const emp = _employees[_activeEmpIdx];
+  if (!emp) return;
+  if (!emp.vacationPeriods) emp.vacationPeriods = [];
+  emp.vacationPeriods.push({ from: '', to: '', note: '' });
+  renderVacationPeriods(emp);
+  markEmpDirty();
+}
+
+function updateVacationPeriod(idx, field, value) {
+  if (_profileLoading) return;
+  const emp = _employees[_activeEmpIdx];
+  if (!emp || !emp.vacationPeriods?.[idx]) return;
+  emp.vacationPeriods[idx][field] = value;
+  renderVacationPeriods(emp);
+  markEmpDirty();
+}
+
+function deleteVacationPeriod(idx) {
+  if (_profileLoading) return;
+  const emp = _employees[_activeEmpIdx];
+  if (!emp || !emp.vacationPeriods) return;
+  emp.vacationPeriods.splice(idx, 1);
+  renderVacationPeriods(emp);
+  markEmpDirty();
+}
+
+function updateHoursAccount(emp) {
+  const barsEl  = document.getElementById('pf-hours-account-bars');
+  const totalEl = document.getElementById('pf-hours-account-total');
+  const emptyEl = document.getElementById('pf-hours-account-empty');
+  if (!barsEl || !emp) return;
+
+  // History aus localStorage laden
+  let hist = [];
+  try { hist = JSON.parse(localStorage.getItem('aposhift_history') || '[]'); } catch(e) {}
+
+  // Nur Einträge mit diesem Mitarbeiter, sortiert nach KW (aufsteigend)
+  const entries = hist
+    .filter(h => h.planWeek && h.result?.plan)
+    .map(h => {
+      const plan = h.result.plan;
+      const empObj = (h.employees || []).find(e => e.name === emp.name);
+      if (!empObj) return null;
+      let actual = 0;
+      const DAYS_ = ['Mo','Di','Mi','Do','Fr','Sa','So'];
+      DAYS_.forEach(d => { actual += calcShiftHours((plan[d]||{})[emp.name]||'Frei', parseFloat(empObj.hours)||0); });
+      const { effective } = calcEffectiveSoll(empObj, plan);
+      const diff = Math.round((actual - effective) * 4) / 4;
+      return { kw: h.planWeek, actual, effective, diff };
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.kw.localeCompare(b.kw))
+    .slice(-6); // max. letzte 6 KWs
+
+  if (!entries.length) {
+    barsEl.innerHTML = '';
+    if (emptyEl) emptyEl.style.display = 'block';
+    if (totalEl) totalEl.textContent = '';
+    return;
+  }
+  if (emptyEl) emptyEl.style.display = 'none';
+
+  // Kumulierter Saldo
+  const cumSum = Math.round(entries.reduce((s, e) => s + e.diff, 0) * 4) / 4;
+  if (totalEl) {
+    const sign = cumSum > 0 ? '+' : '';
+    totalEl.textContent = `${sign}${cumSum.toFixed(1)}h gesamt`;
+    totalEl.style.color = cumSum > 0 ? '#dc2626' : cumSum < 0 ? '#d97706' : '#16a34a';
+  }
+
+  // Max-Wert für Balken-Skalierung
+  const maxAbs = Math.max(...entries.map(e => Math.abs(e.diff)), 1);
+
+  barsEl.innerHTML = entries.map(e => {
+    const kwNum = e.kw.split('-W')[1];
+    const sign  = e.diff > 0 ? '+' : '';
+    const color = e.diff > 0.25 ? '#ef4444' : e.diff < -0.25 ? '#f59e0b' : '#22c55e';
+    const pct   = Math.min(Math.abs(e.diff) / maxAbs * 100, 100);
+    return `<div style="display:flex;align-items:center;gap:8px">
+      <span style="font-size:.65rem;font-family:var(--mono);color:#94a3b8;min-width:32px">KW${kwNum}</span>
+      <div style="flex:1;height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:${color};border-radius:3px;transition:width .3s"></div>
+      </div>
+      <span style="font-size:.68rem;font-weight:700;color:${color};min-width:38px;text-align:right">${sign}${e.diff.toFixed(1)}h</span>
+    </div>`;
+  }).join('');
 }
 
 function updateVacationDisplay(emp) {
@@ -2940,12 +3516,12 @@ function checkCarryoverWarnings() {
     const c = parseFloat(e.carryover) || 0;
     const h = parseFloat(e.hours) || 38;
     if (Math.abs(c) > h * 0.5) {
-      warnings.push(`⚠ <strong>${e.name}</strong>: ${c > 0 ? '+' : ''}${c}h Übertrag – das entspricht mehr als 50% einer Vertragswoche und kann in einer Woche nicht vollständig ausgeglichen werden.`);
+      warnings.push(`[WARN] <strong>${e.name}</strong>: ${c > 0 ? '+' : ''}${c}h Übertrag – das entspricht mehr als 50% einer Vertragswoche und kann in einer Woche nicht vollständig ausgeglichen werden.`);
     }
   });
   if (warnings.length) {
     el.style.display = 'block';
-    el.innerHTML = '⚠ <strong>Hohe Überträge erkannt</strong> – die KI wird versuchen diese auszugleichen, aber vollständiger Ausgleich in einer Woche ist ggf. nicht realistisch:<br>' + warnings.join('<br>');
+    el.innerHTML = '<b>Hohe Überträge erkannt</b> – die KI wird versuchen diese auszugleichen, aber vollständiger Ausgleich in einer Woche ist ggf. nicht realistisch:<br>' + warnings.join('<br>');
   } else {
     el.style.display = 'none';
   }
@@ -2979,9 +3555,14 @@ function loadData() {
       hours:     e.hours     || 38,
       note:      (e.note || '').replace(/\s*\[Qualifikationen:[^\]]*\]/g, '').trim(),
       shiftPref: MIGRATE_PREF(e.shiftPref),
-      lastSat:   e.lastSat   || '',
+      lastSat:        e.lastSat        || '',
+      lastNotdienst:  e.lastNotdienst  || '',
+      birthday:       e.birthday       || '',
+      contractStart:  e.contractStart  || '',
       carryover: parseFloat(e.carryover) || 0,
       vacationTotal: parseInt(e.vacationTotal) || 28,
+      vacationPeriods: e.vacationPeriods || [],
+      freeDays:      e.freeDays || [],
       quals:     e.quals     || [],
       email:       e.email       || '',
     einspringer: e.einspringer || false,
@@ -3278,7 +3859,7 @@ function renderFeiertageChips() {
     return;
   }
   chips.innerHTML = activeFeiertage.map((f,i) =>
-    `<span class="feiertag-chip" onclick="removeFeiertag(${i})">🎌 <strong>${f.wochentag}</strong> – ${f.name} <span style="opacity:.6">✕</span></span>`
+    `<span class="feiertag-chip" onclick="removeFeiertag(${i})">${f.name} <span style="opacity:.6">✕</span></span>`
   ).join('');
   if (hidden) hidden.value = activeFeiertage.map(f => `${f.wochentag} (${f.name})`).join(', ');
 }
@@ -3350,17 +3931,18 @@ function buildAiNotesHTML(warnings, summary) {
         ${SVG_WARN} Hinweise
       </div>
       <div style="display:flex;flex-direction:column;gap:6px">${warnings.map(w => {
-        const isCrit  = w.startsWith('🚨') || w.includes('KEIN Apotheker');
-        const isHours = w.startsWith('⏱');
-        const isWish  = w.startsWith('💬');
+        const isCrit  = w.startsWith('[CRIT]') || w.includes('KEIN Apotheker');
+        const isHours = w.startsWith('[HOURS]');
+        const isWish  = w.startsWith('[WISH]');
         const accent  = isCrit  ? { bg:'#fef2f2', border:'#f87171', svg:SVG_CRIT,  iconBg:'#fee2e2' }
                       : isHours ? { bg:'#fef2f2', border:'#fca5a5', svg:SVG_HOURS, iconBg:'#fee2e2' }
                       : isWish  ? { bg:'#f0f9ff', border:'#7dd3fc', svg:SVG_WISH,  iconBg:'#e0f2fe' }
                       :           { bg:'#fffbeb', border:'#fcd34d', svg:SVG_WARN,  iconBg:'#fef3c7' };
-        const text = w.replace(/^[🚨⏱💬⚠️👥]\s*/u, '');
-        return `<div style="display:flex;align-items:center;gap:10px">
-          <div style="width:28px;height:28px;border-radius:8px;background:${accent.iconBg};display:flex;align-items:center;justify-content:center;flex-shrink:0">${accent.svg}</div>
-          <span style="font-size:.8rem;color:#1e293b;line-height:1.4">${text}</span>
+        const text = w.replace(/^\[(CRIT|HOURS|WISH|WARN|STAFF)\]\s*/u, '');
+        const dotColor = isCrit ? '#ef4444' : isHours ? '#f87171' : isWish ? '#38bdf8' : '#f59e0b';
+        return `<div style="display:flex;align-items:baseline;gap:8px;font-size:.8rem;color:#1e293b;line-height:1.4;padding:2px 0">
+          <span style="width:6px;height:6px;border-radius:50%;background:${dotColor};flex-shrink:0;margin-top:1px;display:inline-block"></span>
+          <span>${text}</span>
         </div>`;
       }).join('')}</div>
     </div>`;
@@ -3389,27 +3971,27 @@ function buildAiNotesHTML(warnings, summary) {
 function buildWarnBanner(count) {
   const label = count + ' Hinweis' + (count !== 1 ? 'e' : '');
   const SVG_CHEVRON = `<svg id="warnToggleIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a16207" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition:transform .3s ease;flex-shrink:0"><polyline points="6 9 12 15 18 9"/></svg>`;
-  return `<div id="warnBannerInner" onclick="toggleAiNotes()" style="
-      cursor:pointer;width:100%;box-sizing:border-box;
-      display:flex;align-items:center;gap:12px;
+  return `<div id="warnBannerOuter" style="
+      width:100%;box-sizing:border-box;
       background:linear-gradient(135deg,#fffbeb,#fef9c3);
       border:1.5px solid #fcd34d;border-radius:14px;
-      padding:12px 18px;transition:filter .15s"
-    onmouseenter="this.style.filter='brightness(.97)'"
-    onmouseleave="this.style.filter=''">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-    <div style="flex:1;min-width:0">
-      <div style="font-weight:700;font-size:.88rem;color:#78350f">Plan erstellt –
-        <span style="display:inline-flex;align-items:center;background:#fde68a;color:#92400e;
-            border-radius:100px;padding:1px 9px;font-size:.75rem;font-weight:700;margin-left:4px;
-            border:1px solid #fcd34d">${label}</span>
+      overflow:hidden">
+    <div id="warnBannerInner" onclick="toggleAiNotes()" style="
+        cursor:pointer;display:flex;align-items:center;gap:12px;
+        padding:12px 18px;transition:filter .15s"
+      onmouseenter="this.style.filter='brightness(.97)'"
+      onmouseleave="this.style.filter=''">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:700;font-size:.88rem;color:#78350f">Plan erstellt –
+          <span style="display:inline-flex;align-items:center;background:#fde68a;color:#92400e;
+              border-radius:100px;padding:1px 9px;font-size:.75rem;font-weight:700;margin-left:4px;
+              border:1px solid #fcd34d">${label}</span>
+        </div>
       </div>
-      <div style="font-size:.73rem;color:#a16207;margin-top:2px;display:flex;align-items:center;gap:4px">
-        <span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:#f59e0b"></span>
-        Hinweise anzeigen
-      </div>
+      ${SVG_CHEVRON}
     </div>
-    ${SVG_CHEVRON}
+    <div id="aiNotes" style="max-height:0;overflow:hidden;transition:max-height .35s ease,padding .3s ease;padding:0 18px"></div>
   </div>`;
 }
 
@@ -3417,16 +3999,15 @@ function toggleAiNotes() {
   const el = document.getElementById('aiNotes');
   const icon = document.getElementById('warnToggleIcon');
   if (!el) return;
-  const open = el.classList.contains('open');
-  if (open) {
-    el.classList.remove('open');
+  const isOpen = el.style.maxHeight && el.style.maxHeight !== '0px' && el.style.maxHeight !== '0';
+  if (isOpen) {
+    el.style.maxHeight = '0';
+    el.style.padding = '0 18px';
     if (icon) icon.style.transform = '';
   } else {
-    el.style.display = 'block';
-    requestAnimationFrame(() => {
-      el.classList.add('open');
-      if (icon) icon.style.transform = 'rotate(180deg)';
-    });
+    el.style.maxHeight = el.scrollHeight + 40 + 'px';
+    el.style.padding = '14px 18px';
+    if (icon) icon.style.transform = 'rotate(180deg)';
   }
 }
 
@@ -3650,6 +4231,11 @@ function loadProfile() {
         const el = document.querySelector(`.staffing-input[data-day="${d}"]`);
         if (el && p.staffing[d]) el.value = p.staffing[d].min || 1;
       });
+    } else {
+      ['Mo','Di','Mi','Do','Fr','Sa'].forEach(d => {
+        const el = document.querySelector(`.staffing-input[data-day="${d}"]`);
+        if (el) el.value = STAFFING_DEFAULTS[d]?.min ?? 1;
+      });
     }
     // Tagesausnahmen laden
     _openExceptions = p.openExceptions || {};
@@ -3845,6 +4431,10 @@ function getShiftTimes() {
     vollEnd:    tGet('shiftVollEnd',    '17:00'),
     langStart:  tGet('shiftLangStart',  '08:00'),
     langEnd:    tGet('shiftLangEnd',    '20:00'),
+    pauseFrueh: parseFloat(tGet('pauseFrueh', '0'))    || 0,
+    pauseSpaet: parseFloat(tGet('pauseSpaet', '0'))    || 0,
+    pauseVoll:  parseFloat(tGet('pauseVoll',  '1'))    || 1,
+    pauseLang:  parseFloat(tGet('pauseLang',  '1'))    || 1,
   };
 }
 
@@ -3923,32 +4513,43 @@ function calcShiftHours(shift, empHoursPerWeek) {
   const s = shift.toLowerCase().trim();
   if (s === 'nd' || s.includes('notdienst')) return calcNotdienstHours();
   if (s === 'krank' || s.includes('krank')) return 0;
-  if (s === 'berufsschule') { const daily = empHoursPerWeek >= 35 ? empHoursPerWeek/5 : empHoursPerWeek >= 25 ? empHoursPerWeek/4 : empHoursPerWeek >= 15 ? empHoursPerWeek/3 : empHoursPerWeek/2; return Math.round(daily * 4) / 4; }
+
+  // Feiertag: Soll wird in calcEffectiveSoll reduziert (Modell B) → IST = 0h
+  if (s.startsWith('feiertag')) return 0;
+
   if (s.includes('frei') || s.includes('urlaub')) return 0;
-  // Feiertag: Tagessollstunden werden gutgeschrieben
-  // Berechnung: Wochenstunden / Arbeitstage (Vollzeit=5, Teilzeit proportional)
-  if (s.startsWith('feiertag')) {
-    if (!empHoursPerWeek) return 0;
-    // Schätze Arbeitstage aus Wochenstunden (38h=5T, 30h=4T, 20h=3T etc.)
-    const dailyHours = empHoursPerWeek >= 35 ? empHoursPerWeek / 5
-                     : empHoursPerWeek >= 25 ? empHoursPerWeek / 4
-                     : empHoursPerWeek >= 15 ? empHoursPerWeek / 3
-                     : empHoursPerWeek / 2;
-    return Math.round(dailyHours * 4) / 4; // auf 0.25h runden
+
+  if (s === 'berufsschule') {
+    const daily = empHoursPerWeek >= 35 ? empHoursPerWeek/5
+                : empHoursPerWeek >= 25 ? empHoursPerWeek/4
+                : empHoursPerWeek >= 15 ? empHoursPerWeek/3
+                : empHoursPerWeek/2;
+    return Math.round(daily * 4) / 4;
   }
-  // Parse times directly from shift label e.g. "Früh 08:00-13:30"
-  // Modell: Pause ist im Vertrag bereits enthalten → raw Schichtzeit zählt 1:1 aufs Stundenkonto.
-  // SOLL = Vertragsstunden (brutto inkl. Pause), IST = Schichtlänge (brutto) → DIFF korrekt.
+
+  // Pausenstunden pro Schichttyp aus Profil lesen (Wert in Stunden)
+  const st = getShiftTimes();
+  const pauseH = s.startsWith('lang')  ? st.pauseLang
+               : s.startsWith('voll')  ? st.pauseVoll
+               : s.startsWith('früh')  ? st.pauseFrueh
+               : s.startsWith('spät')  ? st.pauseSpaet
+               : 0;
+
+  // Uhrzeit aus Schicht-Label parsen → Brutto berechnen → Pause abziehen = Netto
   const m = shift.match(/(\d{1,2})[:\.]?(\d{2})?\s*[-–]\s*(\d{1,2})[:\.]?(\d{2})?/);
   if (m) {
-    const start = parseInt(m[1])*60 + parseInt(m[2]||'0');
-    const end   = parseInt(m[3])*60 + parseInt(m[4]||'0');
-    return (end - start) / 60; // Brutto – Pause im Vertrag enthalten
+    const start  = parseInt(m[1])*60 + parseInt(m[2]||'0');
+    const end    = parseInt(m[3])*60 + parseInt(m[4]||'0');
+    const brutto = (end - start) / 60;
+    const netto  = Math.max(0, brutto - pauseH);
+    return Math.round(netto * 4) / 4;
   }
-  // Fallback (wenn keine Uhrzeit im Label)
-  if (s.includes('früh')) return 6.5;
-  if (s.includes('spät')) return 6.5;
-  if (s.includes('voll')) return 9;
+
+  // Fallback ohne Uhrzeit (Nettowerte)
+  if (s.startsWith('lang'))  return Math.max(0, 12 - st.pauseLang);
+  if (s.startsWith('voll'))  return Math.max(0,  9 - st.pauseVoll);
+  if (s.startsWith('früh'))  return Math.max(0,  6 - st.pauseFrueh);
+  if (s.startsWith('spät'))  return Math.max(0,  6 - st.pauseSpaet);
   return 0;
 }
 
@@ -3963,10 +4564,37 @@ function calcEffectiveSoll(emp, plan) {
                : contracted >= 15 ? contracted / 3
                : contracted / 2;
   let absenceDays = 0;
+  // Dauerregel aus Note ableiten um zu prüfen ob Feiertag ein Arbeitstag wäre
+  const _noteRaw2 = (emp.note || '');
+  const _rng2 = _noteRaw2.match(/\b(Mo|Di|Mi|Do|Fr|Sa)\s*[-\u2013]\s*(Mo|Di|Mi|Do|Fr|Sa)\b/i);
+  const _hasNur2 = /\bnur\b/i.test(_noteRaw2) || /!/.test(_noteRaw2);
+  const _allW2 = ['Mo','Di','Mi','Do','Fr','Sa'];
+  let _nurTage2 = null;
+  if (_rng2 && _hasNur2) {
+    const _f2 = _allW2.findIndex(x => x.toLowerCase() === _rng2[1].toLowerCase());
+    const _t2 = _allW2.findIndex(x => x.toLowerCase() === _rng2[2].toLowerCase());
+    if (_f2 !== -1 && _t2 !== -1) _nurTage2 = _allW2.slice(Math.min(_f2,_t2), Math.max(_f2,_t2)+1);
+  }
+  const _tagAliases2 = {Mo:['mo','montag','montags'],Di:['di','dienstag','dienstags'],Mi:['mi','mittwoch','mittwochs'],Do:['do','donnerstag','donnerstags'],Fr:['fr','freitag','freitags'],Sa:['sa','samstag','samstags']};
+  const _noteLC2 = _noteRaw2.toLowerCase().replace(/[.:,;]/g,' ');
+  const _noteWds2 = _noteLC2.split(/\s+/);
+  const _freiWrds2 = ['frei','kein','keine','nicht','nie','niemals'];
+  const _freiTage2 = [];
+  Object.entries(_tagAliases2).forEach(([kuerzel, pats]) => {
+    if (pats.some(p => _noteWds2.includes(p)) && _freiWrds2.some(fw => _noteLC2.includes(fw))) _freiTage2.push(kuerzel);
+  });
+  const _empWorksOnDay = (d) => {
+    if (_freiTage2.includes(d)) return false;
+    if (_nurTage2 && !_nurTage2.includes(d)) return false;
+    return true;
+  };
+
   if (plan) {
     DAYS.forEach(d => {
       const sh = ((plan[d] || {})[emp.name] || '').toLowerCase().trim();
-      if (sh.startsWith('urlaub') || sh.includes('krank')) absenceDays++;
+      if (sh.startsWith('urlaub') || sh.includes('krank')) { absenceDays++; return; }
+      // Feiertag nur abziehen wenn MA an diesem Tag normalerweise arbeiten würde
+      if (sh.startsWith('feiertag') && _empWorksOnDay(d)) absenceDays++;
     });
   }
   // Dauerregeln: nurTage-Beschränkung → maximal verfügbare Arbeitstage beachten
@@ -4030,6 +4658,33 @@ function shiftClass(s) {
 }
 
 // ── Hauptfunktion ─────────────────────────────────────────────────────────────
+
+// ── Erfolgs-Sound ─────────────────────────────────────────────────────────────
+function playSuccessSound() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const notes = [
+      { freq: 523.25, start: 0.0,  dur: 0.12 }, // C5
+      { freq: 659.25, start: 0.1,  dur: 0.12 }, // E5
+      { freq: 783.99, start: 0.2,  dur: 0.18 }, // G5
+      { freq: 1046.5, start: 0.32, dur: 0.28 }, // C6
+    ];
+    notes.forEach(({ freq, start, dur }) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + start);
+      gain.gain.setValueAtTime(0, ctx.currentTime + start);
+      gain.gain.linearRampToValueAtTime(0.18, ctx.currentTime + start + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + start + dur);
+      osc.start(ctx.currentTime + start);
+      osc.stop(ctx.currentTime + start + dur + 0.05);
+    });
+  } catch(e) {}
+}
+
 async function generatePlan(skipCheck = false) {
   // Validation
   // Apothekenname: DOM zuerst, dann localStorage-Fallback (falls Profil geändert aber noch nicht gespeichert)
@@ -4062,6 +4717,7 @@ async function generatePlan(skipCheck = false) {
   }
 
   document.getElementById('genBtn').disabled = true; const fabG = document.getElementById('fab-generate'); if(fabG) fabG.disabled = true;
+  hideSaveBar(); // sofort verstecken beim Klick auf Generieren
 
   // Zuerst zur Dienstplan-Seite navigieren damit das Overlay garantiert sichtbar ist
   navigatePage('dienstplan');
@@ -4073,6 +4729,9 @@ async function generatePlan(skipCheck = false) {
   loadingOverlay.style.display = 'flex';
   loadingOverlay.style.opacity = '0';
   loadingOverlay.style.transition = 'opacity 0.25s ease';
+  // Sticky-Save-Bar während Generierung komplett ausblenden
+  document.body.classList.add('generating');
+  hideSaveBar();
   await new Promise(r => setTimeout(r, 30)); // Browser-Paint abwarten
   loadingOverlay.style.opacity = '1';
   await new Promise(r => setTimeout(r, 260)); // Transition abwarten
@@ -4227,7 +4886,7 @@ So: NUR "Frei" oder "Notdienst ${ndH}h" (Sonntag ist kein regulärer Arbeitstag!
       if (c > 0.5) {
         const reduceH = Math.min(contracted * 0.25, c * 0.5);
         const maxH = (contracted - reduceH * 0.5).toFixed(1);
-        return `⚠ ${e.name}: +${c.toFixed(1)}h Plus → MAX. ${maxH}h diese Woche, weniger Tage einplanen`;
+        return `[WARN] ${e.name}: +${c.toFixed(1)}h Plus → MAX. ${maxH}h diese Woche, weniger Tage einplanen`;
       }
       return null;
     }).filter(Boolean).join('\n');
@@ -4336,6 +4995,42 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
 
   function autoFixPlan(plan, noSatFix = new Set()) {
     const fp = JSON.parse(JSON.stringify(plan));
+
+    // Feiertage erzwingen: KI-Plan könnte sie ignoriert haben
+    const _ftAF = getActiveFeiertage();
+    const _wdAF = getWeekDates(planWeekVal);
+    employees.forEach(emp => {
+      DAYS.forEach((d, i) => {
+        const dt = _wdAF[i];
+        if (!dt) return;
+        const ft = _ftAF.find(f => f.date === toLocalISO(dt));
+        if (!ft) return;
+        if (d === 'So') { fp['So'][emp.name] = 'Frei'; return; }
+        const saOpen = (getOpenTimeForDay('Sa')||'').trim();
+        if (d === 'Sa' && (!saOpen || saOpen === 'geschlossen')) return;
+        // Dauerregel: wenn Tag laut Note sowieso frei → kein Badge
+        const _noteRaw = (emp.note||'').toLowerCase().replace(/[.:,;]/g,' ');
+        const _words   = _noteRaw.split(/\s+/);
+        const _freiWrds = ['frei','kein','keine','nicht','nie','niemals'];
+        const _tagAlias = {Mo:['mo','montag','montags'],Di:['di','dienstag','dienstags'],Mi:['mi','mittwoch','mittwochs'],Do:['do','donnerstag','donnerstags'],Fr:['fr','freitag','freitags'],Sa:['sa','samstag','samstags']};
+        const _isFrei = (_tagAlias[d]||[]).some(p => _words.includes(p)) && _freiWrds.some(fw => _noteRaw.includes(fw));
+        // Bereichs-Syntax "nur Mo–Mi"
+        const _rng = (emp.note||'').match(/(Mo|Di|Mi|Do|Fr|Sa)\s*[-–]\s*(Mo|Di|Mi|Do|Fr|Sa)/i);
+        const _hasNur = /nur/i.test(emp.note||'') || /!/.test(emp.note||'');
+        let _nurExcluded = false;
+        if (_rng && _hasNur) {
+          const _allW = ['Mo','Di','Mi','Do','Fr','Sa'];
+          const _f = _allW.findIndex(x => x.toLowerCase()===_rng[1].toLowerCase());
+          const _t = _allW.findIndex(x => x.toLowerCase()===_rng[2].toLowerCase());
+          if (_f!==-1 && _t!==-1) _nurExcluded = !_allW.slice(Math.min(_f,_t),Math.max(_f,_t)+1).includes(d);
+        }
+        if (_isFrei || _nurExcluded) { fp[d][emp.name] = 'Frei'; return; }
+        // Notdienst-Apotheker darf arbeiten, alle anderen → Feiertag
+        if (!notdienstTage.includes(d)) {
+          fp[d][emp.name] = `Feiertag (${ft.name})`;
+        }
+      });
+    });
     const model = document.getElementById('shiftModel')?.value || 'gemischt';
     const openDays = ['Mo','Di','Mi','Do','Fr','Sa'].filter(d => {
       const v = (getOpenTimeForDay(d)||'').trim();
@@ -4359,12 +5054,23 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
     const shiftForDay = d => d === 'Sa' ? ss : sw;
     const isWorking = (name, day) => {
       const sh = (fp[day]||{})[name]||'Frei';
-      return sh !== 'Frei' && !sh.startsWith('Urlaub') && !sh.startsWith('Feiertag');
+      return sh !== 'Frei' && sh !== 'Berufsschule' && sh !== 'Krank' && !sh.startsWith('Urlaub') && !sh.startsWith('Feiertag');
     };
     const isNotdienst = (name, day) => ((fp[day]||{})[name]||'').toLowerCase().startsWith('notdienst');
     const weekHours = emp => {
       let h = 0;
       DAYS.forEach(d => h += calcShiftHours((fp[d]||{})[emp.name]||'Frei', parseFloat(emp.hours)||0));
+      return h;
+    };
+    // Nur planbare Schichten (ohne Feiertag-Gutschriften) — für Überstunden-Schutz im Deficit-Loop
+    const weekHoursPlanned = (emp, p) => {
+      const src = p || fp;
+      let h = 0;
+      DAYS.forEach(d => {
+        const sh = (src[d]||{})[emp.name]||'Frei';
+        if (sh.toLowerCase().startsWith('feiertag')) return;
+        h += calcShiftHours(sh, parseFloat(emp.hours)||0);
+      });
       return h;
     };
     const deficit = emp => {
@@ -4374,7 +5080,7 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
     };
     const isAbsent = (name, day) => {
       const sh = (fp[day]||{})[name]||'Frei';
-      return sh.startsWith('Urlaub') || sh.startsWith('Feiertag') || sh === 'Berufsschule';
+      return sh.startsWith('Urlaub') || sh.startsWith('Feiertag') || sh === 'Berufsschule' || sh === 'Krank';
     };
 
     const pickBalanced = (day, assignees) => {
@@ -4449,7 +5155,7 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
                                  : null ? s.voll
                                  : pickBalanced(day, working.map(w => w.name));
             const shHours = calcShiftHours(candidateShift, parseFloat(e.hours)||0);
-            if (weekHours(e) + shHours > effective + 0.25) return false;
+            if (weekHoursPlanned(e) >= effective && weekHoursPlanned(e) + shHours > effective + 2.0) return false;
             return true;
           })
           .sort((a,b) => deficit(b)-deficit(a))[0];
@@ -4486,7 +5192,7 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
           // Überstunden-Schutz
           const { effective } = calcEffectiveSoll(emp, fp);
           const shHours = calcShiftHours(sh, parseFloat(emp.hours)||0);
-          if (weekHours(emp) + shHours > effective + 0.25) return false;
+          if (weekHoursPlanned(emp) >= effective && weekHoursPlanned(emp) + shHours > effective + 2.0) return false;
           return true;
         });
         if (!freeDay) continue;
@@ -4695,6 +5401,15 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
 
       if (wish.freeTage.length > 0 || wish.schicht) empNoteWish[emp.name] = wish;
     });
+
+    // ── Strukturierte Frei-Tage (freeDays-Feld) in empNoteWish einspeisen ──
+    employees.forEach(emp => {
+      const fd = emp.freeDays || [];
+      if (!fd.length) return;
+      const wish = empNoteWish[emp.name] || { freeTage: [], schicht: null };
+      fd.forEach(d => { if (!wish.freeTage.includes(d)) wish.freeTage.push(d); });
+      empNoteWish[emp.name] = wish;
+    });
     // noSatFix mit Dauerregeln aus Mitarbeiterkarte ergänzen (jetzt wo empNoteWish verfügbar)
     employees.forEach(emp => {
       if (empNoteWish[emp.name]?.freeTage?.includes('Sa')) noSatFix.add(emp.name);
@@ -4781,6 +5496,36 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
       });
     });
 
+
+    // Urlaubszeiträume aus Profil → automatisch als Urlaub einsetzen
+    employees.forEach(emp => {
+      const periods = emp.vacationPeriods || [];
+      if (!periods.length) return;
+      const weekDatesForPeriod = getWeekDates(planWeekVal);
+      periods.forEach(period => {
+        if (!period.from || !period.to) return;
+        const [y1,m1,day1] = period.from.split('-').map(Number);
+        const [y2,m2,day2] = period.to.split('-').map(Number);
+        const d1 = new Date(y1, m1-1, day1);
+        const d2 = new Date(y2, m2-1, day2);
+        if (isNaN(d1) || isNaN(d2)) return;
+        weekDatesForPeriod.forEach((wd, i) => {
+          if (!wd) return;
+          const dayKey = DAYS[i];
+          if (dayKey === 'So') return; // Sonntag nie
+          // Normalisiere wd auf Mitternacht lokal für sauberen Vergleich
+          const wdNorm = new Date(wd.getFullYear(), wd.getMonth(), wd.getDate());
+          if (wdNorm >= d1 && wdNorm <= d2) {
+            const existing = absences[emp.name][dayKey] || '';
+            const isHard = existing.startsWith('Feiertag') || existing === 'Krank' || existing === 'Berufsschule';
+            if (!isHard) {
+              absences[emp.name][dayKey] = 'Urlaub';
+            }
+          }
+        });
+      });
+    });
+
     // Feiertage für alle setzen
     const activeFeiertage = getActiveFeiertage();
     const weekDates = getWeekDates(planWeekVal);
@@ -4800,12 +5545,21 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
           plan[d][emp.name] = absences[emp.name][d];
         }
       });
-      // Feiertage
+      // Feiertage – nur Mo–Sa, niemals Sonntag
+      // Kein Badge wenn: So, Sa-geschlossen, oder Tag liegt außerhalb der Dauerregel des MA
       feiertageThisWeek.forEach(({ day, name }) => {
+        if (day === 'So') return;
+        if (day === 'Sa') {
+          const saOpen = (getOpenTimeForDay('Sa')||'').trim();
+          if (!saOpen || saOpen === 'geschlossen') return;
+        }
+        // Dauerregel: wenn der MA an diesem Tag laut Note sowieso nicht arbeitet → Frei, keine Gutschrift
+        const empFrei = empNoteWish[emp.name]?.freeTage || [];
+        if (empFrei.includes(day)) return;
         if (!plan[day][emp.name]) plan[day][emp.name] = `Feiertag (${name})`;
       });
       // Sonntag immer Frei
-      if (!plan['So'][emp.name]) plan['So'][emp.name] = 'Frei';
+      plan['So'][emp.name] = 'Frei';
     });
 
     // Notdienst setzen (aus Checkboxen – 100% deterministisch)
@@ -4881,12 +5635,22 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
     };
     const isWorking    = (name, day) => {
       const sh = (plan[day]||{})[name]||'Frei';
-      return sh !== 'Frei' && sh !== 'Berufsschule' && !sh.startsWith('Urlaub') && !sh.startsWith('Feiertag')
-          && !sh.includes('krank') && !sh.startsWith('Notdienst');
+      return sh !== 'Frei' && sh !== 'Berufsschule' && sh !== 'Krank' && !sh.startsWith('Urlaub') && !sh.startsWith('Feiertag')
+          && !sh.startsWith('Notdienst');
     };
     const weekHours    = emp => {
       let h = 0;
       DAYS.forEach(d => h += calcShiftHours((plan[d]||{})[emp.name]||'Frei', parseFloat(emp.hours)||0));
+      return h;
+    };
+    const weekHoursPlanned = (emp, p) => {
+      const src = p || plan;
+      let h = 0;
+      DAYS.forEach(d => {
+        const sh = (src[d]||{})[emp.name]||'Frei';
+        if (sh.toLowerCase().startsWith('feiertag')) return;
+        h += calcShiftHours(sh, parseFloat(emp.hours)||0);
+      });
       return h;
     };
     const deficit      = emp => {
@@ -5077,8 +5841,16 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
 
       // Feiertag mit Notdienst: nur Notdienst-Apotheker arbeitet, alle anderen haben Feiertag → überspringen
       if (isFeiertagDay) {
+        if (day === 'So') { return; } // Sonntag bleibt immer Frei
+        const saOpen = (getOpenTimeForDay('Sa')||'').trim();
+        if (day === 'Sa' && (!saOpen || saOpen === 'geschlossen')) { return; }
         employees.forEach(emp => {
-          if (!plan[day][emp.name]) plan[day][emp.name] = `Feiertag (${feiertageThisWeek.find(f=>f.day===day)?.name||'Feiertag'})`;
+          if (!plan[day][emp.name]) {
+            // Dauerregel-Check: kein Badge wenn Tag außerhalb der Arbeitstage des MA
+            const empFrei = empNoteWish[emp.name]?.freeTage || [];
+            if (empFrei.includes(day)) return;
+            plan[day][emp.name] = `Feiertag (${feiertageThisWeek.find(f=>f.day===day)?.name||'Feiertag'})`;
+          }
         });
         return; // kein weiteres Einplanen
       }
@@ -5101,7 +5873,7 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
 
       if (apoAvail.length === 0 && !isFeiertagDay) {
         // Kein Apotheker verfügbar → Kritische Warnung (nur an normalen Tagen)
-        finalWarnings.push(`🚨 ${day}: Kein Apotheker verfügbar – Tag kann nicht geöffnet werden!`);
+        finalWarnings.push(`[CRIT] ${day}: Kein Apotheker verfügbar – Tag kann nicht geöffnet werden!`);
       } else if (apoAvail.length === 0 && isFeiertagDay) {
         // Feiertag ohne Apotheker – kein Problem, Notdienst ist bereits gesetzt
       } else if (apoAvail.length === 1 || !needsBothShifts) {
@@ -5186,7 +5958,7 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
             if (shiftPrefBlocks(emp, sh)) continue;
             const { effective } = calcEffectiveSoll(emp, plan);
             const shHours = calcShiftHours(sh, parseFloat(emp.hours)||0);
-            if (weekHours(emp) + shHours > effective + 0.25) continue;
+            if (weekHoursPlanned(emp, plan) + shHours > effective + 0.25) continue;
             const dayIdx = ['Mo','Di','Mi','Do','Fr','Sa'].indexOf(d);
             const empWorkdays = openDays.filter(x => isWorking(emp.name, x)).length;
             const score = -(gap * 1000) - dayIdx * 10 + empWorkdays * 500 - deficit(emp) * 0.01;
@@ -5249,7 +6021,7 @@ Sonderfälle: "Urlaub" für Urlaubstage, "Krank" für Krankmeldungen (NIEMALS "F
             const sh = forced || pickBal(d, emp.name, employees.filter(e=>isWorking(e.name,d)).map(e=>e.name), s2);
             if (shiftPrefBlocks(emp, sh)) continue;
             const shHours = calcShiftHours(sh, parseFloat(emp.hours)||0);
-            if (weekHours(emp) + shHours > effective + 0.25) continue;
+            if (weekHoursPlanned(emp, plan) + shHours > effective + 0.25) continue;
 
             // Score-System: gleichmäßige Verteilung über Woche
             const workingCount = employees.filter(e => isWorking(e.name, d)).length;
@@ -5697,7 +6469,7 @@ WICHTIG: Wenn keine Verbesserung möglich → {"changes":[],"summary":"Plan bere
           `<b>${v.day}</b>: ${v.working} von min. ${v.minReq} Personen`).join(' · ');
         const _warnDiv = document.createElement('div');
         _warnDiv.style.cssText = 'margin-top:16px;padding:10px 14px;background:#fffbeb;border:1.5px solid #fde68a;border-radius:8px;font-size:.78rem;color:#92400e;line-height:1.5;max-width:380px;text-align:left;';
-        _warnDiv.innerHTML = `<b>⚠ Mindestbesetzung nicht erfüllbar</b><br>${_violText}<br><span style="font-size:.72rem;color:#b45309">Zu wenig verfügbares Personal. Bitte Plan manuell anpassen.</span>`;
+        _warnDiv.innerHTML = `<b>Mindestbesetzung nicht erfüllbar</b><br>${_violText}<br><span style="font-size:.72rem;color:#b45309">Zu wenig verfügbares Personal. Bitte Plan manuell anpassen.</span>`;
         _lsContent.appendChild(_warnDiv);
         await new Promise(r => setTimeout(r, 2800)); // 2.8s anzeigen, dann weiter
         _lsContent.removeChild(_warnDiv);
@@ -5744,6 +6516,7 @@ WICHTIG: Wenn keine Verbesserung möglich → {"changes":[],"summary":"Plan bere
       if (el && ae) el.value = ae.lastNotdienst || '';
     }
   } catch(err) {
+    document.body.classList.remove('generating');
     showError('Fehler: ' + err.message);
   } finally {
     const overlay = document.getElementById('loadingOverlay');
@@ -5775,6 +6548,7 @@ WICHTIG: Wenn keine Verbesserung möglich → {"changes":[],"summary":"Plan bere
           <div style="font-size:.85rem;color:var(--ink-soft)">Schichtplan wurde erfolgreich erstellt</div>
         </div>`;
     }
+    playSuccessSound();
     setTimeout(() => {
       if (overlay) {
         overlay.style.opacity = '0';
@@ -5792,9 +6566,9 @@ WICHTIG: Wenn keine Verbesserung möglich → {"changes":[],"summary":"Plan bere
 // ── Ergebnis anzeigen ─────────────────────────────────────────────────────────
 function renderResult(result, employees, apoName, planWeek) {
   currentResult = result; currentEmployees = employees; currentApo = apoName; currentWeek = planWeek;
-  _planDirty = false;
-  const _saveBar = document.getElementById('stickySaveBar');
-  if (_saveBar) { _saveBar.style.display = 'none'; _saveBar.classList.remove('show'); }
+  hideSaveBar();
+  document.body.classList.remove('generating');
+  setTimeout(() => { hideSaveBar(); }, 800);
 
   // Feiertage immer für die angezeigte Woche laden – unabhängig vom aktuellen Input-Wert
   _lastFtWeek = ''; loadFeiertage(planWeek);
@@ -5805,6 +6579,7 @@ function renderResult(result, employees, apoName, planWeek) {
   // Urlaubsanzeige im aktiven Profil aktualisieren
   if (_activeEmpIdx !== null && _employees[_activeEmpIdx]) {
     updateVacationDisplay(_employees[_activeEmpIdx]);
+    updateHoursAccount(_employees[_activeEmpIdx]);
   }
   const validationWarnings = [];
 
@@ -5818,9 +6593,11 @@ function renderResult(result, employees, apoName, planWeek) {
     const contracted = parseFloat(emp.hours) || 0;
     const maxAllowed = Math.min(48, contracted + 8);
     if (actual > maxAllowed) {
-      validationWarnings.push(`⏱ ${emp.name}: ${actual.toFixed(1)}h geplant – überschreitet gesetzliches Limit (max. ${maxAllowed.toFixed(0)}h/Woche). Bitte Schichten manuell reduzieren.`);
+      validationWarnings.push(`[HOURS] ${emp.name}: ${actual.toFixed(1)}h geplant – überschreitet gesetzliches Limit (max. ${maxAllowed.toFixed(0)}h/Woche). Bitte Schichten manuell reduzieren.`);
     } else if (actual > contracted + 4) {
-      validationWarnings.push(`⚠ ${emp.name}: ${actual.toFixed(1)}h geplant bei ${contracted}h Vertrag (+${(actual-contracted).toFixed(1)}h Überstunden).`);
+      validationWarnings.push(`[WARN] ${emp.name}: ${actual.toFixed(1)}h geplant bei ${contracted}h Vertrag (+${(actual-contracted).toFixed(1)}h Überstunden).`);
+    } else if (actual < contracted - 2) {
+      validationWarnings.push(`[WARN] ${emp.name}: Nur ${actual.toFixed(1)}h von ${contracted}h erreichbar – Stundenziel nicht erfüllbar (harte Sperrtage oder Feiertage).`);
     }
   });
 
@@ -5848,7 +6625,7 @@ function renderResult(result, employees, apoName, planWeek) {
     }).length;
     if (working < s.min) {
       understaffedDays.push(d);
-      validationWarnings.push(`👥 ${d}: Mindestbesetzung nicht erreicht – ${working} von min. ${s.min} Personen eingeplant.`);
+      validationWarnings.push(`[STAFF] ${d}: Mindestbesetzung nicht erreicht – ${working} von min. ${s.min} Personen eingeplant.`);
     }
     // Apotheker-Check pro Tag – beide Schichtblöcke müssen abgedeckt sein
     const apoWorking = employees.filter(emp => {
@@ -5862,7 +6639,7 @@ function renderResult(result, employees, apoName, planWeek) {
       : (document.getElementById('openWeek')?.value || '').trim();
     if (openVal && openVal !== 'geschlossen' && working > 0) {
       if (apoWorking.length === 0) {
-        validationWarnings.push(`🚨 ${d}: KEIN Apotheker/in eingeplant! Gesetzlich nicht zulässig.`);
+        validationWarnings.push(`[CRIT] ${d}: KEIN Apotheker/in eingeplant! Gesetzlich nicht zulässig.`);
       } else {
         // Prüfe ob Früh- UND Spätschicht durch Apotheker abgedeckt ist
         // Öffnungszeit parsen
@@ -5888,10 +6665,10 @@ function renderResult(result, employees, apoName, planWeek) {
             return shStart <= midpoint; // beginnt vor/bei Mittag → deckt Spät ab
           });
           if (!hasApoFrueh) {
-            validationWarnings.push(`⚠ ${d}: Kein Apotheker/in in der Frühschicht (bis ca. ${Math.floor(midpoint/60)}:${String(midpoint%60).padStart(2,'0')} Uhr).`);
+            validationWarnings.push(`[WARN] ${d}: Kein Apotheker/in in der Frühschicht (bis ca. ${Math.floor(midpoint/60)}:${String(midpoint%60).padStart(2,'0')} Uhr).`);
           }
           if (!hasApoSpaet) {
-            validationWarnings.push(`⚠ ${d}: Kein Apotheker/in in der Spätschicht (ab ca. ${Math.floor(midpoint/60)}:${String(midpoint%60).padStart(2,'0')} Uhr).`);
+            validationWarnings.push(`[WARN] ${d}: Kein Apotheker/in in der Spätschicht (ab ca. ${Math.floor(midpoint/60)}:${String(midpoint%60).padStart(2,'0')} Uhr).`);
           }
         }
       }
@@ -5928,16 +6705,9 @@ function renderResult(result, employees, apoName, planWeek) {
   const ok = s.constraintsMet && !hasWarn;
 
 
-  const aiNotes = document.getElementById('aiNotes');
-  if (aiNotes) {
-    aiNotes.innerHTML = buildAiNotesHTML(allWarnings, result.summary);
-    aiNotes.classList.remove('open');
-    aiNotes.style.display = 'block';
-  }
-
   // ── Erfolgs-Banner ────────────────────────────────────────────────────────
   // ── Status-Chips berechnen ───────────────────────────────────────────────
-  const noHoursViol = validationWarnings.filter(w => w.startsWith('⏱')).length === 0;
+  const noHoursViol = validationWarnings.filter(w => w.startsWith('[HOURS]')).length === 0;
   const noUnderstaff = understaffedDays.length === 0;
   const apoViolations = validationWarnings.filter(w => w.includes('Apotheker'));
   const noApoViol = apoViolations.length === 0;
@@ -5950,13 +6720,13 @@ function renderResult(result, employees, apoName, planWeek) {
 
   const chips = [];
   if (noHoursViol) chips.push({icon:'<svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>', text:'Stunden im Rahmen',   color:'#059669', bg:'#ecfdf5', border:'#bbf7d0'});
-  else             chips.push({icon:'⚠', text:'Stunden-Überschreitung', color:'#dc2626', bg:'#fef2f2', border:'#fecaca'});
+  else             chips.push({icon:'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>', text:'Stunden-Überschreitung', color:'#dc2626', bg:'#fef2f2', border:'#fecaca'});
   if (noUnderstaff) chips.push({icon:'<svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>', text:'Besetzung gesichert', color:'#059669', bg:'#ecfdf5', border:'#bbf7d0'});
-  else              chips.push({icon:'🚨', text:`Mindestbesetzung unterschritten (${understaffedDays.join(', ')})`, color:'#dc2626', bg:'#fef2f2', border:'#fecaca'});
+  else              chips.push({icon:'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>', text:`Mindestbesetzung unterschritten (${understaffedDays.join(', ')})`, color:'#dc2626', bg:'#fef2f2', border:'#fecaca'});
   if (noApoViol) chips.push({icon:'<svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>', text:'Apotheker abgedeckt',   color:'#059669', bg:'#ecfdf5', border:'#bbf7d0'});
-  else           chips.push({icon:'🚨', text:`Apotheker-Lücke (${apoViolations.length} Tag${apoViolations.length>1?'e':''})`, color:'#dc2626', bg:'#fef2f2', border:'#fecaca'});
+  else           chips.push({icon:'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>', text:`Apotheker-Lücke (${apoViolations.length} Tag${apoViolations.length>1?'e':''})`, color:'#dc2626', bg:'#fef2f2', border:'#fecaca'});
   if (satOk) chips.push({icon:'<svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>', text:`Sa: ${satWorkers} Mitarbeiter`, color:'#2563eb', bg:'#eff6ff', border:'#bfdbfe'});
-  else       chips.push({icon:'⚠', text:`Sa: ${satWorkers}/${satMin} Mitarbeiter`, color:'#d97706', bg:'#fffbeb', border:'#fde68a'});
+  else       chips.push({icon:'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>', text:`Sa: ${satWorkers}/${satMin} Mitarbeiter`, color:'#d97706', bg:'#fffbeb', border:'#fde68a'});
 
   const chipsHtml = chips.map(c =>
     `<span style="display:inline-flex;align-items:center;gap:5px;background:${c.bg};border:1px solid ${c.border};border-radius:100px;padding:4px 11px;font-size:.72rem;font-weight:600;color:${c.color}">${c.icon} ${c.text}</span>`
@@ -5988,6 +6758,13 @@ function renderResult(result, employees, apoName, planWeek) {
     } else {
       banner.style.display = 'flex';
       banner.innerHTML = buildWarnBanner(allWarnings.length);
+      // aiNotes ist jetzt im DOM (innerhalb des Banners) → Inhalt setzen
+      const aiNotesEl = document.getElementById('aiNotes');
+      if (aiNotesEl) {
+        aiNotesEl.innerHTML = buildAiNotesHTML(allWarnings, result.summary);
+        aiNotesEl.style.maxHeight = '0';
+        aiNotesEl.style.padding = '0 18px';
+      }
     }
   }
 
@@ -6003,10 +6780,10 @@ function renderResult(result, employees, apoName, planWeek) {
     let style = '', badge = '';
     if (isUnder) {
       style = 'background:#fef2f2;color:#dc2626';
-      badge = `<div style="font-size:.52rem;margin-top:2px;font-weight:600;letter-spacing:.02em">⚠ UNTERBESETZT</div>`;
+      badge = `<div style="font-size:.52rem;margin-top:2px;font-weight:600;letter-spacing:.02em;display:flex;align-items:center;gap:2px"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> UNTERBESETZT</div>`;
     } else if (isFt) {
       style = 'background:linear-gradient(180deg,#fdf2ff,#fff7ed);color:#7c3aed';
-      badge = `<div style="font-size:.52rem;margin-top:2px;font-weight:700;letter-spacing:.02em;opacity:.85">🎌 ${ftName.toUpperCase()}</div>`;
+      badge = `<div style="font-size:.52rem;margin-top:2px;font-weight:700;letter-spacing:.02em;opacity:.85">${ftName.toUpperCase()}</div>`;
     }
     return `<th style="${style}">${d}${dateTxt}${badge}</th>`;
   }).join('')}</tr>`;
@@ -6027,7 +6804,7 @@ function renderResult(result, employees, apoName, planWeek) {
     const pct  = effSoll>0 ? Math.min((total/effSoll)*100,100) : 0;
     const diff = over?`+${(total-effSoll).toFixed(1)}h`:under?`-${(effSoll-total).toFixed(1)}h`:'<svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="vertical-align:middle;margin-right:2px"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>ok';
 
-    const prefLabel = emp.shiftPref === 'immer_frueh' ? '🟡 Immer Früh' : emp.shiftPref === 'immer_spaet' ? '🔵 Immer Spät' : emp.shiftPref === 'immer_voll' ? '🟢 Immer Tag' : emp.shiftPref === 'rotation' ? '🔄 Wochenrotation' : '↕ Flexibel';
+    const prefLabel = emp.shiftPref === 'immer_frueh' ? 'Immer Früh' : emp.shiftPref === 'immer_spaet' ? 'Immer Spät' : emp.shiftPref === 'immer_voll' ? 'Immer Tag' : emp.shiftPref === 'rotation' ? 'Wochenrotation' : 'Flexibel';
     const lastSatLabel = emp.lastSat ? new Date(emp.lastSat).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'}) : '–';
     const lastNdLabel  = emp.lastNotdienst ? new Date(emp.lastNotdienst).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'}) : '–';
     const carryLabel = emp.carryover > 0 ? `+${emp.carryover}h` : emp.carryover < 0 ? `${emp.carryover}h` : '0h';
@@ -6110,12 +6887,12 @@ function renderResult(result, employees, apoName, planWeek) {
         <div style="display:flex;justify-content:center;gap:3px;margin-bottom:4px;flex-wrap:nowrap;white-space:nowrap">
           <span style="font-size:.65rem;font-weight:800;color:#854d0e;background:#fef9c3;border:1px solid #fde68a;border-radius:4px;padding:1px 4px" title="Frühschicht">F ${frueh}</span>
           <span style="font-size:.65rem;font-weight:800;color:#1d4ed8;background:#eff6ff;border:1px solid #bfdbfe;border-radius:4px;padding:1px 4px" title="Spätschicht">S ${spaet}</span>
-          <span style="font-size:.65rem;font-weight:800;${apoPresent ? 'color:#166534;background:#f0fdf4;border:1px solid #bbf7d0' : 'color:#dc2626;background:#fef2f2;border:1px solid #fecaca'};border-radius:4px;padding:1px 4px" title="Apotheker/in abgedeckt">A ${apoPresent ? '✓' : '⚠'}</span>
+          <span style="font-size:.65rem;font-weight:800;${apoPresent ? 'color:#166534;background:#f0fdf4;border:1px solid #bbf7d0' : 'color:#dc2626;background:#fef2f2;border:1px solid #fecaca'};border-radius:4px;padding:1px 5px;display:inline-flex;align-items:center;gap:2px" title="Apotheker/in abgedeckt">A ${apoPresent ? '<svg width="8" height="8" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>' : '<svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'}</span>
         </div>
         <div style="height:5px;border-radius:3px;background:#e2e8f0;overflow:hidden;margin:0 4px">
           <div style="height:100%;width:${barPct}%;background:${color};border-radius:3px;transition:width .3s"></div>
         </div>
-        <div style="font-size:.62rem;font-weight:700;color:${color};margin-top:3px" title="Anwesende Personen / Mindestbesetzung">${working < min ? `${working}/${min} ⚠` : `${working} Pers. ✓`}</div>
+        <div style="font-size:.62rem;font-weight:700;color:${color};margin-top:3px" title="Anwesende Personen / Mindestbesetzung">${working < min ? `${working}/${min} <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>` : `${working} Pers. <svg width="8" height="8" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`}</div>
       </td>`;
     }).join('');
 
@@ -6211,8 +6988,8 @@ function renderHoursSummary(changedEmp = null) {
   // Daten pro Mitarbeiter sammeln
   let data = currentEmployees.map((emp, i) => {
     let actual = 0;
-    const shiftCounts = { frueh: 0, spaet: 0, voll: 0, notdienst: 0, urlaub: 0, krank: 0, feiertag: 0, frei: 0 };
-    let fruehSum = 0, spaetSum = 0, vollSum = 0;
+    const shiftCounts = { frueh: 0, spaet: 0, voll: 0, notdienst: 0, urlaub: 0, krank: 0, feiertag: 0, berufsschule: 0, frei: 0 };
+    let fruehSum = 0, spaetSum = 0, vollSum = 0, berufsschuleSum = 0;
     const plan = (currentResult && currentResult.plan) || {};
     DAYS.forEach(d => {
       const s = (plan[d]||{})[emp.name] || 'Frei';
@@ -6226,14 +7003,15 @@ function renderHoursSummary(changedEmp = null) {
       else if (sc === 'urlaub') shiftCounts.urlaub++;
       else if (sc === 'krank') shiftCounts.krank++;
       else if (sc === 'feiertag') shiftCounts.feiertag++;
+      else if (sc === 'berufsschule') { shiftCounts.berufsschule++; berufsschuleSum += h; }
       else shiftCounts.frei++;
     });
     const contracted = parseFloat(emp.hours) || 0;
     const { effective, absenceDays, avgDay, carryoverReduction } = calcEffectiveSoll(emp, plan);
-    const diff = Math.round((actual - contracted) * 4) / 4;
+    const diff = Math.round((actual - effective) * 4) / 4;
     const carryover = parseFloat(emp.carryover) || 0;
     const newCarryover = Math.round((carryover + diff) * 4) / 4;
-    return { emp, i, actual, contracted, effective, absenceDays, avgDay, carryoverReduction, diff, carryover, newCarryover, shiftCounts, fruehSum, spaetSum, vollSum };
+    return { emp, i, actual, contracted, effective, absenceDays, avgDay, carryoverReduction, diff, carryover, newCarryover, shiftCounts, fruehSum, spaetSum, vollSum, berufsschuleSum };
   });
 
   // Originalreihenfolge beibehalten
@@ -6245,7 +7023,7 @@ function renderHoursSummary(changedEmp = null) {
   // Rotations-Historie für Anzeige laden
   const rotHist = getShiftRotationHistory(currentEmployees, 4);
 
-  const cards = sorted.map(({ emp, i, actual, contracted, effective, absenceDays, avgDay, carryoverReduction, diff, carryover, newCarryover, shiftCounts, fruehSum, spaetSum, vollSum }) => {
+  const cards = sorted.map(({ emp, i, actual, contracted, effective, absenceDays, avgDay, carryoverReduction, diff, carryover, newCarryover, shiftCounts, fruehSum, spaetSum, vollSum, berufsschuleSum }) => {
     const over  = diff >  0.5;
     const under = diff < -0.5;
     const ok    = !over && !under;
@@ -6258,7 +7036,7 @@ function renderHoursSummary(changedEmp = null) {
     let sollParts = [];
     if (absenceDays > 0) sollParts.push(`${absenceDays}× ${avgDay.toFixed(1)}h Abwesenheit`);
     if (carryoverReduction > 0) sollParts.push(`${carryoverReduction.toFixed(1)}h Überstunden-Abbau`);
-    const sollLabel = `${contracted.toFixed(1)}h`;
+    const sollLabel = effective !== contracted ? `${effective.toFixed(1)}h` : `${contracted.toFixed(1)}h`;
 
     // Rotations-Indikator: nur bei shiftPref === 'rotation' anzeigen
     const hist = rotHist[emp.name] || {};
@@ -6269,8 +7047,8 @@ function renderHoursSummary(changedEmp = null) {
     const nextWeekRec = isRotation
                       ? (thisWeekDom === 'frueh' ? 'spaet' : thisWeekDom === 'spaet' ? 'frueh' : null)
                       : null;
-    const rotIcon     = thisWeekDom === 'frueh' ? '🌅' : thisWeekDom === 'spaet' ? '🌆' : null;
-    const nextIcon    = nextWeekRec === 'frueh' ? '🌅 Früh' : nextWeekRec === 'spaet' ? '🌆 Spät' : null;
+    const rotIcon     = thisWeekDom === 'frueh' ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/></svg>` : thisWeekDom === 'spaet' ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>` : null;
+    const nextIcon    = nextWeekRec === 'frueh' ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/></svg> Früh` : nextWeekRec === 'spaet' ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg> Spät` : null;
     const thisWeekLabel = thisWeekDom === 'frueh' ? 'Früh' : thisWeekDom === 'spaet' ? 'Spät' : null;
     const rotationBlock = (isRotation && rotIcon && thisWeekLabel)
       ? `<div style="border-top:1px solid var(--border);padding-top:8px;display:flex;gap:12px;align-items:flex-start">
@@ -6290,16 +7068,18 @@ function renderHoursSummary(changedEmp = null) {
 
     // Schicht-Badges (Arbeitsschichten)
     // Ø Brutto-Stunden pro Schichttyp (bereits im Haupt-Loop berechnet)
-    const fruehAvg = shiftCounts.frueh ? (fruehSum / shiftCounts.frueh).toFixed(1) : 0;
-    const spaetAvg = shiftCounts.spaet ? (spaetSum / shiftCounts.spaet).toFixed(1) : 0;
-    const vollAvg  = shiftCounts.voll  ? (vollSum  / shiftCounts.voll ).toFixed(1) : 0;
+    const fruehAvg        = shiftCounts.frueh        ? (fruehSum        / shiftCounts.frueh).toFixed(1)        : 0;
+    const spaetAvg        = shiftCounts.spaet        ? (spaetSum        / shiftCounts.spaet).toFixed(1)        : 0;
+    const vollAvg         = shiftCounts.voll         ? (vollSum         / shiftCounts.voll ).toFixed(1)        : 0;
+    const berufsschuleAvg = shiftCounts.berufsschule ? (berufsschuleSum / shiftCounts.berufsschule).toFixed(1) : 0;
 
     const badges = [
-      shiftCounts.frueh     ? `<span style="background:#fef9c3;color:#854d0e;border-radius:4px;padding:1px 6px;font-size:.62rem">${shiftCounts.frueh}× Früh <span style="opacity:.6">${fruehAvg}h</span></span>` : '',
-      shiftCounts.spaet     ? `<span style="background:#eff6ff;color:#1d4ed8;border-radius:4px;padding:1px 6px;font-size:.62rem">${shiftCounts.spaet}× Spät <span style="opacity:.6">${spaetAvg}h</span></span>` : '',
-      shiftCounts.voll      ? `<span style="background:#f0fdf4;color:#166534;border-radius:4px;padding:1px 6px;font-size:.62rem">${shiftCounts.voll}× Tages <span style="opacity:.6">${vollAvg}h</span></span>` : '',
-      shiftCounts.notdienst ? `<span style="background:#ede9fe;color:#5b21b6;border-radius:4px;padding:1px 6px;font-size:.62rem">${shiftCounts.notdienst}× ND</span>` : '',
-      shiftCounts.feiertag  ? `<span style="background:#fff7ed;color:#9a3412;border-radius:4px;padding:1px 6px;font-size:.62rem">${shiftCounts.feiertag}× Feiertag</span>` : '',
+      shiftCounts.frueh        ? `<span style="background:#fef9c3;color:#854d0e;border-radius:4px;padding:1px 6px;font-size:.62rem">${shiftCounts.frueh}× Früh <span style="opacity:.6">${fruehAvg}h</span></span>` : '',
+      shiftCounts.spaet        ? `<span style="background:#eff6ff;color:#1d4ed8;border-radius:4px;padding:1px 6px;font-size:.62rem">${shiftCounts.spaet}× Spät <span style="opacity:.6">${spaetAvg}h</span></span>` : '',
+      shiftCounts.voll         ? `<span style="background:#f0fdf4;color:#166534;border-radius:4px;padding:1px 6px;font-size:.62rem">${shiftCounts.voll}× Tages <span style="opacity:.6">${vollAvg}h</span></span>` : '',
+      shiftCounts.berufsschule ? `<span style="background:#e0f2fe;color:#0369a1;border-radius:4px;padding:1px 6px;font-size:.62rem">${shiftCounts.berufsschule}× BS <span style="opacity:.6">${berufsschuleAvg}h</span></span>` : '',
+      shiftCounts.notdienst    ? `<span style="background:#ede9fe;color:#5b21b6;border-radius:4px;padding:1px 6px;font-size:.62rem">${shiftCounts.notdienst}× ND</span>` : '',
+      shiftCounts.feiertag     ? `<span style="background:#fff7ed;color:#9a3412;border-radius:4px;padding:1px 6px;font-size:.62rem">${shiftCounts.feiertag}× Feiertag</span>` : '',
     ].filter(Boolean).join(' ');
 
     const diffStr  = diff > 0 ? `+${diff.toFixed(1)}h` : `${diff.toFixed(1)}h`;
@@ -6307,7 +7087,7 @@ function renderHoursSummary(changedEmp = null) {
 
     // Übertrag: Abwesenheitstage werden im Kommentar erklärt
     const carryExplain = (shiftCounts.urlaub > 0 || shiftCounts.krank > 0)
-      ? ` <span style="color:#94a3b8;font-size:.6rem">(inkl. ${[shiftCounts.urlaub?`🏖 ${shiftCounts.urlaub}× Urlaub`:'', shiftCounts.krank?`🤒 ${shiftCounts.krank}× Krank`:''].filter(Boolean).join(', ')})</span>`
+      ? ` <span style="color:#94a3b8;font-size:.6rem">(inkl. ${[shiftCounts.urlaub?`${shiftCounts.urlaub}× Urlaub`:'', shiftCounts.krank?`${shiftCounts.krank}× Krank`:''].filter(Boolean).join(', ')})</span>`
       : '';
     const carryStr = newCarryover > 0 ? `+${newCarryover.toFixed(1)}h` : `${newCarryover.toFixed(1)}h`;
     const carryColor = newCarryover > 2 ? '#dc2626' : newCarryover < -2 ? '#d97706' : '#6b7280';
@@ -6317,14 +7097,17 @@ function renderHoursSummary(changedEmp = null) {
       const plan = (currentResult && currentResult.plan) || {};
       const sh = (plan[d]||{})[emp.name] || 'Frei';
       const sc = shiftClass(sh);
-      return sc !== 'frei' && sc !== 'urlaub' && sc !== 'krank' && sc !== 'feiertag';
+      return sc !== 'frei' && sc !== 'urlaub' && sc !== 'krank' && sc !== 'feiertag' && sc !== 'berufsschule';
     }).length;
-    const availColor = workDays >= 5 ? '#16a34a' : workDays >= 3 ? '#d97706' : '#dc2626';
-    const availBg    = workDays >= 5 ? '#f0fdf4' : workDays >= 3 ? '#fffbeb' : '#fef2f2';
+    // Verfügbarkeit: erwartete Tage aus Vertrag ableiten (contracted / avgDay)
+    const expectedWorkDays = avgDay > 0 ? Math.round(contracted / avgDay) : 5;
+    const availColor = workDays >= expectedWorkDays ? '#16a34a' : workDays >= expectedWorkDays - 1 ? '#d97706' : '#dc2626';
+    const availBg    = workDays >= expectedWorkDays ? '#f0fdf4' : workDays >= expectedWorkDays - 1 ? '#fffbeb' : '#fef2f2';
     const absenceBadges2 = [
-      shiftCounts.urlaub ? `<span style="background:#fdf4ff;color:#7e22ce;border:1px solid #e9d5ff;border-radius:4px;padding:1px 6px;font-size:.62rem;font-weight:600">🏖 ${shiftCounts.urlaub}× Urlaub</span>` : '',
-      shiftCounts.krank  ? `<span style="background:#fef2f2;color:#dc2626;border:1px solid #fecaca;border-radius:4px;padding:1px 6px;font-size:.62rem;font-weight:600">🤒 ${shiftCounts.krank}× Krank</span>` : '',
-      shiftCounts.feiertag ? `<span style="background:#fff7ed;color:#9a3412;border:1px solid #fed7aa;border-radius:4px;padding:1px 6px;font-size:.62rem;font-weight:600">🎌 ${shiftCounts.feiertag}× Feiertag</span>` : '',
+      shiftCounts.urlaub ? `<span style="background:#fff7ed;color:#c2410c;border:1px solid #fed7aa;border-radius:4px;padding:1px 6px;font-size:.62rem;font-weight:600"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#c2410c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px"><path d="M17.5 8a4.5 4.5 0 1 0-9 0"/><path d="M3 21l5-8 4 4 4-6 5 10"/><line x1="2" y1="21" x2="22" y2="21"/></svg> ${shiftCounts.urlaub}× Urlaub</span>` : '',
+      shiftCounts.krank  ? `<span style="background:#fef2f2;color:#dc2626;border:1px solid #fecaca;border-radius:4px;padding:1px 6px;font-size:.62rem;font-weight:600"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg> ${shiftCounts.krank}× Krank</span>` : '',
+      shiftCounts.berufsschule ? `<span style="background:#e0f2fe;color:#0369a1;border:1px solid #bae6fd;border-radius:4px;padding:1px 6px;font-size:.62rem;font-weight:600"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> ${shiftCounts.berufsschule}× Berufsschule</span>` : '',
+      shiftCounts.feiertag ? `<span style="background:#fff7ed;color:#9a3412;border:1px solid #fed7aa;border-radius:4px;padding:1px 6px;font-size:.62rem;font-weight:600">${shiftCounts.feiertag}× Feiertag</span>` : '',
     ].filter(Boolean).join(' ');
     const availBar = `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:4px 8px;background:${availBg};border-radius:7px">
       <span style="font-size:.68rem;font-weight:700;color:${availColor};white-space:nowrap">● ${workDays} Arbeitstag${workDays!==1?'e':''}</span>
@@ -6341,7 +7124,7 @@ function renderHoursSummary(changedEmp = null) {
       <!-- Verfügbarkeits-Status -->
       ${availBar}
       <!-- Woche: Soll / Ist / Diff -->
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;text-align:center">
+      <div class="hours-soll-ist-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;text-align:center">
         <div style="background:#f8fafc;border-radius:7px;padding:5px 4px">
           <div style="font-size:.62rem;color:var(--ink-soft);margin-bottom:1px;font-family:var(--mono);letter-spacing:.06em">SOLL</div>
           <div style="font-family:var(--serif);font-weight:800;font-size:.9rem;letter-spacing:-0.02em">${sollLabel}</div>
@@ -6393,8 +7176,8 @@ function renderHoursSummary(changedEmp = null) {
             shiftCounts.spaet      ? shiftCounts.spaet      + '× Spät'        : '',
             shiftCounts.voll       ? shiftCounts.voll       + '× Tages'        : '',
             shiftCounts.notdienst  ? shiftCounts.notdienst  + '× ND'          : '',
-            shiftCounts.urlaub     ? '🏖 ' + shiftCounts.urlaub + '× Urlaub' : '',
-            shiftCounts.krank      ? '🤒 ' + shiftCounts.krank  + '× Krank'  : '',
+            shiftCounts.urlaub     ? shiftCounts.urlaub + '× Urlaub' : '',
+            shiftCounts.krank      ? shiftCounts.krank + '× Krank' : '',
             shiftCounts.feiertag   ? shiftCounts.feiertag   + '× Feiertag'   : '',
           ].filter(Boolean).join(' · ') || 'Keine Schichten';
           // Rotations-Pfeil
@@ -6512,7 +7295,7 @@ function checkExistingPlan(planWeekVal) {
     // Vergangene Woche → nur laden, kein Neu-Generieren
     title.textContent = `Für ${kwNum} existiert bereits ein Plan`;
     desc.innerHTML = `Gespeichert am ${savedAt} · ${existing.employees?.length||0} Mitarbeiter<br>
-      <span style="color:#dc2626;font-weight:600">⚠ Diese Woche liegt in der Vergangenheit – Neu-Generieren ist nicht möglich.</span>`;
+      <span style="color:#dc2626;font-weight:600;display:inline-flex;align-items:center;gap:5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Diese Woche liegt in der Vergangenheit – Neu-Generieren ist nicht möglich.</span>`;
     buttons.innerHTML = `
       <button ${btnStyle('#f0fdf4','#166534','#86efac')} onclick="loadPlanFromHistory(${existingIdx});document.getElementById('existingPlanDialog').style.display='none'">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> Plan laden & ansehen
@@ -6617,7 +7400,7 @@ function openShiftPicker(tag) {
     });
     if (ft) {
       ftBtn.dataset.shift = `Feiertag (${ft.name})`;
-      ftBtn.textContent   = `🎌 ${ft.name}`;
+      ftBtn.textContent   = ft.name;
       ftBtn.style.display = '';
     } else {
       ftBtn.style.display = 'none';
@@ -6706,7 +7489,7 @@ function applyShift(optionEl) {
       let frueh = 0, spaet = 0, working = 0;
       _emps.forEach(emp => {
         const sh = (dayPlan[emp.name] || 'Frei').toLowerCase();
-        if (sh === 'frei' || sh.startsWith('urlaub') || sh.startsWith('feiertag') || sh.startsWith('krank') || sh.startsWith('notdienst') || sh === 'nd') return;
+        if (sh === 'frei' || sh === 'berufsschule' || sh.startsWith('urlaub') || sh.startsWith('feiertag') || sh.startsWith('krank') || sh.startsWith('notdienst') || sh === 'nd') return;
         working++;
         const isVoll = sh.startsWith('voll');
         if (sh.startsWith('früh') || isVoll) frueh++;
@@ -6743,21 +7526,19 @@ function applyShift(optionEl) {
         <div style="display:flex;justify-content:center;gap:3px;margin-bottom:4px;flex-wrap:nowrap;white-space:nowrap">
           <span style="font-size:.65rem;font-weight:800;color:#854d0e;background:#fef9c3;border:1px solid #fde68a;border-radius:4px;padding:1px 4px">F ${frueh}</span>
           <span style="font-size:.65rem;font-weight:800;color:#1d4ed8;background:#eff6ff;border:1px solid #bfdbfe;border-radius:4px;padding:1px 4px">S ${spaet}</span>
-          <span style="font-size:.65rem;font-weight:800;${apoPresent?'color:#166534;background:#f0fdf4;border:1px solid #bbf7d0':'color:#dc2626;background:#fef2f2;border:1px solid #fecaca'};border-radius:4px;padding:1px 4px">A ${apoPresent?'✓':'⚠'}</span>
+          <span style="font-size:.65rem;font-weight:800;${apoPresent?'color:#166534;background:#f0fdf4;border:1px solid #bbf7d0':'color:#dc2626;background:#fef2f2;border:1px solid #fecaca'};border-radius:4px;padding:1px 5px;display:inline-flex;align-items:center;gap:2px">A ${apoPresent?'<svg width="8" height="8" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>':'<svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'}</span>
         </div>
         <div style="height:5px;border-radius:3px;background:#e2e8f0;overflow:hidden;margin:0 4px">
           <div style="height:100%;width:${barPct}%;background:${color};border-radius:3px"></div>
         </div>
-        <div style="font-size:.62rem;font-weight:700;color:${color};margin-top:3px" title="Anwesende Personen / Mindestbesetzung">${working < min ? `${working}/${min} ⚠` : `${working} Pers. ✓`}</div>
+        <div style="font-size:.62rem;font-weight:700;color:${color};margin-top:3px" title="Anwesende Personen / Mindestbesetzung">${working < min ? `${working}/${min} <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>` : `${working} Pers. <svg width="8" height="8" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`}</div>
       </td>`;
     }).join('');
     _staffRow.innerHTML = `<td style="padding:8px 12px;border-top:2px solid var(--border);background:#f8fafc"><div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft)">Besetzung</div></td>${_dayCells}`;
   }
 
   // Dirty-Flag
-  _planDirty = true;
-  _isDirty   = true;
-  document.getElementById('stickySaveBar')?.classList.add('show');
+  showSaveBar();
 
   closeShiftPicker();
 }
@@ -6864,15 +7645,14 @@ function saveManualPlan() {
   } catch(e) { console.error('Speichern fehlgeschlagen', e); return; }
 
   // Erfolgsanimation
-  _planDirty = false;
   const btn = document.getElementById('stickySaveBtn');
   if (btn) {
     const orig = btn.innerHTML;
     btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9.5 10.5,2.5"/></svg> Gespeichert';
     setTimeout(() => { btn.innerHTML = orig; }, 1200);
-    document.getElementById('stickySaveBar')?.classList.remove('show');
+    hideSaveBar();
   } else {
-    document.getElementById('stickySaveBar')?.classList.remove('show');
+    hideSaveBar();
   }
 }
 
@@ -6958,10 +7738,10 @@ function renderKwHeader(planWeek, employees, plan) {
 
 // ── Planhistorie (Seitenleiste) ───────────────────────────────────────────────
 function renderPlanHistory() {
-  const curContainer   = document.getElementById('planHistoryCurrent');
-  const othContainer   = document.getElementById('planHistoryOthers');
-  const othWrap        = document.getElementById('planHistoryOthersWrap');
-  const section        = document.getElementById('planHistorySection');
+  const section = document.getElementById('planHistorySection');
+  const curContainer = document.getElementById('planHistoryCurrent');
+  const othContainer = document.getElementById('planHistoryOthers');
+  const othWrap = document.getElementById('planHistoryOthersWrap');
   if (!curContainer || !othContainer) return;
 
   let hist = [];
@@ -6971,92 +7751,75 @@ function renderPlanHistory() {
   updateNextWeekButton();
   if (hist.length === 0) { curContainer.innerHTML = ''; othContainer.innerHTML = ''; return; }
 
-  // Heutige KW berechnen
   const now = new Date();
   const tmp = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   tmp.setDate(tmp.getDate() + 4 - (tmp.getDay() || 7));
   const yearStart = new Date(tmp.getFullYear(), 0, 1);
   const todayKwStr = `${tmp.getFullYear()}-W${String(Math.ceil(((tmp-yearStart)/86400000+1)/7)).padStart(2,'0')}`;
 
-  // Sortiert absteigend
   const sorted = hist
     .map((entry, origIdx) => ({ entry, origIdx }))
     .sort((a, b) => (b.entry.planWeek || '').localeCompare(a.entry.planWeek || ''));
 
-  function makeCard({ entry, origIdx }, large = false) {
-    const kwNum   = entry.planWeek?.includes('-W') ? parseInt(entry.planWeek.split('-W')[1]) : '?';
+  function makePill({ entry, origIdx }) {
+    const kwNum = entry.planWeek?.includes('-W') ? parseInt(entry.planWeek.split('-W')[1]) : '?';
     const isToday = entry.planWeek === todayKwStr;
-    const isFuture= entry.planWeek > todayKwStr;
+    const isFuture = entry.planWeek > todayKwStr;
 
     let mo = '', fr = '';
     try {
       const dates = getWeekDates(entry.planWeek);
-      const fmtDay = d => d.toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit'});
-      mo = fmtDay(dates[0]); fr = fmtDay(dates[4]);
+      const fmt = d => d.toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit'});
+      mo = fmt(dates[0]); fr = fmt(dates[4]);
     } catch(e) {}
 
-    let border, bg, kwClr, subClr, metaClr, badge = '';
+    let bg, border, kwColor, dateColor, badge = '';
     if (isToday) {
-      border='border-color:#6366f1'; bg='background:linear-gradient(145deg,#f5f3ff,#ede9fe)';
-      kwClr='color:#4338ca'; subClr='color:#6d28d9'; metaClr='color:#a78bfa';
-      badge=`<span style="background:#4f46e5;color:white;font-size:.6rem;font-weight:800;border-radius:10px;padding:1px 7px;letter-spacing:.04em">AKTUELL</span>`;
+      bg = 'background:#ede9fe'; border = 'border-color:#6366f1';
+      kwColor = 'color:#4338ca'; dateColor = 'color:#7c3aed';
+      badge = `<span style="background:#4f46e5;color:#fff;font-size:.55rem;font-weight:800;border-radius:8px;padding:1px 6px;letter-spacing:.04em;line-height:1.6">AKTUELL</span>`;
     } else if (isFuture) {
-      border='border-color:#bae6fd'; bg='background:linear-gradient(145deg,#f0f9ff,#e0f2fe)';
-      kwClr='color:#0369a1'; subClr='color:#0284c7'; metaClr='color:#7dd3fc';
-      badge=`<span style="background:#0ea5e9;color:white;font-size:.6rem;font-weight:700;border-radius:10px;padding:1px 7px;letter-spacing:.04em">GEPLANT</span>`;
+      bg = 'background:#e0f2fe'; border = 'border-color:#7dd3fc';
+      kwColor = 'color:#0369a1'; dateColor = 'color:#0284c7';
+      badge = `<span style="background:#0ea5e9;color:#fff;font-size:.55rem;font-weight:700;border-radius:8px;padding:1px 6px;letter-spacing:.04em;line-height:1.6">GEPLANT</span>`;
     } else {
-      border='border-color:#e2e8f0'; bg='background:#f8fafc';
-      kwClr='color:#64748b'; subClr='color:#94a3b8'; metaClr='color:#cbd5e1';
+      bg = 'background:#f1f5f9'; border = 'border-color:#e2e8f0';
+      kwColor = 'color:#64748b'; dateColor = 'color:#94a3b8';
     }
 
-    const hoverIn  = isToday ? '' : isFuture
-      ? "this.style.borderColor='#7dd3fc';this.style.background='#e0f2fe'"
-      : "this.style.borderColor='#cbd5e1';this.style.background='#f1f5f9'";
-    const hoverOut = isToday ? '' : isFuture
-      ? "this.style.borderColor='#bae6fd';this.style.background='linear-gradient(145deg,#f0f9ff,#e0f2fe)'"
-      : "this.style.borderColor='#e2e8f0';this.style.background='#f8fafc'";
-
-    const extraStyle = large
-      ? 'padding:14px 44px 14px 18px;width:100%;box-sizing:border-box;'
-      : 'padding:10px 36px 10px 14px;min-width:130px;';
-
-    return `<div id="histEntry${origIdx}" style="position:relative;border:1.5px solid;border-radius:12px;cursor:pointer;transition:all .2s;${extraStyle}${border};${bg}"
+    return `<div id="histEntry${origIdx}" style="position:relative;display:inline-flex;align-items:center;gap:8px;${bg};border:1.5px solid;${border};border-radius:20px;padding:5px 32px 5px 12px;cursor:pointer;transition:opacity .15s;white-space:nowrap"
       onclick="loadPlanFromHistory(${origIdx})"
-      onmouseover="${hoverIn}" onmouseout="${hoverOut}">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:${large?'4':'3'}px">
-        <span style="font-size:${large?'1.15':'1'}rem;font-weight:900;line-height:1;${kwClr}">KW&thinsp;${kwNum}</span>
-        ${badge}
-      </div>
-      <div style="font-size:${large?'.8':'.73'}rem;font-weight:600;${subClr};line-height:1.3">${mo} – ${fr}</div>
-      <div style="font-size:${large?'.75':'.7'}rem;font-weight:700;${metaClr};margin-top:4px;letter-spacing:-.01em">${entry.employees?.length||0} Mitarbeitende</div>
-      <button onclick="event.stopPropagation();deletePlanFromHistory(${origIdx})" title="Plan löschen"
-        style="position:absolute;top:10px;right:10px;background:none;border:none;cursor:pointer;font-size:.7rem;color:#cbd5e1;padding:2px 3px;border-radius:4px;line-height:1;transition:all .15s"
-        onmouseover="this.style.color='#dc2626';this.style.background='#fef2f2'"
-        onmouseout="this.style.color='#cbd5e1';this.style.background='none'">✕</button>
+      onmouseover="this.style.opacity='.75'" onmouseout="this.style.opacity='1'">
+      <span style="font-size:.82rem;font-weight:900;${kwColor}">KW&thinsp;${kwNum}</span>
+      <span style="font-size:.72rem;font-weight:500;${dateColor}">${mo}–${fr}</span>
+      ${badge}
+      <button onclick="event.stopPropagation();deletePlanFromHistory(${origIdx})" title="Löschen"
+        style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:.65rem;color:#cbd5e1;padding:1px 2px;line-height:1;transition:color .15s"
+        onmouseover="this.style.color='#dc2626'" onmouseout="this.style.color='#cbd5e1'">✕</button>
     </div>`;
   }
 
-  // Aktuelle KW oben (groß), Rest darunter
-  const todayEntry = sorted.find(s => s.entry.planWeek === todayKwStr);
-  const others     = sorted.filter(s => s.entry.planWeek !== todayKwStr);
-
-  curContainer.innerHTML = todayEntry ? makeCard(todayEntry, true) : '';
-  othContainer.innerHTML = others.map(s => makeCard(s, false)).join('');
-  if (othWrap) othWrap.style.display = others.length ? 'block' : 'none';
+  // Alle Pills in einem einzigen Flex-Container
+  curContainer.innerHTML = '';
+  othContainer.innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:8px">${sorted.map(s => makePill(s)).join('')}</div>`;
+  if (othWrap) othWrap.style.display = 'block';
 }
+
 
 function deletePlanFromHistory(idx) {
   // Inline-Bestätigung direkt im Eintrag
   const entry = document.getElementById('histEntry' + idx);
   if (!entry) return;
   const orig = entry.innerHTML;
-  entry.innerHTML = `<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-    <span style="font-size:.78rem;color:#dc2626;font-weight:600">⚠ Diesen Plan wirklich löschen?</span>
-    <button onclick="confirmDeletePlan(${idx})" style="background:#dc2626;color:white;border:none;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:.75rem;font-weight:600">Ja, löschen</button>
-    <button onclick="renderPlanHistory()" style="background:white;border:1.5px solid var(--border);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:.75rem">Abbrechen</button>
+  entry.innerHTML = `<div style="display:flex;align-items:center;gap:6px">
+    <span style="font-size:.72rem;color:#dc2626;font-weight:700">Löschen?</span>
+    <button onclick="confirmDeletePlan(${idx})" style="background:#dc2626;color:white;border:none;border-radius:10px;padding:2px 10px;cursor:pointer;font-size:.7rem;font-weight:700">Ja</button>
+    <button onclick="renderPlanHistory()" style="background:white;border:1.5px solid #e2e8f0;border-radius:10px;padding:2px 8px;cursor:pointer;font-size:.7rem">Nein</button>
   </div>`;
   entry.style.borderColor = '#fecaca';
   entry.style.background = '#fef2f2';
+  entry.style.cursor = 'default';
+  entry.onclick = null;
 }
 
 function confirmDeletePlan(idx) {
@@ -7079,6 +7842,7 @@ function loadPlanFromHistory(idx) {
     const step4El = document.getElementById('step4');
     if (step4El) { step4El.classList.add('active'); step4El.style.opacity='1'; step4El.style.cursor='pointer'; step4El.title='Zum Plan springen'; }
     document.getElementById('resultSection')?.scrollIntoView({behavior:'smooth', block:'start'});
+    if (_activeEmpIdx !== null && _employees[_activeEmpIdx]) updateHoursAccount(_employees[_activeEmpIdx]);
   } catch(e) { showError('Fehler beim Laden: ' + e.message); }
 }
 
@@ -7086,7 +7850,7 @@ function clearPlanHistory() {
   const container = document.getElementById('planHistoryCurrent');
   if (!container) return;
   container.innerHTML = `<div style="display:flex;align-items:center;gap:10px;padding:10px;background:#fef2f2;border-radius:8px;font-size:.82rem">
-    <span>⚠ Alle Pläne wirklich löschen?</span>
+    <span style="display:inline-flex;align-items:center;gap:5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Alle Pläne wirklich löschen?</span>
     <button onclick="localStorage.removeItem('aposhift_history');renderPlanHistory();currentResult=null;currentEmployees=[];document.getElementById('resultSection')?.classList.remove('visible'); document.getElementById('emptyStatePlan') && (document.getElementById('emptyStatePlan').style.display = '');document.getElementById('successBanner').innerHTML='';document.getElementById('kwHeader').style.display='none';" style="background:#dc2626;color:white;border:none;border-radius:6px;padding:5px 12px;cursor:pointer;font-size:.78rem">Ja, löschen</button>
     <button onclick="renderPlanHistory()" style="background:white;border:1.5px solid var(--border);border-radius:6px;padding:5px 12px;cursor:pointer;font-size:.78rem">Abbrechen</button>
   </div>`;
@@ -7095,6 +7859,7 @@ function clearPlanHistory() {
 // ── Init ──────────────────────────────────────────────────────────────────────
 (function init() {
   // 0. SPA – Startseite sicherstellen
+  hideSaveBar();
   navigatePage('dienstplan');
   loadData();
   checkCarryoverWarnings();
