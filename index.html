@@ -187,7 +187,6 @@
   /* Apotheke unten */
   .sidebar-footer {
     padding: 14px 14px 18px;
-    border-top: 1px solid var(--sidebar-border);
   }
   .sidebar-profile-btn {
     display: flex;
@@ -385,7 +384,8 @@
     color: var(--ink);
     margin: 0 0 4px;
   }
-  .page-sub { font-size: 0.855rem; color: var(--ink-soft); margin: 0; }
+  .page-sub { font-size: 1rem; color: var(--ink-soft); margin: 0; font-weight: 400; }
+  .page-subtitle { font-size: 1rem; color: var(--ink-soft); margin: 0; font-weight: 400; }
 
   /* PROFIL-MODAL */
   .profile-modal-overlay {
@@ -629,9 +629,9 @@
     align-items: center;
     gap: 7px;
     font-family: var(--serif);
-    font-size: .88rem;
-    font-weight: 700;
-    color: #374151;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1e293b;
     letter-spacing: -.01em;
     margin-bottom: 10px;
   }
@@ -812,6 +812,111 @@
   }
   .pf-qual-btn:hover { border-color: #a5b4fc; color: #6366f1; }
   .pf-qual-btn.active { background: #ede9fe; border-color: #a5b4fc; color: #4f46e5; font-weight: 700; }
+  .hilfe-chip {
+    background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 20px;
+    padding: 6px 14px; font-size: .8rem; font-weight: 500; color: #475569;
+    cursor: pointer; transition: all .15s; font-family: var(--sans);
+  }
+  .hilfe-chip:hover { background: #ede9fe; border-color: #a5b4fc; color: #4f46e5; }
+  .hilfe-chip svg { flex-shrink: 0; }
+
+  /* ── Onboarding Tour ─────────────────────────────────────────────────────── */
+  #tourOverlay {
+    position: fixed; inset: 0; z-index: 9000;
+    pointer-events: none;
+  }
+  #tourBackdrop {
+    position: absolute; inset: 0;
+    background: rgba(15,22,35,0.55);
+    backdrop-filter: blur(1px);
+    pointer-events: all;
+  }
+  #tourSpotlight {
+    position: absolute;
+    border-radius: 10px;
+    box-shadow: 0 0 0 9999px rgba(15,22,35,0.55);
+    transition: all .35s cubic-bezier(.4,0,.2,1);
+    pointer-events: none;
+    z-index: 1;
+  }
+  #tourTooltip {
+    position: absolute;
+    background: white;
+    border-radius: 16px;
+    padding: 26px 28px;
+    width: 420px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+    z-index: 2;
+    pointer-events: all;
+    transition: all .35s cubic-bezier(.4,0,.2,1);
+  }
+  #tourTooltip::before {
+    content: '';
+    position: absolute;
+    width: 10px; height: 10px;
+    background: white;
+    transform: rotate(45deg);
+  }
+  .tour-tooltip-top::before    { bottom: -5px; left: 24px; }
+  .tour-tooltip-bottom::before { top: -5px;    left: 24px; }
+  .tour-tooltip-right::before  { left: -5px;   top: 20px;  }
+  .tour-tooltip-left::before   { right: -5px;  top: 20px;  }
+  .tour-tooltip-center::before { display: none; }
+  #tourStep {
+    font-family: var(--mono); font-size: .65rem; font-weight: 600;
+    color: #6366f1; text-transform: uppercase; letter-spacing: .08em;
+    margin-bottom: 8px;
+  }
+  #tourTitle {
+    font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem;
+    font-weight: 700; color: #0f172a; margin-bottom: 8px;
+  }
+  #tourText {
+    font-size: .88rem; color: #475569; line-height: 1.6; margin-bottom: 20px;
+  }
+  .tour-actions {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .tour-skip {
+    font-size: .75rem; color: #94a3b8; background: none; border: none;
+    cursor: pointer; padding: 0; transition: color .15s;
+  }
+  .tour-skip:hover { color: #475569; }
+  .tour-next {
+    font-family: 'Space Grotesk', sans-serif; font-size: .82rem; font-weight: 600;
+    padding: 7px 18px; border-radius: 20px; border: none;
+    background: linear-gradient(135deg,#6366f1,#3b82f6);
+    color: white; cursor: pointer; transition: opacity .15s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .tour-next:hover { opacity: .88; }
+  .tour-dots {
+    display: flex; gap: 5px; align-items: center;
+  }
+  .tour-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #e2e8f0; transition: background .2s;
+  }
+  .tour-dot.active { background: #6366f1; width: 16px; border-radius: 3px; }
+  .hilfe-msg-user {
+    align-self: flex-end;
+    background: linear-gradient(135deg,#6366f1,#3b82f6);
+    color: white; border-radius: 10px 10px 0 10px;
+    padding: 9px 14px; font-size: .85rem; line-height: 1.5; max-width: 560px;
+  }
+  .hilfe-msg-bot {
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .hilfe-msg-bot-bubble {
+    background: #f8fafc; border-radius: 0 10px 10px 10px;
+    padding: 10px 14px; font-size: .85rem; color: #374151;
+    line-height: 1.6; max-width: 560px;
+  }
+  .hilfe-msg-bot-avatar {
+    width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+    background: linear-gradient(135deg,#6366f1,#3b82f6);
+    display: flex; align-items: center; justify-content: center;
+  }
   .profile-badge {
     display: inline-flex; align-items: center;
     background: #ede9fe; color: #4f46e5; border: 1px solid #c4b5fd;
@@ -1026,6 +1131,10 @@
     animation: spin 0.8s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes hilfe-dot {
+    0%, 80%, 100% { transform: scale(0.6); opacity: .4; }
+    40% { transform: scale(1); opacity: 1; }
+  }
   @keyframes card-flash {
     0%   { box-shadow: 0 0 0 0 rgba(99,102,241,.4); }
     50%  { box-shadow: 0 0 0 6px rgba(99,102,241,.1); }
@@ -1199,6 +1308,52 @@
   .shift-table-wrap { overflow-x: auto; margin-bottom: 24px; margin-top: 0; -webkit-overflow-scrolling: touch; }
   #kwHeader + * .shift-table-wrap,
   #kwHeader[style*="display: block"] ~ .shift-table-wrap { margin-top: 0; }
+
+  /* Staffing Tooltip */
+  .staffing-cell { position: relative; }
+  .staffing-tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%; transform: translateX(-50%);
+    background: white;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 10px 14px;
+    min-width: 200px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    z-index: 500;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .staffing-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%; left: 50%; transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: #e2e8f0;
+  }
+  .staffing-tooltip::before {
+    content: '';
+    position: absolute;
+    top: calc(100% - 1px); left: 50%; transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: white;
+    z-index: 1;
+  }
+  .staffing-cell:hover .staffing-tooltip { display: block; }
+  .staffing-tooltip-row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; padding: 3px 0;
+    font-size: .78rem; color: #374151;
+  }
+  .staffing-tooltip-row:not(:last-child) { border-bottom: 1px solid #f1f5f9; }
+  .staffing-tooltip-label { font-weight: 500; color: #64748b; }
+  .staffing-tooltip-value { font-weight: 700; display: flex; align-items: center; gap: 4px; }
+  .staffing-tooltip-note {
+    font-size: .7rem; color: #94a3b8; margin-top: 6px; padding-top: 6px;
+    border-top: 1px solid #f1f5f9; text-align: center;
+  }
   #kwHeader[style*="display: block"] { margin-bottom: 0; }
   .shift-table-wrap { border-top: none; }
   table {
@@ -1521,80 +1676,46 @@
      ══════════════════════════════════════════════════════ */
   @media (max-width: 520px) {
 
-    /* Grundlayout */
-    .container { padding: 14px 10px !important; }
+    /* ── Grundlayout ── */
+    .container { padding: 14px 10px 80px !important; }
     .card { padding: 14px 12px !important; border-radius: 12px !important; }
-    .page-title { font-size: 1.55rem !important; margin-bottom: 3px !important; }
-    .page-subtitle { font-size: .74rem !important; margin-bottom: 12px !important; }
+    .page-title { font-size: 1.4rem !important; margin-bottom: 2px !important; }
+    .page-sub, .page-subtitle { font-size: .85rem !important; margin-bottom: 10px !important; }
+    .page-header { margin-bottom: 20px !important; padding-bottom: 16px !important; }
 
-    /* ── Sidebar: schmal + Overlay ── */
+    /* ── Sidebar ── */
     .sidebar { width: 220px !important; z-index: 200 !important; }
     .sidebar.open { box-shadow: 6px 0 40px rgba(0,0,0,.45) !important; }
     .app-main { overflow-x: hidden !important; }
 
     /* ── Planungswoche-Bar ── */
     .planweek-bar { border-radius: 12px !important; margin-bottom: 14px !important; }
-    .pwb-row {
-      padding: 8px 10px !important;
-      gap: 5px !important;
-      flex-wrap: wrap !important;
-      align-items: center !important;
-    }
-    .pwb-label {
-      font-size: .54rem !important;
-      letter-spacing: .05em !important;
-      min-width: 62px !important;
-      flex-shrink: 0 !important;
-    }
+    .pwb-row { padding: 8px 10px !important; gap: 5px !important; flex-wrap: wrap !important; align-items: center !important; }
+    .pwb-label { font-size: .6rem !important; letter-spacing: .05em !important; min-width: 64px !important; flex-shrink: 0 !important; }
+    .pwb-label .pwb-label-sub { font-size: .56rem !important; }
     .pwb-divider { display: none !important; }
-
-    /* Woche-Input + Stepbuttons in einer Zeile */
-    #planWeek {
-      font-size: .78rem !important;
-      padding: 4px 6px !important;
-      flex: 1 1 auto !important;
-      min-width: 0 !important;
-      max-width: 100% !important;
-    }
-    .pwb-step-btn { padding: 4px 8px !important; font-size: .85rem !important; flex-shrink: 0 !important; }
+    #planWeek { font-size: .78rem !important; padding: 4px 6px !important; flex: 1 1 auto !important; min-width: 0 !important; max-width: 100% !important; }
+    .pwb-step-btn { padding: 4px 9px !important; font-size: .85rem !important; flex-shrink: 0 !important; }
     .kw-main-label { font-size: .73rem !important; }
     .kw-badge { font-size: .54rem !important; padding: 2px 5px !important; }
 
-    /* Notdienst-Chips wrappen */
-    .pwb-row .nd-box,
-    .pwb-row > div:last-child { flex-wrap: wrap !important; gap: 4px !important; width: 100% !important; }
-    .nd-chip, .notdienst-cb-label {
-      font-size: .68rem !important;
-      padding: 4px 8px !important;
-    }
+    /* ── Notdienst-Chips ── */
+    .nd-box, .pwb-row .nd-box, .pwb-row > div:last-child { flex-wrap: wrap !important; width: 100% !important; gap: 4px !important; }
+    .nd-chip, .notdienst-cb-label { font-size: .68rem !important; padding: 4px 8px !important; }
 
-    /* Wünsche */
+    /* ── Wünsche ── */
     #weekWishes { font-size: .76rem !important; }
 
-    /* ── Aktions-Header (Neu / Excel / PDF) ── */
-    .result-header {
-      flex-wrap: wrap !important;
-      gap: 6px !important;
-      margin-bottom: 10px !important;
-    }
+    /* ── Aktionsbuttons ── */
+    .result-header { flex-wrap: wrap !important; gap: 6px !important; margin-bottom: 10px !important; }
     .result-header > *:first-child { flex: 1 1 100% !important; }
-    .export-btns {
-      flex-wrap: wrap !important;
-      gap: 4px !important;
-      width: 100% !important;
-    }
-    .export-btn {
-      font-size: .68rem !important;
-      padding: 5px 8px !important;
-      gap: 3px !important;
-      flex: 1 1 auto !important;
-      justify-content: center !important;
-    }
+    .export-btns { flex-wrap: wrap !important; gap: 4px !important; width: 100% !important; }
+    .export-btn { font-size: .68rem !important; padding: 5px 8px !important; gap: 3px !important; flex: 1 1 auto !important; justify-content: center !important; }
     .export-btn svg { width: 11px !important; height: 11px !important; }
 
     /* ── KW-Banner ── */
     #kwHeader { border-radius: 10px !important; padding: 10px 14px !important; }
-    #kwHeader .kw-title { font-size: 1.35rem !important; }
+    #kwHeader .kw-title { font-size: 1.3rem !important; }
 
     /* ── Plan Card-View ── */
     .shift-card-header { padding: 8px 10px !important; gap: 7px !important; }
@@ -1607,143 +1728,58 @@
     .shift-card-day-date  { font-size: .56rem !important; }
     .shift-tag { font-size: .63rem !important; padding: 2px 4px !important; min-width: 20px !important; }
 
-    /* Besetzungs-Zeile */
-    .staffing-row { font-size: .68rem !important; padding: 5px 10px !important; flex-wrap: wrap !important; gap: 4px !important; }
-    .staffing-badge { font-size: .58rem !important; padding: 1px 5px !important; }
+    /* ── Besetzungszeile ── */
+    .staffing-row { font-size: .66rem !important; padding: 5px 10px !important; flex-wrap: wrap !important; gap: 3px !important; }
+    .staffing-badge { font-size: .57rem !important; padding: 1px 5px !important; }
+    #staffingSummaryRow td { padding: 3px 4px !important; }
 
     /* ── Stundenauswertung ── */
     #hoursSummary { padding: 12px 10px !important; }
     #hoursSummary > .card-title { font-size: .8rem !important; }
-    .hours-emp-card { padding: 10px 10px !important; border-radius: 8px !important; }
+    .hours-emp-card { padding: 10px !important; border-radius: 8px !important; }
     .hours-emp-name { font-size: .73rem !important; }
     .hours-emp-top  { gap: 5px !important; margin-bottom: 6px !important; }
-
-    /* Soll/Ist nebeneinander, aber nicht abschneiden */
-    .hours-soll-ist {
-      display: grid !important;
-      grid-template-columns: 1fr 1fr !important;
-      gap: 0 !important;
-      margin-bottom: 6px !important;
-    }
-    .soll-block, .ist-block {
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: center !important;
-      padding: 4px 0 !important;
-    }
+    .hours-soll-ist { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 0 !important; margin-bottom: 6px !important; }
+    .hours-soll-ist-grid { grid-template-columns: 1fr 1fr !important; }
+    .hours-soll-ist-grid > div:last-child { grid-column: 1 / -1 !important; }
+    .soll-block, .ist-block { display: flex !important; flex-direction: column !important; align-items: center !important; padding: 4px 0 !important; }
     .soll-label, .ist-label { font-size: .56rem !important; margin-bottom: 1px !important; }
     .soll-value, .ist-value { font-size: 1.15rem !important; font-weight: 700 !important; }
-
     .hours-bar-wrap { margin: 4px 0 6px !important; }
     .shift-count-chips { gap: 3px !important; flex-wrap: wrap !important; }
-    .shift-count-chip  { font-size: .63rem !important; padding: 2px 6px !important; }
+    .shift-count-chip  { font-size: .62rem !important; padding: 2px 5px !important; }
     .hours-carryover   { font-size: .68rem !important; }
+
+    /* ── Hilfe-Chips ── */
+    .hilfe-chip { font-size: .75rem !important; padding: 6px 10px !important; }
+
+    /* ── Empty State ── */
+    #emptyStatePlan { padding: 28px 16px 32px !important; }
 
     /* ── Mitarbeiterprofil ── */
     #pf-name-display { font-size: 1.05rem !important; }
     .pf-pref-btn { font-size: .68rem !important; padding: 5px 9px !important; }
     .pf-qual-btn { font-size: .66rem !important; padding: 3px 8px !important; }
-
-    /* Position + Arbeitsumfang nebeneinander (bereits grid 1fr 1fr, nur kompakter) */
     #pf-pos-row { gap: 8px !important; }
     #pf-pos-row select, #pf-pos-row input { font-size: .8rem !important; padding: 7px 8px !important; }
 
+    /* ── Gespeicherte Pläne ── */
+    #planHistoryList { max-height: 160px !important; }
+
     /* ── Bottom Nav ── */
-    .bottom-nav { padding: 5px 0 7px !important; }
+    .bottom-nav { padding: 5px 0 8px !important; }
     .bn-label { font-size: .59rem !important; }
     .bn-icon { width: 20px !important; height: 20px !important; }
   }
 
   @media (max-width: 380px) {
     .shift-card-days { grid-template-columns: repeat(4, 1fr) !important; }
-    .export-btn span { display: none !important; } /* nur Icons auf sehr kleinen Screens */
+    .export-btn span { display: none !important; }
     .export-btn { flex: 0 0 auto !important; padding: 6px 10px !important; }
+    .container { padding: 10px 8px 80px !important; }
+    .page-title { font-size: 1.25rem !important; }
   }
 
-
-  /* ══════════════════════════════════════════════════
-     MOBILE OPTIMIERUNGEN ≤ 520px
-  ══════════════════════════════════════════════════ */
-  @media (max-width: 520px) {
-
-    /* Grundlayout */
-    .container { padding: 14px 10px 80px !important; }
-    .card { padding: 14px 12px !important; border-radius: 12px !important; }
-    .page-title { font-size: 1.55rem !important; margin-bottom: 3px !important; }
-    .page-subtitle { font-size: .74rem !important; margin-bottom: 12px !important; }
-
-    /* ── Planungswoche-Bar ── */
-    .planweek-bar { border-radius: 12px !important; margin-bottom: 14px !important; }
-    .pwb-row { padding: 8px 10px !important; gap: 5px !important; flex-wrap: wrap !important; }
-    .pwb-label { font-size: .64rem !important; width: 80px !important; min-width: 80px !important; flex-shrink: 0 !important; }
-    .pwb-label .pwb-label-sub { font-size: .56rem !important; }
-    .pwb-divider { display: none !important; }
-    #planWeek { font-size: .78rem !important; padding: 4px 6px !important; flex: 1 1 auto !important; min-width: 0 !important; }
-    .pwb-step-btn { padding: 4px 9px !important; font-size: .85rem !important; flex-shrink: 0 !important; }
-    .kw-main-label { font-size: .73rem !important; }
-    .kw-badge { font-size: .54rem !important; padding: 2px 5px !important; }
-
-    /* Notdienst-Chips: wrappen in Folgezeile */
-    .nd-box { flex-wrap: wrap !important; width: 100% !important; gap: 4px !important; }
-    .nd-chip, .notdienst-cb-label { font-size: .68rem !important; padding: 4px 8px !important; }
-
-    /* Wünsche */
-    #weekWishes { font-size: .76rem !important; }
-
-    /* ── Aktionsbuttons ── */
-    .result-header { flex-wrap: wrap !important; gap: 6px !important; margin-bottom: 10px !important; }
-    .result-header > button:first-child { width: 100% !important; justify-content: center !important; }
-    .export-btns { gap: 4px !important; width: 100% !important; }
-    .export-btn { font-size: .68rem !important; padding: 5px 8px !important; flex: 1 1 auto !important; justify-content: center !important; }
-    .export-btn svg { width: 11px !important; height: 11px !important; }
-
-    /* ── KW-Banner ── */
-    #kwHeader { border-radius: 10px !important; padding: 10px 14px !important; }
-    #kwHeader .kw-title { font-size: 1.35rem !important; }
-
-    /* ── Plan Card-View ── */
-    .shift-card-header { padding: 8px 10px !important; gap: 7px !important; }
-    .shift-card-header .avatar { width: 28px !important; height: 28px !important; font-size: .64rem !important; }
-    .shift-card-name { font-size: .78rem !important; }
-    .shift-card-sub  { font-size: .65rem !important; }
-    .shift-card-days { gap: 4px !important; padding: 8px 10px !important; }
-    .shift-card-day  { padding: 5px 3px !important; }
-    .shift-card-day-label { font-size: .56rem !important; }
-    .shift-card-day-date  { font-size: .56rem !important; }
-    .shift-tag { font-size: .63rem !important; padding: 2px 4px !important; min-width: 20px !important; }
-
-    /* Besetzungs-Zeile */
-    .staffing-row { font-size: .66rem !important; padding: 5px 10px !important; flex-wrap: wrap !important; gap: 3px !important; }
-    .staffing-badge { font-size: .57rem !important; padding: 1px 5px !important; }
-
-    /* ── Stundenauswertung ── */
-    .hours-emp-card { padding: 10px 10px !important; border-radius: 8px !important; }
-    .hours-emp-name { font-size: .73rem !important; }
-    .hours-emp-top  { gap: 5px !important; margin-bottom: 6px !important; }
-    /* Soll/Ist/Diff Grid: kein Abschneiden */
-    .hours-soll-ist-grid {
-      grid-template-columns: 1fr 1fr !important;
-    }
-    .hours-soll-ist-grid > div:last-child {
-      grid-column: 1 / -1 !important;
-    }
-    .shift-count-chips { gap: 3px !important; flex-wrap: wrap !important; }
-    .shift-count-chip  { font-size: .62rem !important; padding: 2px 5px !important; }
-    .hours-carryover   { font-size: .68rem !important; }
-
-    /* ── Profil-Card ── */
-    #pf-name-display { font-size: 1.05rem !important; }
-    .pf-pref-btn { font-size: .68rem !important; padding: 5px 9px !important; }
-    .pf-qual-btn { font-size: .66rem !important; padding: 3px 8px !important; }
-
-    /* ── Bottom Nav ── */
-    .bottom-nav { padding: 5px 0 8px !important; }
-    .bn-label { font-size: .59rem !important; }
-  }
-
-  @media (max-width: 380px) {
-    .shift-card-days { grid-template-columns: repeat(4, 1fr) !important; }
-  }
 
   @media print {
     @page { size:A4 landscape; margin:8mm 10mm; }
@@ -1857,7 +1893,7 @@
   <circle cx="12" cy="15" r="1" fill="currentColor" stroke="none"/>
   <circle cx="16" cy="15" r="1" fill="currentColor" stroke="none"/>
 </svg></span>
-      Dienstplan
+      Dienstpläne
       <span class="sidebar-item-dot"></span>
     </div>
     <div class="sidebar-item" id="nav-mitarbeiter" onclick="navigatePage('mitarbeiter')">
@@ -1867,7 +1903,7 @@
   <circle cx="17" cy="8" r="2.5"/>
   <path d="M21 21v-1.5a4 4 0 0 0-5-3.85"/>
 </svg></span>
-      Mitarbeiter
+      Team
       <span class="sidebar-item-dot"></span>
     </div>
 
@@ -1881,6 +1917,12 @@
 
   <!-- Footer: Apotheke -->
   <div class="sidebar-footer">
+    <div id="nav-hilfe" onclick="navigatePage('hilfe')" class="sidebar-item" style="margin-bottom:8px">
+      <span class="sidebar-item-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+      Hilfe &amp; Support
+      <span class="sidebar-item-dot"></span>
+    </div>
+    <div style="height:1px;background:#e2e8f0;margin:2px 0 10px"></div>
     <button class="sidebar-profile-btn" onclick="navigatePage('einstellungen')">
       <div class="sidebar-profile-avatar" id="sidebarAvatarInitials">A</div>
       <div>
@@ -1912,7 +1954,7 @@
 
   <div class="page-header">
     <div>
-      <h2 class="page-title">Dienstplan</h2>
+      <h2 class="page-title">Dienstpläne</h2>
       <p class="page-sub">Woche auswählen, Notdienste markieren und Plan generieren</p>
     </div>
   </div>
@@ -1979,25 +2021,20 @@
 
   <!-- WOCHENPLÄNE -->
   <div id="planHistorySection" style="margin-top:12px;margin-bottom:20px;display:none">
-    <!-- Dropdown-Toggle -->
-    <div onclick="togglePlanHistoryDropdown()" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:8px 12px;border-radius:10px;border:1.5px solid #e2e8f0;background:#f8fafc;transition:background .15s" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#f8fafc'">
-      <span style="display:flex;align-items:center;gap:7px;font-size:.75rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="3"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+      <span style="display:flex;align-items:center;gap:7px;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:600;color:#1e293b;letter-spacing:-.01em">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="3"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
         Gespeicherte Pläne
-        <span id="planHistoryCount" style="background:#e2e8f0;color:#64748b;border-radius:20px;padding:1px 7px;font-size:.68rem;font-weight:700"></span>
+        <span id="planHistoryCount" style="background:#e2e8f0;color:#64748b;border-radius:20px;padding:1px 7px;font-size:.7rem;font-weight:600"></span>
       </span>
-      <div style="display:flex;align-items:center;gap:10px">
-        <button onclick="event.stopPropagation();clearPlanHistory()" title="Alle Pläne löschen" style="font-size:.68rem;color:#ef4444;background:none;border:none;cursor:pointer;padding:2px 6px;border-radius:4px;font-weight:600;opacity:.7" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.7'">Alle löschen</button>
-        <svg id="planHistoryChevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform .2s"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
+      <button onclick="clearPlanHistory()" style="font-size:.68rem;color:#ef4444;background:none;border:none;cursor:pointer;padding:2px 6px;border-radius:4px;font-weight:600;opacity:.7" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.7'">Alle löschen</button>
     </div>
-    <!-- Dropdown-Inhalt -->
-    <div id="planHistoryDropdown" style="display:none;padding:12px 4px 4px">
-      <div id="planHistoryCurrent"></div>
-      <div id="planHistoryOthersWrap">
-        <div id="planHistoryOthers" style="display:flex;flex-wrap:wrap;gap:8px"></div>
-      </div>
+    <div style="position:relative">
+      <div id="planHistoryList" style="max-height:188px;overflow-y:auto;border:1.5px solid #e2e8f0;border-radius:10px;background:white"></div>
+      <div style="position:absolute;bottom:0;left:0;right:0;height:36px;background:linear-gradient(to top,rgba(255,255,255,.95),transparent);border-radius:0 0 10px 10px;pointer-events:none" id="planHistoryFade"></div>
     </div>
+    <div id="planHistoryCurrent" style="display:none"></div>
+    <div id="planHistoryOthersWrap" style="display:none"><div id="planHistoryOthers"></div></div>
   </div>
 
   <!-- TESTSZENARIOS -->
@@ -2018,14 +2055,18 @@
   </div>
 
   <!-- EMPTY STATE -->
-  <div id="emptyStatePlan" style="text-align:center;padding:64px 24px 48px;color:#94a3b8">
-    <div style="margin-bottom:16px;opacity:.2">
-      <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="14" x2="8" y2="14"/><line x1="12" y1="14" x2="12" y2="14"/><line x1="16" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="8" y2="18"/><line x1="12" y1="18" x2="12" y2="18"/>
-      </svg>
+  <div id="emptyStatePlan" style="padding:40px 24px 48px">
+    <!-- Willkommenstext -->
+    <div style="text-align:center;margin-bottom:36px">
+      <div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="14" x2="8" y2="14"/><line x1="12" y1="14" x2="12" y2="14"/><line x1="16" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="8" y2="18"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
+      </div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;color:#1e293b;margin-bottom:8px">Bereit für den nächsten Plan?</div>
+      <div style="font-size:.88rem;color:#94a3b8;max-width:320px;margin:0 auto;line-height:1.6">In drei Schritten zum fertigen Dienstplan — ApoShift erledigt den Rest.</div>
     </div>
-    <div style="font-size:1.05rem;font-weight:700;color:#475569;margin-bottom:8px">Noch kein Schichtplan für diese Woche</div>
-    <div style="font-size:.88rem;color:#94a3b8;max-width:300px;margin:0 auto;line-height:1.6">Wähle eine Planungswoche und klicke auf „Schichtplan erstellen".</div>
+
+    <!-- Checkliste -->
+    <div style="max-width:360px;margin:0 auto;display:flex;flex-direction:column;gap:10px" id="emptyStateChecklist"></div>
   </div>
 
   <!-- RESULT -->
@@ -2081,6 +2122,7 @@
 
 
 
+
       <div id="successBanner" style="display:none;margin-bottom:16px"></div>
 
 
@@ -2103,9 +2145,9 @@
       <div onclick="toggleHoursCard()" style="display:flex;align-items:center;justify-content:space-between;padding:11px 16px;cursor:pointer;background:#f8fafc;transition:background .15s"
         onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#f8fafc'">
         <div style="display:flex;align-items:center;gap:8px">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>
-          <span style="font-size:.78rem;font-weight:700;color:#374151">Stundenauswertung</span>
-          <span id="hoursCardSummary" style="font-size:.72rem;color:#94a3b8;font-family:var(--mono)"></span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>
+          <span style="font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:600;color:#1e293b;letter-spacing:-.01em">Stundenauswertung</span>
+          <span id="hoursCardSummary" style="font-size:.75rem;color:#94a3b8;font-family:var(--mono)"></span>
         </div>
         <svg id="hoursCardChevron" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform .2s;flex-shrink:0"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
@@ -2118,9 +2160,9 @@
       <!-- ── Teilen & Export ──────────────────────────────────────────── -->
       <div id="shareSection" style="display:none;margin-top:24px">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-          <span style="font-family:var(--mono);font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8">Plan teilen</span>
-          <span id="shareLastSent" style="font-size:.68rem;color:#94a3b8;margin-left:4px"></span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          <span style="font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:600;color:#1e293b;letter-spacing:-.01em">Plan teilen</span>
+          <span id="shareLastSent" style="font-size:.72rem;color:#94a3b8;margin-left:4px"></span>
         </div>
 
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
@@ -2166,7 +2208,7 @@
 
   <div class="page-header">
     <div>
-      <h2 class="page-title">Mitarbeiter</h2>
+      <h2 class="page-title">Team</h2>
       <p class="page-sub">Team verwalten und Profile pflegen</p>
     </div>
 
@@ -2702,6 +2744,105 @@
 
 </div><!-- /page-einstellungen -->
 
+<!-- ═══════════════════════════════════════════════════════════ HILFE PAGE -->
+<div id="page-hilfe" class="spa-page" style="display:none">
+  <div class="page-title">Hilfe</div>
+  <p style="color:#64748b;font-size:.88rem;margin-bottom:24px">Stelle Fragen zu ApoShift oder wähle ein häufiges Thema.</p>
+
+  <!-- App-Führung Card -->
+  <div style="background:white;border:1.5px solid #e2e8f0;border-radius:14px;padding:20px 24px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#3b82f6);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/><line x1="12" y1="2" x2="12" y2="4"/></svg>
+      </div>
+      <div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:600;color:#1e293b;margin-bottom:2px">Geführte App-Tour</div>
+        <div style="font-size:.8rem;color:#64748b">Profil einrichten, Mitarbeiter anlegen und ersten Plan generieren — Schritt für Schritt.</div>
+      </div>
+    </div>
+    <button onclick="startTour()" style="font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;padding:8px 18px;border-radius:20px;border:1.5px solid #a5b4fc;background:#ede9fe;color:#4f46e5;cursor:pointer;white-space:nowrap;transition:all .15s" onmouseover="this.style.background='#ddd6fe'" onmouseout="this.style.background='#ede9fe'">
+      Tour starten
+    </button>
+  </div>
+
+  <!-- Vordefinierte Fragen -->
+  <div style="margin-bottom:24px">
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:600;color:#1e293b;margin-bottom:12px">Häufige Fragen</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px" id="hilfe-chips">
+      <button class="hilfe-chip" onclick="askHilfe('Wie trage ich Urlaub für einen Mitarbeiter ein?')">
+        🏖️ Urlaub eintragen
+      </button>
+      <button class="hilfe-chip" onclick="askHilfe('Warum wurde ein Wunsch eines Mitarbeiters nicht berücksichtigt?')">
+        😕 Wunsch nicht erfüllt
+      </button>
+      <button class="hilfe-chip" onclick="askHilfe('Wie exportiere ich den Dienstplan als PDF?')">
+        📄 PDF exportieren
+      </button>
+      <button class="hilfe-chip" onclick="askHilfe('Wie schicke ich den Plan per WhatsApp an mein Team?')">
+        💬 WhatsApp-Export
+      </button>
+      <button class="hilfe-chip" onclick="askHilfe('Wie lege ich einen neuen Mitarbeiter an?')">
+        👤 Mitarbeiter anlegen
+      </button>
+      <button class="hilfe-chip" onclick="askHilfe('Was bedeuten die Kürzel F3, S2, A in der Besetzungszeile?')">
+        📊 Besetzungszeile verstehen
+      </button>
+      <button class="hilfe-chip" onclick="askHilfe('Wie ändere ich die Soll-Stunden eines Mitarbeiters?')">
+        ⏱️ Soll-Stunden ändern
+      </button>
+      <button class="hilfe-chip" onclick="askHilfe('Kann ich einen generierten Plan manuell anpassen?')">
+        ✏️ Plan manuell ändern
+      </button>
+    </div>
+  </div>
+
+  <!-- Chat-Bereich -->
+  <div style="background:white;border:1.5px solid #e2e8f0;border-radius:14px;overflow:hidden">
+    <div id="hilfe-messages" style="min-height:180px;max-height:420px;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#6366f1,#3b82f6);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div style="background:#f8fafc;border-radius:0 10px 10px 10px;padding:10px 14px;font-size:.85rem;color:#374151;line-height:1.5;max-width:560px">
+          Hallo! Ich bin dein ApoShift-Assistent. Wähle eine häufige Frage oben oder schreib mir direkt — ich helfe dir gerne weiter.
+        </div>
+      </div>
+    </div>
+    <div style="height:1px;background:#f1f5f9"></div>
+    <div style="display:flex;align-items:center;gap:10px;padding:12px 16px">
+      <input id="hilfe-input" type="text" placeholder="Frage stellen…"
+        style="flex:1;border:none;outline:none;font-size:.88rem;color:#1e293b;background:transparent;font-family:var(--sans)"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendHilfe()}"
+      >
+      <button onclick="sendHilfe()" id="hilfe-send-btn"
+        style="display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;border:none;background:linear-gradient(135deg,#6366f1,#3b82f6);color:white;cursor:pointer;flex-shrink:0;transition:opacity .15s">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </div>
+</div><!-- /page-hilfe -->
+
+<!-- TOUR OVERLAY -->
+<div id="tourOverlay" style="display:none">
+  <div id="tourBackdrop" onclick="skipTour()"></div>
+  <div id="tourSpotlight"></div>
+  <div id="tourTooltip">
+    <div id="tourStep">Schritt 1 / 7</div>
+    <div id="tourTitle">Willkommen bei ApoShift</div>
+    <div id="tourText">In wenigen Schritten richten wir gemeinsam deinen ersten Dienstplan ein.</div>
+    <div class="tour-actions">
+      <button class="tour-skip" onclick="skipTour()">Tour überspringen</button>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="tour-dots" id="tourDots"></div>
+        <button class="tour-next" onclick="tourNext()" id="tourNextBtn">
+          Weiter
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- LOADING – Fullscreen Modal (außerhalb aller Seiten) -->
   <div class="loading-overlay" id="loadingOverlay">
     <div class="loading-box">
@@ -2827,7 +2968,7 @@
 // ═══════════════════════════════════════════════════════════════════
 
 // ── SPA NAVIGATION (ganz oben – wird von onclick-Attributen gebraucht) ───────
-const PAGES = ['dienstplan','mitarbeiter','auswertung','einstellungen'];
+const PAGES = ['dienstplan','mitarbeiter','auswertung','einstellungen','hilfe'];
 let currentPage = 'dienstplan';
 
 let _pendingNavPage = null;
@@ -2843,7 +2984,294 @@ function unsavedSaveAndGo() {
   if (_pendingNavPage) { const p = _pendingNavPage; _pendingNavPage = null; navigatePage(p); }
 }
 function discardPlanChanges() {
+  // Plan aus Snapshot wiederherstellen
+  if (_planSnapshot && currentResult) {
+    currentResult.plan = JSON.parse(JSON.stringify(_planSnapshot));
+    // Tabelle neu rendern
+    renderResult(currentResult, currentEmployees, currentApo, currentWeek);
+  }
   hideSaveBar();
+}
+
+// ── Hilfe-Chatbot ─────────────────────────────────────────────────────────────
+const _hilfeHistory = [];
+
+function askHilfe(text) {
+  document.getElementById('hilfe-input').value = text;
+  sendHilfe();
+}
+
+async function sendHilfe() {
+  const input = document.getElementById('hilfe-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+
+  // User-Nachricht
+  _hilfeHistory.push({ role: 'user', content: text });
+  appendHilfeMessage('user', text);
+
+  // Sende-Button deaktivieren
+  const btn = document.getElementById('hilfe-send-btn');
+  btn.style.opacity = '.4';
+  btn.disabled = true;
+
+  // Typing-Indikator
+  const typingId = appendHilfeTyping();
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: `Du bist der freundliche Support-Assistent von ApoShift – einer KI-Dienstplan-Software speziell für deutsche Apotheken. Du hilfst Apothekerinnen und Apothekern beim Umgang mit der App.
+
+VORHANDENE FUNKTIONEN (nur diese existieren – erfinde keine weiteren):
+- Wochenplanung per KI: Schaltfläche "Schichtplan erstellen", generiert Früh/Spät/Tages-Schichten automatisch
+- Wunsch-Freitextfeld: Pro Kalenderwoche können Wünsche/Hinweise für die KI eingegeben werden
+- Notdienstplanung: Tage mit Notdienst vor der Generierung auswählen
+- Manuelle Plan-Korrekturen: Klick auf eine Schichtzelle öffnet ein Popover (Früh / Spät / Tag / Frei / Urlaub / Krank / Berufsschule / Notdienst)
+- Mitarbeiterverwaltung: Name, Rolle, Qualifikationen, Soll-Stunden, Abwesenheiten, Schichtpräferenzen
+- Gespeicherte Pläne: Alle generierten Pläne lokal gespeichert, Navigation zwischen KWs
+- Stundenauswertung: Ist/Soll/Diff pro Mitarbeiter, Karten- und Balkenansicht
+- PDF-Export und WhatsApp-Export (Gesamtübersicht + persönliche Nachrichten)
+- Auswertungsseite: Statistiken über Schichtverteilung, Samstage, Spätschichten
+
+NICHT VORHANDENE FUNKTIONEN (niemals erwähnen):
+- Drag & Drop zum Verschieben von Schichten
+- Automatische Benachrichtigungen oder E-Mails
+- Mitarbeiter-App oder Self-Service-Portal
+- Schichtbörse oder Tauschfunktion
+- Jahresplanung oder Urlaubskalender
+- Kalender-Synchronisation, DATEV-Integration
+- Mehrbenutzer-Zugang oder Rollen/Rechte
+
+Wenn du eine Funktion nicht kennst: "Das ist aktuell noch nicht verfügbar – aber gutes Feedback für die Weiterentwicklung!" Erfinde niemals Funktionen.
+
+Antworte kurz, konkret und auf Deutsch. Zielgruppe: Apothekerinnen 40–60 Jahre, keine Tech-Profis. Gelegentlich Emojis zur Auflockerung.`,
+        messages: _hilfeHistory
+      })
+    });
+    const data = await res.json();
+    removeHilfeTyping(typingId);
+    const reply = data?.content?.[0]?.text || 'Entschuldigung, da ist etwas schiefgelaufen. Bitte versuche es nochmal.';
+    _hilfeHistory.push({ role: 'assistant', content: reply });
+    appendHilfeMessage('bot', reply);
+  } catch(e) {
+    removeHilfeTyping(typingId);
+    appendHilfeMessage('bot', '⚠️ Verbindungsfehler. Bitte prüfe deine Internetverbindung und versuche es erneut.');
+  }
+
+  btn.style.opacity = '1';
+  btn.disabled = false;
+  document.getElementById('hilfe-input').focus();
+}
+
+function appendHilfeMessage(role, text) {
+  const container = document.getElementById('hilfe-messages');
+  const div = document.createElement('div');
+  if (role === 'user') {
+    div.className = 'hilfe-msg-user';
+    div.textContent = text;
+  } else {
+    div.className = 'hilfe-msg-bot';
+    div.innerHTML = `
+      <div class="hilfe-msg-bot-avatar">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div class="hilfe-msg-bot-bubble">${text.replace(/\n/g, '<br>')}</div>`;
+  }
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function appendHilfeTyping() {
+  const container = document.getElementById('hilfe-messages');
+  const id = 'typing-' + Date.now();
+  const div = document.createElement('div');
+  div.id = id;
+  div.className = 'hilfe-msg-bot';
+  div.innerHTML = `
+    <div class="hilfe-msg-bot-avatar">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    </div>
+    <div class="hilfe-msg-bot-bubble" style="color:#94a3b8">
+      <span style="display:inline-flex;gap:4px;align-items:center">
+        <span style="width:6px;height:6px;border-radius:50%;background:#94a3b8;animation:hilfe-dot 1.2s infinite .0s both;display:inline-block"></span>
+        <span style="width:6px;height:6px;border-radius:50%;background:#94a3b8;animation:hilfe-dot 1.2s infinite .2s both;display:inline-block"></span>
+        <span style="width:6px;height:6px;border-radius:50%;background:#94a3b8;animation:hilfe-dot 1.2s infinite .4s both;display:inline-block"></span>
+      </span>
+    </div>`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+  return id;
+}
+
+function removeHilfeTyping(id) {
+  document.getElementById(id)?.remove();
+}
+
+// ── Onboarding Tour ───────────────────────────────────────────────────────────
+const TOUR_STEPS = [
+  {
+    target: null,
+    title: 'Willkommen bei ApoShift',
+    text: 'In wenigen Schritten richten wir gemeinsam deinen ersten Dienstplan ein. Du kannst die Tour jederzeit beenden und später über Hilfe neu starten.',
+    position: 'center'
+  },
+  {
+    target: 'apoName',
+    title: 'Apothekenprofil einrichten',
+    text: 'Trage hier den Namen deiner Apotheke ein. Darunter findest du die Schichtzeiten für Früh, Spät und Tages-Schicht — die KI nutzt diese Zeiten als Basis für jeden Plan.',
+    position: 'bottom',
+    navigate: 'einstellungen'
+  },
+  {
+    target: 'nav-mitarbeiter',
+    title: 'Mitarbeiter anlegen',
+    text: 'Lege dein Team an — Name, Rolle (Apotheker/in, PTA, PKA), Qualifikationen und Soll-Stunden pro Woche. Mindestens 2–3 Mitarbeiter werden für den ersten Plan benötigt.',
+    position: 'right',
+    navigate: 'mitarbeiter'
+  },
+  {
+    target: 'planWeek',
+    title: 'Woche auswählen',
+    text: 'Wähle die Kalenderwoche, für die du planen möchtest. Mit den Pfeilen links und rechts navigierst du zwischen den Wochen.',
+    position: 'bottom',
+    navigate: 'dienstplan'
+  },
+  {
+    target: 'notdienstWrap',
+    title: 'Notdienst markieren',
+    text: 'Falls diese Woche Notdienst anfällt, wähle die betreffenden Tage aus. Die KI plant dann automatisch einen geeigneten Mitarbeiter ein.',
+    position: 'bottom'
+  },
+  {
+    target: 'weekWishes',
+    title: 'Wünsche & Hinweise eintragen',
+    text: 'Hier kannst du der KI freie Hinweise geben — z.B. "Nicole Montag frei (Arzttermin)" oder "Björn bitte möglichst Frühschicht diese Woche". Die KI berücksichtigt diese Angaben bei der Planung.',
+    position: 'bottom'
+  },
+  {
+    target: 'fab-generate',
+    title: 'Ersten Plan generieren',
+    text: 'Jetzt bist du bereit. Klicke auf "Schichtplan erstellen" — die KI erstellt in wenigen Sekunden deinen ersten Dienstplan. Du kannst ihn danach jederzeit manuell anpassen.',
+    position: 'top',
+    isLast: true
+  }
+];
+
+let _tourStep = 0;
+
+function startTour() {
+  _tourStep = 0;
+  document.getElementById('tourOverlay').style.display = 'block';
+  renderTourStep();
+}
+
+function skipTour() {
+  document.getElementById('tourOverlay').style.display = 'none';
+  document.getElementById('tourSpotlight').style.cssText = '';
+  localStorage.setItem('aposhift_tour_seen', '1');
+}
+
+function tourNext() {
+  if (_tourStep >= TOUR_STEPS.length - 1) { skipTour(); return; }
+  _tourStep++;
+  renderTourStep();
+}
+
+function renderTourStep() {
+  const step = TOUR_STEPS[_tourStep];
+  const overlay = document.getElementById('tourOverlay');
+  const tooltip = document.getElementById('tourTooltip');
+  const spotlight = document.getElementById('tourSpotlight');
+
+  // Navigate if needed
+  if (step.navigate) navigatePage(step.navigate, true);
+
+  // Update text
+  document.getElementById('tourStep').textContent = `Schritt ${_tourStep + 1} / ${TOUR_STEPS.length}`;
+  document.getElementById('tourTitle').textContent = step.title;
+  document.getElementById('tourText').textContent = step.text;
+
+  // Dots
+  const dotsEl = document.getElementById('tourDots');
+  dotsEl.innerHTML = TOUR_STEPS.map((_, i) =>
+    `<div class="tour-dot${i === _tourStep ? ' active' : ''}"></div>`
+  ).join('');
+
+  // Next button label
+  const nextBtn = document.getElementById('tourNextBtn');
+  nextBtn.innerHTML = step.isLast
+    ? `Los geht's <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`
+    : `Weiter <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`;
+
+  // Center step (no target)
+  if (step.position === 'center' || !step.target) {
+    spotlight.style.cssText = 'display:none';
+    tooltip.className = '';
+    tooltip.style.cssText = `
+      position:absolute; top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      width:420px;
+    `;
+    tooltip.className = 'tour-tooltip-center';
+    tooltip.style.cssText = `
+      position:absolute; top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      width:420px;
+    `;
+    return;
+  }
+
+  // Wait for DOM after navigation
+  setTimeout(() => {
+    const el = document.getElementById(step.target);
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const pad = 8;
+
+    // Spotlight
+    spotlight.style.cssText = `
+      display:block;
+      left:${rect.left - pad}px;
+      top:${rect.top - pad}px;
+      width:${rect.width + pad * 2}px;
+      height:${rect.height + pad * 2}px;
+    `;
+
+    // Tooltip position
+    let t = {}, arrowClass = '';
+    const TW = 420, TH = 200;
+    if (step.position === 'right') {
+      t.left = rect.right + 16;
+      t.top  = rect.top + rect.height / 2 - TH / 2;
+      arrowClass = 'tour-tooltip-right';
+    } else if (step.position === 'bottom') {
+      t.left = rect.left;
+      t.top  = rect.bottom + 14;
+      arrowClass = 'tour-tooltip-bottom';
+    } else if (step.position === 'top') {
+      t.left = rect.left;
+      t.top  = rect.top - TH - 14;
+      arrowClass = 'tour-tooltip-top';
+    }
+
+    // Keep within viewport
+    if (t.left + TW > window.innerWidth - 12) t.left = window.innerWidth - TW - 12;
+    if (t.top < 8) t.top = 8;
+
+    tooltip.className = arrowClass;
+    tooltip.style.cssText = `
+      position:absolute;
+      left:${t.left}px;
+      top:${t.top}px;
+      width:${TW}px;
+    `;
+  }, step.navigate ? 120 : 0);
 }
 
 function navigatePage(page, noScroll = false) {
@@ -3086,10 +3514,15 @@ let _currentDisplayedKw = '';
 let currentApo = '';
 let currentWeek = '';
 let _planDirty = false;
+let _planSnapshot = null; // Deep-Copy des Plans vor manuellen Änderungen
 
 function showSaveBar() {
   // Während der Generierung keine SaveBar zeigen
   if (document.body.classList.contains('generating')) return;
+  // Snapshot beim ersten Dirty-Setzen speichern
+  if (!_planDirty && currentResult?.plan) {
+    _planSnapshot = JSON.parse(JSON.stringify(currentResult.plan));
+  }
   _planDirty = true;
   _isDirty = true;
   const bar = document.getElementById('stickySaveBar');
@@ -3098,6 +3531,7 @@ function showSaveBar() {
 function hideSaveBar() {
   _planDirty = false;
   _isDirty = false;
+  _planSnapshot = null;
   const bar = document.getElementById('stickySaveBar');
   if (bar) bar.classList.remove('show');
 }
@@ -4589,7 +5023,7 @@ function planNextWeek() {
   }
   saveData();
   // Auf Dienstplan-Seite bleiben, Wunschfeld fokussieren
-  document.getElementById('resultSection')?.classList.remove('visible'); document.getElementById('emptyStatePlan') && (document.getElementById('emptyStatePlan').style.display = '');
+  document.getElementById('resultSection')?.classList.remove('visible'); document.getElementById('emptyStatePlan') && (document.getElementById('emptyStatePlan').style.display = ''); renderEmptyStateChecklist();
   window.scrollTo({ top: 0, behavior: 'smooth' });
   setTimeout(() => document.getElementById('weekWishes')?.focus(), 400);
 }
@@ -4612,7 +5046,7 @@ function jumpToCurrentWeek() {
   renderPlanHistory();
   document.getElementById('resultSection')?.classList.remove('visible');
   const es = document.getElementById('emptyStatePlan');
-  if (es) es.style.display = '';
+  if (es) { es.style.display = ''; renderEmptyStateChecklist(); }
   saveData();
 }
 
@@ -4633,7 +5067,7 @@ function stepWeek(dir) {
   updateKwLabel();
   renderPlanHistory();
   // Result ausblenden – gehört zur alten Woche
-  document.getElementById('resultSection')?.classList.remove('visible'); document.getElementById('emptyStatePlan') && (document.getElementById('emptyStatePlan').style.display = '');
+  document.getElementById('resultSection')?.classList.remove('visible'); document.getElementById('emptyStatePlan') && (document.getElementById('emptyStatePlan').style.display = ''); renderEmptyStateChecklist();
   saveData();
 }
 
@@ -4642,6 +5076,60 @@ function updateEmptyState() {
   // Im neuen System handled renderTeamList() den Empty State direkt
   const countEl = document.getElementById('empCount');
   if (countEl) countEl.textContent = _employees.length;
+}
+
+function renderEmptyStateChecklist() {
+  const el = document.getElementById('emptyStateChecklist');
+  if (!el) return;
+
+  const hasTeam  = _employees.length > 0;
+  const weekVal  = document.getElementById('planWeek')?.value || '';
+  const hasWeek  = !!weekVal;
+  const kwNum    = hasWeek ? parseInt(weekVal.split('-W')[1]) : null;
+
+  const steps = [
+    {
+      done: hasTeam,
+      label: 'Team anlegen',
+      sub: hasTeam ? `${_employees.length} Mitarbeiter erfasst` : 'Mindestens eine Person hinzufügen',
+      actionLabel: 'Zum Team →',
+      actionOnclick: `navigatePage('mitarbeiter')`,
+    },
+    {
+      done: hasWeek,
+      label: 'Planungswoche wählen',
+      sub: hasWeek ? `KW ${kwNum} ausgewählt` : 'Woche oben im Kalender wählen',
+      actionLabel: 'Woche wählen →',
+      actionOnclick: `document.getElementById('planWeek').focus()`,
+    },
+    {
+      done: true,
+      label: 'Plan generieren',
+      sub: 'KI erstellt den optimierten Dienstplan',
+      actionLabel: 'Jetzt erstellen →',
+      actionOnclick: `document.getElementById('fab-generate').click()`,
+      isPrimary: true,
+    }
+  ];
+
+  el.innerHTML = steps.map((step, i) => {
+    const checkIcon = step.done
+      ? `<svg width="13" height="13" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+      : `<svg width="13" height="13" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#d1d5db" stroke-width="1.5"/></svg>`;
+
+    const connector = i < steps.length - 1
+      ? `<div style="width:1px;height:10px;background:#e9ecef;margin:2px auto"></div>`
+      : '';
+
+    return `<div style="text-align:center">
+      <div style="display:inline-flex;align-items:center;gap:7px;padding:4px 0">
+        ${checkIcon}
+        <span style="font-size:.83rem;font-weight:600;color:#94a3b8">${step.label}</span>
+        <span style="font-size:.76rem;color:#c0c9d4">${step.sub}</span>
+      </div>
+      ${connector}
+    </div>`;
+  }).join('');
 }
 
 // ── Apotheken-Profil ─────────────────────────────────────────────────────────
@@ -5251,7 +5739,7 @@ async function generatePlan(skipCheck = false) {
   await new Promise(r => setTimeout(r, 30)); // Browser-Paint abwarten
   loadingOverlay.style.opacity = '1';
   await new Promise(r => setTimeout(r, 260)); // Transition abwarten
-  document.getElementById('resultSection')?.classList.remove('visible'); document.getElementById('emptyStatePlan') && (document.getElementById('emptyStatePlan').style.display = '');
+  document.getElementById('resultSection')?.classList.remove('visible'); document.getElementById('emptyStatePlan') && (document.getElementById('emptyStatePlan').style.display = ''); renderEmptyStateChecklist();
 
   // Loading animation – Reset aller Steps
   const lsIds = ['ls1','ls2','ls3','ls4','ls5'];
@@ -7086,6 +7574,63 @@ WICHTIG: Wenn keine Verbesserung möglich → {"changes":[],"summary":"Plan bere
 }
 
 // ── Ergebnis anzeigen ─────────────────────────────────────────────────────────
+// ── Besetzungszelle mit Tooltip ───────────────────────────────────────────────
+function buildStaffingCell(frueh, spaet, apoPresent, working, min, bgColor, borderColor, barPct, color, isSundayOrFt) {
+  if (isSundayOrFt) {
+    return `<td style="background:#f8fafc;border-top:2px solid var(--border);text-align:center;padding:8px 4px">
+      <span style="font-size:.7rem;color:var(--ink-soft)">–</span>
+    </td>`;
+  }
+
+  const fruehStart = document.getElementById('shiftFruehStart')?.value || '07:00';
+  const fruehEnd   = document.getElementById('shiftFruehEnd')?.value  || '14:00';
+  const spaetStart = document.getElementById('shiftSpaetStart')?.value || '13:00';
+  const spaetEnd   = document.getElementById('shiftSpaetEnd')?.value  || '20:00';
+  const vollStart  = document.getElementById('shiftVollStart')?.value  || '07:30';
+  const vollEnd    = document.getElementById('shiftVollEnd')?.value    || '16:00';
+
+  const checkSvg = `<svg width="9" height="9" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const warnSvg  = `<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`;
+
+  const apoColor = apoPresent ? '#166534' : '#dc2626';
+  const apoBg    = apoPresent ? '#f0fdf4' : '#fef2f2';
+  const apoBorder= apoPresent ? '#bbf7d0' : '#fecaca';
+
+  const tooltip = `
+    <div class="staffing-tooltip">
+      <div class="staffing-tooltip-row">
+        <span class="staffing-tooltip-label">Frühschicht <span style="font-size:.7rem;color:#94a3b8">${fruehStart}–${fruehEnd}</span></span>
+        <span class="staffing-tooltip-value" style="color:#854d0e">${frueh} Pers. ${checkSvg}</span>
+      </div>
+      <div class="staffing-tooltip-row">
+        <span class="staffing-tooltip-label">Spätschicht <span style="font-size:.7rem;color:#94a3b8">${spaetStart}–${spaetEnd}</span></span>
+        <span class="staffing-tooltip-value" style="color:#1d4ed8">${spaet} Pers. ${checkSvg}</span>
+      </div>
+      <div class="staffing-tooltip-row">
+        <span class="staffing-tooltip-label">Approbierte Kraft</span>
+        <span class="staffing-tooltip-value" style="color:${apoColor}">${apoPresent ? 'Abgedeckt' : 'Fehlt'} ${apoPresent ? checkSvg : warnSvg}</span>
+      </div>
+      <div class="staffing-tooltip-note">Tagesschicht (${vollStart}–${vollEnd}) zählt für Früh &amp; Spät</div>
+    </div>`;
+
+  const countHtml = working < min
+    ? `${working}/${min} ${warnSvg}`
+    : `${working} Pers. ${checkSvg}`;
+
+  return `<td style="background:${bgColor};border-top:2px solid var(--border);border-left:1px solid ${borderColor};padding:7px 5px;text-align:center" class="staffing-cell">
+    ${tooltip}
+    <div style="display:flex;justify-content:center;gap:3px;margin-bottom:4px;flex-wrap:nowrap;white-space:nowrap">
+      <span style="font-size:.65rem;font-weight:800;color:#854d0e;background:#fef9c3;border:1px solid #fde68a;border-radius:4px;padding:1px 4px">F ${frueh}</span>
+      <span style="font-size:.65rem;font-weight:800;color:#1d4ed8;background:#eff6ff;border:1px solid #bfdbfe;border-radius:4px;padding:1px 4px">S ${spaet}</span>
+      <span style="font-size:.65rem;font-weight:800;color:${apoColor};background:${apoBg};border:1px solid ${apoBorder};border-radius:4px;padding:1px 5px;display:inline-flex;align-items:center;gap:2px">A ${apoPresent ? checkSvg : warnSvg}</span>
+    </div>
+    <div style="height:5px;border-radius:3px;background:#e2e8f0;overflow:hidden;margin:0 4px">
+      <div style="height:100%;width:${barPct}%;background:${color};border-radius:3px;transition:width .3s"></div>
+    </div>
+    <div style="font-size:.62rem;font-weight:700;color:${color};margin-top:3px;display:flex;align-items:center;justify-content:center;gap:2px">${countHtml}</div>
+  </td>`;
+}
+
 function renderResult(result, employees, apoName, planWeek) {
   currentResult = result; currentEmployees = employees; currentApo = apoName; currentWeek = planWeek;
   hideSaveBar();
@@ -7395,21 +7940,9 @@ function renderResult(result, employees, apoName, planWeek) {
       const color = working === 0 ? '#dc2626' : working < min ? '#f59e0b' : '#16a34a';
       const bgColor = working === 0 ? '#fef2f2' : working < min ? '#fefce8' : '#f0fdf4';
       const borderColor = working === 0 ? '#fecaca' : working < min ? '#fde68a' : '#bbf7d0';
-
-      // Fortschrittsbalken: 0–min = rot/gelb, min+ = grün
       const barPct = min > 0 ? Math.min((working / Math.max(min, working)) * 100, 100) : 100;
 
-      return `<td style="background:${bgColor};border-top:2px solid var(--border);border-left:1px solid ${borderColor};padding:7px 5px;text-align:center">
-        <div style="display:flex;justify-content:center;gap:3px;margin-bottom:4px;flex-wrap:nowrap;white-space:nowrap">
-          <span style="font-size:.65rem;font-weight:800;color:#854d0e;background:#fef9c3;border:1px solid #fde68a;border-radius:4px;padding:1px 4px" title="Frühschicht">F ${frueh}</span>
-          <span style="font-size:.65rem;font-weight:800;color:#1d4ed8;background:#eff6ff;border:1px solid #bfdbfe;border-radius:4px;padding:1px 4px" title="Spätschicht">S ${spaet}</span>
-          <span style="font-size:.65rem;font-weight:800;${apoPresent ? 'color:#166534;background:#f0fdf4;border:1px solid #bbf7d0' : 'color:#dc2626;background:#fef2f2;border:1px solid #fecaca'};border-radius:4px;padding:1px 5px;display:inline-flex;align-items:center;gap:2px" title="Apotheker/in abgedeckt">A ${apoPresent ? '<svg width="8" height="8" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>' : '<svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'}</span>
-        </div>
-        <div style="height:5px;border-radius:3px;background:#e2e8f0;overflow:hidden;margin:0 4px">
-          <div style="height:100%;width:${barPct}%;background:${color};border-radius:3px;transition:width .3s"></div>
-        </div>
-        <div style="font-size:.62rem;font-weight:700;color:${color};margin-top:3px" title="Anwesende Personen / Mindestbesetzung">${working < min ? `${working}/${min} <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>` : `${working} Pers. <svg width="8" height="8" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`}</div>
-      </td>`;
+      return buildStaffingCell(frueh, spaet, apoPresent, working, min, bgColor, borderColor, barPct, color, false);
     }).join('');
 
     return `<tr id="staffingSummaryRow">
@@ -7749,10 +8282,12 @@ function renderHoursSummary(changedEmp = null) {
   }
 
   container.innerHTML = '<div>' +
-    '<div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:12px">' +
+    '<div style="display:flex;align-items:center;justify-content:flex-start;margin-bottom:12px">' +
       '<div style="display:flex;gap:4px">' +
-        '<button onclick="showHoursView(\'cards\')" id="btnViewCards" style="font-size:.72rem;padding:4px 10px;border-radius:6px;border:1.5px solid var(--accent);background:var(--accent);color:white;cursor:pointer;font-family:var(--sans);font-weight:600;transition:all .15s">Karten</button>' +
-        '<button onclick="showHoursView(\'bars\')" id="btnViewBars" style="font-size:.72rem;padding:4px 10px;border-radius:6px;border:1.5px solid var(--border);background:white;color:var(--ink-soft);cursor:pointer;font-family:var(--sans);font-weight:500;transition:all .15s">Balken</button>' +
+        '<div style="display:flex;gap:6px;justify-content:flex-start">' +
+        '<button onclick="showHoursView(\'cards\')" id="btnViewCards" style="font-family:\'Space Grotesk\',sans-serif;font-size:.8rem;font-weight:700;padding:5px 14px;border-radius:20px;border:1.5px solid #a5b4fc;background:#ede9fe;color:#4f46e5;cursor:pointer;transition:all .15s">Karten</button>' +
+        '<button onclick="showHoursView(\'bars\')" id="btnViewBars" style="font-family:\'Space Grotesk\',sans-serif;font-size:.8rem;font-weight:500;padding:5px 14px;border-radius:20px;border:1.5px solid #e2e8f0;background:#f8fafc;color:#64748b;cursor:pointer;transition:all .15s">Balken</button>' +
+        '</div>' +
       '</div>' +
     '</div>' +
     '<div id="hoursViewCards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px" class="hours-grid-3col">' + cards + '</div>' +
@@ -7785,8 +8320,8 @@ function showHoursView(view) {
   const isCards = view === 'cards';
   cards.style.display = isCards ? 'grid' : 'none';
   bars.style.display  = isCards ? 'none' : 'block';
-  if (btnC) { btnC.style.background = isCards ? 'var(--accent)' : 'white'; btnC.style.color = isCards ? 'white' : 'var(--ink-soft)'; btnC.style.borderColor = isCards ? 'var(--accent)' : 'var(--border)'; }
-  if (btnB) { btnB.style.background = isCards ? 'white' : 'var(--accent)'; btnB.style.color = isCards ? 'var(--ink-soft)' : 'white'; btnB.style.borderColor = isCards ? 'var(--border)' : 'var(--accent)'; }
+  if (btnC) { btnC.style.background = isCards ? '#ede9fe' : '#f8fafc'; btnC.style.color = isCards ? '#4f46e5' : '#64748b'; btnC.style.borderColor = isCards ? '#a5b4fc' : '#e2e8f0'; btnC.style.fontWeight = isCards ? '700' : '500'; btnC.style.boxShadow = 'none'; }
+  if (btnB) { btnB.style.background = isCards ? '#f8fafc' : '#ede9fe'; btnB.style.color = isCards ? '#64748b' : '#4f46e5'; btnB.style.borderColor = isCards ? '#e2e8f0' : '#a5b4fc'; btnB.style.fontWeight = isCards ? '500' : '700'; btnB.style.boxShadow = 'none'; }
 }
 
 // ── Regen / Neu ───────────────────────────────────────────────────────────────
@@ -8053,17 +8588,7 @@ function applyShift(optionEl) {
       const bgColor = working === 0 ? '#fef2f2' : working < min ? '#fefce8' : '#f0fdf4';
       const borderColor = working === 0 ? '#fecaca' : working < min ? '#fde68a' : '#bbf7d0';
       const barPct = min > 0 ? Math.min((working / Math.max(min, working)) * 100, 100) : 100;
-      return `<td style="background:${bgColor};border-top:2px solid var(--border);border-left:1px solid ${borderColor};padding:7px 5px;text-align:center">
-        <div style="display:flex;justify-content:center;gap:3px;margin-bottom:4px;flex-wrap:nowrap;white-space:nowrap">
-          <span style="font-size:.65rem;font-weight:800;color:#854d0e;background:#fef9c3;border:1px solid #fde68a;border-radius:4px;padding:1px 4px">F ${frueh}</span>
-          <span style="font-size:.65rem;font-weight:800;color:#1d4ed8;background:#eff6ff;border:1px solid #bfdbfe;border-radius:4px;padding:1px 4px">S ${spaet}</span>
-          <span style="font-size:.65rem;font-weight:800;${apoPresent?'color:#166534;background:#f0fdf4;border:1px solid #bbf7d0':'color:#dc2626;background:#fef2f2;border:1px solid #fecaca'};border-radius:4px;padding:1px 5px;display:inline-flex;align-items:center;gap:2px">A ${apoPresent?'<svg width="8" height="8" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>':'<svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'}</span>
-        </div>
-        <div style="height:5px;border-radius:3px;background:#e2e8f0;overflow:hidden;margin:0 4px">
-          <div style="height:100%;width:${barPct}%;background:${color};border-radius:3px"></div>
-        </div>
-        <div style="font-size:.62rem;font-weight:700;color:${color};margin-top:3px" title="Anwesende Personen / Mindestbesetzung">${working < min ? `${working}/${min} <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>` : `${working} Pers. <svg width="8" height="8" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`}</div>
-      </td>`;
+      return buildStaffingCell(frueh, spaet, apoPresent, working, min, bgColor, borderColor, barPct, color, false);
     }).join('');
     _staffRow.innerHTML = `<td style="padding:8px 12px;border-top:2px solid var(--border);background:#f8fafc"><div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft)">Besetzung</div></td>${_dayCells}`;
   }
@@ -8262,8 +8787,8 @@ function renderKwHeader(planWeek, employees, plan) {
   const isCurrentKw = planWeek === getCurrentISOWeek();
   const isFutureKw  = planWeek > getCurrentISOWeek();
 
-  const headerBg     = isCurrentKw ? '#eef2ff' : isFutureKw ? '#eff6ff' : '#f8fafc';
-  const headerBorder = isCurrentKw ? '#a5b4fc' : isFutureKw ? '#bfdbfe' : '#e2e8f0';
+  const headerBg     = '#f8fafc';
+  const headerBorder = '#e2e8f0';
   const kwColor      = isCurrentKw ? '#3730a3' : isFutureKw ? '#1e40af' : '#0f1623';
   const badge        = isCurrentKw
     ? `<span style="background:#4f46e5;color:white;font-size:.58rem;font-weight:800;border-radius:20px;padding:2px 8px;letter-spacing:.04em;white-space:nowrap">AKTUELL</span>`
@@ -8331,48 +8856,81 @@ function renderPlanHistory() {
     .map((entry, origIdx) => ({ entry, origIdx }))
     .sort((a, b) => (b.entry.planWeek || '').localeCompare(a.entry.planWeek || ''));
 
-  function makePill({ entry, origIdx }) {
-    const kwNum = entry.planWeek?.includes('-W') ? parseInt(entry.planWeek.split('-W')[1]) : '?';
-    const isToday = entry.planWeek === todayKwStr;
-    const isFuture = entry.planWeek > todayKwStr;
+  // Fade-out ausblenden wenn wenige Einträge
+  const fadeEl = document.getElementById('planHistoryFade');
 
-    let mo = '', fr = '';
+  const list = document.getElementById('planHistoryList');
+  if (!list) return;
+
+  // Nach Monat gruppieren
+  const byMonth = {};
+  sorted.forEach(s => {
+    let label = s.entry.planWeek?.split('-W')[0] || '?';
     try {
-      const dates = getWeekDates(entry.planWeek);
-      const fmt = d => d.toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit'});
-      mo = fmt(dates[0]); fr = fmt(dates[4]);
+      const dates = getWeekDates(s.entry.planWeek);
+      label = dates[0].toLocaleDateString('de-DE', { month: 'long', year: 'numeric' });
     } catch(e) {}
+    if (!byMonth[label]) byMonth[label] = [];
+    byMonth[label].push(s);
+  });
 
-    let bg, border, kwColor, dateColor, badge = '';
-    if (isToday) {
-      bg = 'background:#ede9fe'; border = 'border-color:#6366f1';
-      kwColor = 'color:#4338ca'; dateColor = 'color:#7c3aed';
-      badge = `<span style="background:#4f46e5;color:#fff;font-size:.55rem;font-weight:800;border-radius:8px;padding:1px 6px;letter-spacing:.04em;line-height:1.6">AKTUELL</span>`;
-    } else if (isFuture) {
-      bg = 'background:#e0f2fe'; border = 'border-color:#7dd3fc';
-      kwColor = 'color:#0369a1'; dateColor = 'color:#0284c7';
-      badge = `<span style="background:#0ea5e9;color:#fff;font-size:.55rem;font-weight:700;border-radius:8px;padding:1px 6px;letter-spacing:.04em;line-height:1.6">GEPLANT</span>`;
-    } else {
-      bg = 'background:#f1f5f9'; border = 'border-color:#e2e8f0';
-      kwColor = 'color:#64748b'; dateColor = 'color:#94a3b8';
+  let html = '';
+  const months = Object.keys(byMonth);
+  const multiMonth = months.length > 1;
+
+  months.forEach((month, mi) => {
+    if (multiMonth) {
+      html += `<div style="padding:8px 14px 4px;font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#94a3b8;${mi>0?'border-top:1px solid #f1f5f9;margin-top:2px':''}">${month}</div>`;
     }
+    byMonth[month].forEach(({ entry, origIdx }, i) => {
+      const kwNum = entry.planWeek?.includes('-W') ? parseInt(entry.planWeek.split('-W')[1]) : '?';
+      const isToday = entry.planWeek === todayKwStr;
+      const isFuture = entry.planWeek > todayKwStr;
 
-    return `<div id="histEntry${origIdx}" style="position:relative;display:inline-flex;align-items:center;gap:8px;${bg};border:1.5px solid;${border};border-radius:20px;padding:5px 32px 5px 12px;cursor:pointer;transition:opacity .15s;white-space:nowrap"
-      onclick="loadPlanFromHistory(${origIdx})"
-      onmouseover="this.style.opacity='.75'" onmouseout="this.style.opacity='1'">
-      <span style="font-size:.82rem;font-weight:900;${kwColor}">KW&thinsp;${kwNum}</span>
-      <span style="font-size:.72rem;font-weight:500;${dateColor}">${mo}–${fr}</span>
-      ${badge}
-      <button onclick="event.stopPropagation();deletePlanFromHistory(${origIdx})" title="Löschen"
-        style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:.65rem;color:#cbd5e1;padding:1px 2px;line-height:1;transition:color .15s"
-        onmouseover="this.style.color='#dc2626'" onmouseout="this.style.color='#cbd5e1'">✕</button>
-    </div>`;
-  }
+      let mo = '', fr = '';
+      try {
+        const dates = getWeekDates(entry.planWeek);
+        const fmt = d => d.toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit'});
+        mo = fmt(dates[0]); fr = fmt(dates[4]);
+      } catch(e) {}
 
-  // Alle Pills in einem einzigen Flex-Container
+      const accentColor = isToday ? '#6366f1' : isFuture ? '#0ea5e9' : '#e2e8f0';
+      const kwColor     = isToday ? '#4338ca' : isFuture ? '#0369a1' : '#374151';
+      const dateColor   = isToday ? '#6366f1' : isFuture ? '#0284c7' : '#9ca3af';
+      const rowBg       = isToday ? '#fafafe' : 'white';
+
+      let badge = '';
+      if (isToday)   badge = `<span style="font-size:.6rem;font-weight:800;color:#4f46e5;background:#ede9fe;border-radius:6px;padding:1px 7px;letter-spacing:.04em;white-space:nowrap">AKTUELL</span>`;
+      if (isFuture)  badge = `<span style="font-size:.6rem;font-weight:700;color:#0369a1;background:#e0f2fe;border-radius:6px;padding:1px 7px;letter-spacing:.04em;white-space:nowrap">GEPLANT</span>`;
+
+      const isLast = mi === months.length-1 && i === byMonth[month].length-1;
+      const borderBottom = isLast ? '' : 'border-bottom:1px solid #f1f5f9;';
+
+      html += `<div onclick="loadPlanFromHistory(${origIdx})"
+        style="display:flex;align-items:center;gap:0;cursor:pointer;background:${rowBg};${borderBottom}transition:background .12s"
+        onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='${rowBg}'">
+        <div style="width:3px;align-self:stretch;background:${accentColor};border-radius:3px 0 0 3px;flex-shrink:0;margin:4px 0"></div>
+        <div style="display:flex;align-items:center;flex:1;gap:10px;padding:9px 12px">
+          <span style="font-size:.82rem;font-weight:800;color:${kwColor};min-width:36px">KW ${kwNum}</span>
+          <span style="font-size:.75rem;color:${dateColor};flex:1">${mo} – ${fr}</span>
+          ${badge}
+          <button onclick="event.stopPropagation();deletePlanFromHistory(${origIdx})" title="Löschen"
+            style="background:none;border:none;cursor:pointer;color:#e2e8f0;padding:2px 4px;border-radius:4px;transition:color .15s;flex-shrink:0;display:flex;align-items:center"
+            onmouseover="this.style.color='#dc2626'" onmouseout="this.style.color='#e2e8f0'">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+          </button>
+        </div>
+      </div>`;
+    });
+  });
+
+  list.innerHTML = html;
+
+  // Fade ausblenden wenn kein Scroll nötig
+  if (fadeEl) fadeEl.style.display = sorted.length <= 4 ? 'none' : 'block';
+
   curContainer.innerHTML = '';
-  othContainer.innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:8px">${sorted.map(s => makePill(s)).join('')}</div>`;
-  if (othWrap) othWrap.style.display = 'block';
+  othContainer.innerHTML = '';
 }
 
 
@@ -8432,6 +8990,11 @@ function kwNavStep(dir) {
 }
 
 
+function loadPlanFromHistorySelect(val) {
+  if (val === '' || val === null || val === undefined) return;
+  loadPlanFromHistory(parseInt(val));
+}
+
 function loadPlanFromHistory(idx) {
   try {
     const hist = JSON.parse(localStorage.getItem('aposhift_history') || '[]');
@@ -8447,13 +9010,20 @@ function loadPlanFromHistory(idx) {
 }
 
 function clearPlanHistory() {
-  const container = document.getElementById('planHistoryCurrent');
-  if (!container) return;
-  container.innerHTML = `<div style="display:flex;align-items:center;gap:10px;padding:10px;background:#fef2f2;border-radius:8px;font-size:.82rem">
-    <span style="display:inline-flex;align-items:center;gap:5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Alle Pläne wirklich löschen?</span>
-    <button onclick="localStorage.removeItem('aposhift_history');renderPlanHistory();currentResult=null;currentEmployees=[];document.getElementById('resultSection')?.classList.remove('visible'); document.getElementById('emptyStatePlan') && (document.getElementById('emptyStatePlan').style.display = '');document.getElementById('successBanner').innerHTML='';document.getElementById('kwHeader').style.display='none';" style="background:#dc2626;color:white;border:none;border-radius:6px;padding:5px 12px;cursor:pointer;font-size:.78rem">Ja, löschen</button>
-    <button onclick="renderPlanHistory()" style="background:white;border:1.5px solid var(--border);border-radius:6px;padding:5px 12px;cursor:pointer;font-size:.78rem">Abbrechen</button>
-  </div>`;
+  const overlay = document.getElementById('clearHistoryConfirm');
+  if (overlay) { overlay.style.display = 'flex'; }
+}
+
+function doDeleteAllHistory() {
+  document.getElementById('clearHistoryConfirm').style.display = 'none';
+  localStorage.removeItem('aposhift_history');
+  renderPlanHistory();
+  currentResult = null;
+  currentEmployees = [];
+  document.getElementById('resultSection')?.classList.remove('visible');
+  if (document.getElementById('emptyStatePlan')) { document.getElementById('emptyStatePlan').style.display = ''; renderEmptyStateChecklist(); }
+  document.getElementById('successBanner').innerHTML = '';
+  document.getElementById('kwHeader').style.display = 'none';
 }
 
 // ── Init ──────────────────────────────────────────────────────────────────────
@@ -8506,7 +9076,8 @@ function clearPlanHistory() {
     const todayKw = `${tmp2.getFullYear()}-W${String(Math.ceil(((tmp2-ys2)/86400000+1)/7)).padStart(2,'0')}`;
     const todayIdx = hist.findIndex(e => e.planWeek === todayKw);
     if (todayIdx !== -1) loadPlanFromHistory(todayIdx);
-  } catch(e) {}
+    else renderEmptyStateChecklist();
+  } catch(e) { renderEmptyStateChecklist(); }
 
   // 7. Sidebar-Profil initialisieren
   updateSidebarProfile();
@@ -8531,6 +9102,21 @@ function clearPlanHistory() {
 #stickySaveBtn:hover { transform:translateY(-3px);box-shadow:0 8px 28px rgba(37,99,235,.5); }
 #stickySaveBtn:active { transform:translateY(-1px); }
 </style>
+
+<!-- Global: Alle Pläne löschen Bestätigung -->
+<div id="clearHistoryConfirm" style="display:none;position:fixed;inset:0;background:rgba(15,22,35,.45);backdrop-filter:blur(3px);z-index:1300;align-items:center;justify-content:center">
+  <div style="background:white;border-radius:16px;padding:28px 32px;max-width:380px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.2);text-align:center">
+    <div style="width:48px;height:48px;border-radius:50%;background:#fef2f2;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+    </div>
+    <div style="font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:6px">Alle Pläne löschen?</div>
+    <div style="font-size:.82rem;color:var(--ink-soft);margin-bottom:22px;line-height:1.5">Alle gespeicherten Pläne werden unwiderruflich gelöscht.</div>
+    <div style="display:flex;gap:10px;justify-content:center">
+      <button onclick="document.getElementById('clearHistoryConfirm').style.display='none'" style="flex:1;padding:9px 0;border-radius:9px;border:1.5px solid var(--border);background:white;font-size:.85rem;font-weight:600;cursor:pointer;color:var(--ink-soft)">Abbrechen</button>
+      <button onclick="doDeleteAllHistory()" style="flex:1;padding:9px 0;border-radius:9px;border:none;background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;font-size:.85rem;font-weight:700;cursor:pointer">Ja, löschen</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
