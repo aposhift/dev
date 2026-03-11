@@ -473,19 +473,22 @@
   .pwb-row + .pwb-row { border-top: 1px solid var(--border); }
   .pwb-label {
     display: flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--mono);
-    font-size: .6rem;
+    flex-direction: column;
+    gap: 3px;
+    font-family: var(--sans);
+    font-size: .82rem;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .1em;
-    color: #94a3b8;
+    color: #374151;
     white-space: nowrap;
-    min-width: 90px;
+    width: 108px;
+    min-width: 108px;
+    flex-shrink: 0;
+    line-height: 1.2;
   }
-  .pwb-label svg { flex-shrink: 0; opacity: .7; }
-  .pwb-divider { width: 1px; height: 20px; background: var(--border); flex-shrink: 0; }
+  .pwb-label .pwb-label-main { display: flex; align-items: center; gap: 6px; }
+  .pwb-label .pwb-label-sub  { font-size: .68rem; font-weight: 400; color: #94a3b8; padding-left: 20px; }
+  .pwb-label svg { flex-shrink: 0; opacity: .6; width: 14px; height: 14px; }
+  .pwb-divider { width: 1px; height: 24px; background: var(--border); flex-shrink: 0; }
   .planweek-bar input[type=week] {
     border: 1.5px solid var(--border);
     border-radius: 8px;
@@ -773,8 +776,37 @@
   }
   .pf-freeday-btn:hover { border-color: #fca5a5; color: #dc2626; background: #fef2f2; }
   .pf-freeday-btn.active { background: #fee2e2; border-color: #fca5a5; color: #dc2626; font-weight: 700; }
-  .pf-qual-btn {
-    background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 20px;
+
+  .auswert-period-btn {
+    padding: 5px 14px; border-radius: 20px; border: 1.5px solid #e2e8f0;
+    background: #f8fafc; font-size: .75rem; font-weight: 600; color: #64748b;
+    cursor: pointer; transition: all .15s;
+  }
+  .auswert-period-btn:hover { border-color: #a5b4fc; color: #4f46e5; }
+  .auswert-period-btn.active { background: #ede9fe; border-color: #a5b4fc; color: #4f46e5; }
+  .auswert-emp-item {
+    display: flex; align-items: center; gap: 10px; padding: 9px 10px;
+    border-radius: 9px; cursor: pointer; transition: background .12s;
+  }
+  .auswert-emp-item:hover { background: #f1f5f9; }
+  .auswert-emp-item.active { background: #ede9fe; }
+  .auswert-emp-item .emp-avatar {
+    width: 32px; height: 32px; border-radius: 50%; font-size: .75rem;
+    font-weight: 700; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; color: white;
+  }
+  .auswert-metric-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 0; border-bottom: 1px solid #f1f5f9;
+  }
+  .auswert-metric-row:last-child { border-bottom: none; }
+  .auswert-metric-label {
+    display: flex; align-items: center; gap: 8px;
+    font-size: .8rem; color: #64748b; font-weight: 500;
+  }
+  .auswert-metric-value { font-size: .9rem; font-weight: 700; color: #0f1623; }
+
+  .pf-qual-btn {    background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 20px;
     padding: 4px 12px; font-size: .72rem; font-weight: 600; color: #94a3b8;
     cursor: pointer; transition: all .12s; font-family: var(--sans);
   }
@@ -914,7 +946,7 @@
   #fab-generate:active { transform: translateY(-1px); }
   #fab-generate:disabled { background: #cbd5e1; box-shadow: none; cursor: not-allowed; transform: none; }
   @media (max-width: 700px) {
-    #fab-generate { bottom: 72px; right: 16px; padding: 12px 18px 12px 14px; font-size: .8rem; }
+    #fab-generate { bottom: 80px; right: 16px; padding: 12px 18px 12px 14px; font-size: .8rem; }
   }
 
   /* LOADING – Fullscreen Modal */
@@ -922,7 +954,7 @@
     display: none;
     position: fixed;
     inset: 0;
-    z-index: 900;
+    z-index: 2000;
     background: rgba(15,23,42,0.55);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
@@ -1176,16 +1208,17 @@
     min-width: 620px;
   }
   thead th {
-    background: linear-gradient(135deg, #1e3a8a 0%, #4c1d95 100%);
-    color: white;
+    background: #f1f5f9;
+    color: #475569;
     padding: 9px 8px;
     text-align: center;
     font-family: var(--mono);
-    font-weight: 500;
+    font-weight: 700;
     font-size: 0.65rem;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     white-space: nowrap;
+    border-bottom: 2px solid #e2e8f0;
   }
   thead th:first-child { min-width: 130px; text-align: left; padding-left: 12px; }
   thead th:last-child { }
@@ -1441,7 +1474,7 @@
   }
   
   .save-banner-undo:hover { background: rgba(255,255,255,0.25); }
-  body.generating #stickySaveBar { opacity:0 !important; pointer-events:none !important; }
+  body.generating #stickySaveBar { display:none !important; }
 
 
 
@@ -1642,7 +1675,8 @@
     /* ── Planungswoche-Bar ── */
     .planweek-bar { border-radius: 12px !important; margin-bottom: 14px !important; }
     .pwb-row { padding: 8px 10px !important; gap: 5px !important; flex-wrap: wrap !important; }
-    .pwb-label { font-size: .54rem !important; letter-spacing: .05em !important; min-width: 66px !important; flex-shrink: 0 !important; }
+    .pwb-label { font-size: .64rem !important; width: 80px !important; min-width: 80px !important; flex-shrink: 0 !important; }
+    .pwb-label .pwb-label-sub { font-size: .56rem !important; }
     .pwb-divider { display: none !important; }
     #planWeek { font-size: .78rem !important; padding: 4px 6px !important; flex: 1 1 auto !important; min-width: 0 !important; }
     .pwb-step-btn { padding: 4px 9px !important; font-size: .85rem !important; flex-shrink: 0 !important; }
@@ -1749,9 +1783,9 @@
     /* Tabelle – kompakt */
     table { font-size:.65rem; width:100%; border-collapse:collapse; margin:0; }
     thead th {
-      background:#0d1117 !important; color:white !important;
-      padding:4px 6px; text-align:left; font-weight:600;
-      font-size:.62rem; letter-spacing:.03em;
+      background:#f1f5f9 !important; color:#475569 !important;
+      padding:4px 6px; text-align:left; font-weight:700;
+      font-size:.62rem; letter-spacing:.06em; border-bottom:2px solid #e2e8f0;
     }
     tbody td { padding:3px 6px; border-bottom:1px solid #f1f5f9; vertical-align:middle; }
     tbody tr:nth-child(even) td { background:#f8fafc !important; }
@@ -1791,7 +1825,7 @@
 </head>
 <body>
 
-<button id="fab-generate" onclick="document.body.classList.add('generating');generatePlan()" title="KI-Schichtplan erstellen" style="display:none">
+<button id="fab-generate" onclick="document.body.classList.add('generating');document.getElementById('stickySaveBar').style.display='none';generatePlan()" title="KI-Schichtplan erstellen" style="display:none">
   <span style="font-size:1rem">✦</span> Schichtplan erstellen
 </button>
 
@@ -1834,6 +1868,12 @@
   <path d="M21 21v-1.5a4 4 0 0 0-5-3.85"/>
 </svg></span>
       Mitarbeiter
+      <span class="sidebar-item-dot"></span>
+    </div>
+
+    <div class="sidebar-item" id="nav-auswertung" onclick="navigatePage('auswertung')">
+      <span class="sidebar-item-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+      Auswertung
       <span class="sidebar-item-dot"></span>
     </div>
 
@@ -1883,15 +1923,15 @@
     <!-- Zeile 1: Woche wählen -->
     <div class="pwb-row">
       <span class="pwb-label">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="3"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        Woche
+        <span class="pwb-label-main"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="3"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Woche</span>
+        <span class="pwb-label-sub">Planungszeitraum</span>
       </span>
       <div class="pwb-divider"></div>
       <button class="pwb-step-btn" onclick="stepWeek(-1)" title="Vorherige Woche">‹</button>
       <input type="week" id="planWeek" onchange="loadFeiertage(); updateKwLabel(); renderPlanHistory()" style="border:1.5px solid var(--border);border-radius:8px;padding:6px 10px;font-family:var(--sans);font-size:.9rem;color:var(--ink);background:white;max-width:190px">
       <button class="pwb-step-btn" onclick="stepWeek(1)" title="Nächste Woche">›</button>
       <button onclick="jumpToCurrentWeek()" title="Zur aktuellen Woche" id="todayBtn"
-        style="font-family:var(--sans);font-size:.72rem;font-weight:700;padding:4px 9px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);color:var(--ink-soft);cursor:pointer;transition:all .15s;white-space:nowrap">
+        style="font-family:var(--sans);font-size:.75rem;font-weight:700;padding:5px 11px;border-radius:7px;border:1.5px solid #6366f1;background:#ede9fe;color:#4f46e5;cursor:pointer;transition:all .15s;white-space:nowrap">
         Heute
       </button>
       <div class="pwb-divider"></div>
@@ -1902,8 +1942,8 @@
     <!-- Zeile 2: Notdienst -->
     <div class="pwb-row">
       <span class="pwb-label">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg>
-        Notdienst
+        <span class="pwb-label-main"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg> Notdienst</span>
+        <span class="pwb-label-sub">Welche Tage?</span>
       </span>
       <div class="pwb-divider"></div>
       <div id="notdienstWrap" style="display:flex;flex-wrap:wrap;gap:5px;align-items:center">
@@ -1920,8 +1960,8 @@
     <!-- Zeile 3: Wünsche diese Woche -->
     <div class="pwb-row">
       <span class="pwb-label" style="align-self:flex-start;padding-top:2px">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        Wünsche
+        <span class="pwb-label-main"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Wünsche</span>
+        <span class="pwb-label-sub">Freitext für KI</span>
       </span>
       <div class="pwb-divider" style="align-self:stretch;height:auto"></div>
       <div style="flex:1;position:relative;display:flex;align-items:flex-start">
@@ -1938,19 +1978,30 @@
   <input type="hidden" id="feiertage">
 
   <!-- WOCHENPLÄNE -->
-  <div id="planHistorySection" style="margin-top:12px;margin-bottom:28px;display:none">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-      <span class="section-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><rect x="3" y="4" width="18" height="18" rx="3"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Wochenpläne</span>
-      <button onclick="clearPlanHistory()" title="Alle Pläne löschen" style="font-size:.72rem;color:#ef4444;background:#fef2f2;border:1px solid #fecaca;cursor:pointer;padding:3px 9px;border-radius:5px;transition:all .15s;font-weight:500" onmouseover="this.style.background='#fee2e2';this.style.borderColor='#f87171'" onmouseout="this.style.background='#fef2f2';this.style.borderColor='#fecaca'">Alle löschen</button>
+  <div id="planHistorySection" style="margin-top:12px;margin-bottom:20px;display:none">
+    <!-- Dropdown-Toggle -->
+    <div onclick="togglePlanHistoryDropdown()" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:8px 12px;border-radius:10px;border:1.5px solid #e2e8f0;background:#f8fafc;transition:background .15s" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#f8fafc'">
+      <span style="display:flex;align-items:center;gap:7px;font-size:.75rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="3"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Gespeicherte Pläne
+        <span id="planHistoryCount" style="background:#e2e8f0;color:#64748b;border-radius:20px;padding:1px 7px;font-size:.68rem;font-weight:700"></span>
+      </span>
+      <div style="display:flex;align-items:center;gap:10px">
+        <button onclick="event.stopPropagation();clearPlanHistory()" title="Alle Pläne löschen" style="font-size:.68rem;color:#ef4444;background:none;border:none;cursor:pointer;padding:2px 6px;border-radius:4px;font-weight:600;opacity:.7" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.7'">Alle löschen</button>
+        <svg id="planHistoryChevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform .2s"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
     </div>
-    <div id="planHistoryCurrent"></div>
-    <div id="planHistoryOthersWrap">
-      <div id="planHistoryOthers" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+    <!-- Dropdown-Inhalt -->
+    <div id="planHistoryDropdown" style="display:none;padding:12px 4px 4px">
+      <div id="planHistoryCurrent"></div>
+      <div id="planHistoryOthersWrap">
+        <div id="planHistoryOthers" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+      </div>
     </div>
   </div>
 
   <!-- TESTSZENARIOS -->
-  <button id="genBtn" style="display:none" onclick="document.body.classList.add('generating');generatePlan()"></button>
+  <button id="genBtn" style="display:none" onclick="document.body.classList.add('generating');document.getElementById('stickySaveBar').style.display='none';generatePlan()"></button>
   <div class="error-box" id="errorBox"></div>
 
   <!-- Dialog: Bestehender Plan -->
@@ -1997,17 +2048,18 @@
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             <span id="nextWeekLabel">Nächste Woche</span>
           </button>
-          <button class="export-btn" onclick="confirmRegen()" title="Plan neu generieren">
+          <div style="width:1px;height:20px;background:var(--border);flex-shrink:0;align-self:center"></div>
+          <button class="export-btn" onclick="confirmRegen()" title="Plan neu generieren" style="color:#64748b">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
             Neu
           </button>
-          <button class="export-btn" onclick="exportExcel()">
+          <button class="export-btn" onclick="exportExcel()" title="Als Excel exportieren" style="color:#64748b">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
-            Excel
+            <span>Excel</span>
           </button>
-          <button class="export-btn" onclick="window.print()">
+          <button class="export-btn" onclick="window.print()" title="Als PDF drucken" style="color:#64748b">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
-            PDF / Drucken
+            <span>PDF</span>
           </button>
         </div>
       </div>
@@ -2043,10 +2095,25 @@
           <div id="shiftCards" class="shift-cards"></div>
         </div>
       </div>
+    </div><!-- end plan card -->
 
-
-
-      <div id="hoursSummary"></div>
+    <!-- ── Stundenauswertung Card ───────────────────────────────────────── -->
+    <div id="hoursCard" style="display:none;margin-top:12px;border:1.5px solid #e2e8f0;border-radius:12px;overflow:hidden;background:white">
+      <!-- Toggle-Header -->
+      <div onclick="toggleHoursCard()" style="display:flex;align-items:center;justify-content:space-between;padding:11px 16px;cursor:pointer;background:#f8fafc;transition:background .15s"
+        onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#f8fafc'">
+        <div style="display:flex;align-items:center;gap:8px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>
+          <span style="font-size:.78rem;font-weight:700;color:#374151">Stundenauswertung</span>
+          <span id="hoursCardSummary" style="font-size:.72rem;color:#94a3b8;font-family:var(--mono)"></span>
+        </div>
+        <svg id="hoursCardChevron" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform .2s;flex-shrink:0"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <!-- Inhalt -->
+      <div id="hoursCardBody" style="display:none;padding:16px">
+        <div id="hoursSummary"></div>
+      </div>
+    </div>
 
       <!-- ── Teilen & Export ──────────────────────────────────────────── -->
       <div id="shareSection" style="display:none;margin-top:24px">
@@ -2088,7 +2155,6 @@
         <span id="printFooterLeft">ApoShift – Dienstplanung</span>
         <span id="printFooterRight"></span>
       </div>
-    </div><!-- /card -->
   </div><!-- /result-section -->
 
 </div><!-- /page-dienstplan -->
@@ -2291,6 +2357,23 @@
           </div>
         </div>
 
+        <!-- Krankheitstage -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+          <div>
+            <div class="emp-field-label">Krankheitstage (lfd. Jahr) <span title="Wird automatisch aus den gespeicherten Plänen berechnet – kann manuell korrigiert werden" style="cursor:help;opacity:.6">ⓘ</span></div>
+            <div class="emp-field-wrap" style="display:flex;align-items:center;gap:6px">
+              <input id="pf-sickdays" type="number" min="0" max="365" class="emp-field-input" style="flex:1" onchange="syncActiveEmployee()">
+              <span style="font-size:.8rem;color:#94a3b8">Tage</span>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-end;padding-bottom:2px">
+            <button onclick="recalcSickDays()" style="width:100%;padding:7px 10px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.72rem;font-weight:600;color:#64748b;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:5px" onmouseover="this.style.borderColor='#a5b4fc';this.style.color='#4f46e5'" onmouseout="this.style.borderColor='#e2e8f0';this.style.color='#64748b'">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              Neu berechnen
+            </button>
+          </div>
+        </div>
+
         <!-- Letzter Notdienst (nur für Apotheker) -->
         <div id="pf-lastnd-row" style="display:none;margin-bottom:6px">
           <div class="emp-field-label">Letzter Notdienst <span title="Für faire Notdienst-Rotation unter Apothekern" style="cursor:help;opacity:.6">ⓘ</span></div>
@@ -2369,6 +2452,54 @@
   <div id="employeeDataStore" style="display:none"></div>
 
 </div><!-- /page-mitarbeiter -->
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     SEITE: AUSWERTUNG
+════════════════════════════════════════════════════════════════════════════ -->
+<div id="page-auswertung" class="spa-page" style="display:none">
+
+  <div class="page-header">
+    <div>
+      <div class="page-title">Auswertung</div>
+      <div class="page-subtitle">Fairness- &amp; Stunden-Report pro Mitarbeiter</div>
+    </div>
+  </div>
+
+  <!-- Zeitraum-Filter -->
+  <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:22px">
+    <span style="font-size:.72rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.07em;margin-right:4px">Zeitraum</span>
+    <button class="auswert-period-btn active" data-period="week"      onclick="setAuswertPeriod(this)">Diese Woche</button>
+    <button class="auswert-period-btn"        data-period="month"     onclick="setAuswertPeriod(this)">Dieser Monat</button>
+    <button class="auswert-period-btn"        data-period="lastmonth" onclick="setAuswertPeriod(this)">Letzter Monat</button>
+    <button class="auswert-period-btn"        data-period="all"       onclick="setAuswertPeriod(this)">Gesamt</button>
+    <button class="auswert-period-btn"        data-period="custom"    onclick="setAuswertPeriod(this)">Von / Bis</button>
+    <div id="auswert-custom-range" style="display:none;align-items:center;gap:6px;margin-left:4px">
+      <input type="date" id="auswert-from" class="emp-field-input" style="width:130px;font-size:.78rem" onchange="renderAuswertungCard(); updateAuswertPeriodLabel()">
+      <span style="color:#94a3b8;font-size:.8rem">–</span>
+      <input type="date" id="auswert-to"   class="emp-field-input" style="width:130px;font-size:.78rem" onchange="renderAuswertungCard(); updateAuswertPeriodLabel()">
+    </div>
+  </div>
+  <div id="auswert-period-label" style="font-size:.78rem;color:#94a3b8;font-weight:500;margin-top:-14px;margin-bottom:18px;padding-left:2px"></div>
+
+  <!-- Zwei-Spalten-Layout: Liste + Detail -->
+  <div style="display:grid;grid-template-columns:260px 1fr;gap:18px;align-items:start">
+
+    <!-- Mitarbeiterliste -->
+    <div class="card" style="padding:10px">
+      <div style="font-size:.65rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;padding:6px 8px 10px">Mitarbeiter</div>
+      <div id="auswert-emp-list" style="display:flex;flex-direction:column;gap:2px"></div>
+    </div>
+
+    <!-- Detail-Card -->
+    <div id="auswert-detail-empty" class="card" style="text-align:center;padding:56px 24px;color:#94a3b8;border:2px dashed #e2e8f0;background:#fafafa">
+      <div style="margin-bottom:12px;opacity:.35"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+      <div style="font-size:.9rem;font-weight:600;color:#94a3b8;margin-bottom:6px">Mitarbeiter auswählen</div>
+      <div style="font-size:.78rem;color:#cbd5e1">Wähle links einen Mitarbeiter<br>um seine Auswertung zu sehen</div>
+    </div>
+    <div id="auswert-detail-card" style="display:none"></div>
+
+  </div>
+</div>
 
 <!-- ══════════════════════════════════════════════════════════════════════════
      SEITE: EINSTELLUNGEN
@@ -2615,6 +2746,9 @@
   <path d="M21 21v-1.5a4 4 0 0 0-5-3.85"/>
 </svg></span>Team
   </div>
+  <div class="bottom-nav-item" id="bn-auswertung" onclick="navigatePage('auswertung')">
+    <span class="bn-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>Report
+  </div>
 </nav>
 <div class="shift-picker" id="shiftPicker">
   <div class="shift-picker-title" id="shiftPickerTitle" style="grid-column:span 3">Schicht ändern</div>
@@ -2693,7 +2827,7 @@
 // ═══════════════════════════════════════════════════════════════════
 
 // ── SPA NAVIGATION (ganz oben – wird von onclick-Attributen gebraucht) ───────
-const PAGES = ['dienstplan','mitarbeiter','einstellungen'];
+const PAGES = ['dienstplan','mitarbeiter','auswertung','einstellungen'];
 let currentPage = 'dienstplan';
 
 let _pendingNavPage = null;
@@ -2739,6 +2873,10 @@ function navigatePage(page, noScroll = false) {
   document.getElementById('nav-' + page)?.classList.add('active');
   document.getElementById('bn-' + page)?.classList.add('active');
   // loadData() wird nur beim Init aufgerufen, nicht bei jeder Navigation
+  if (page === 'auswertung') {
+    renderAuswertungList();
+    updateAuswertPeriodLabel();
+  }
   if (page === 'einstellungen') {
     loadProfile();
     // renderOpenExceptions is called inside loadProfile already
@@ -2944,18 +3082,24 @@ function getStaffing() {
 
 let currentResult = null;
 let currentEmployees = null;
+let _currentDisplayedKw = '';
 let currentApo = '';
 let currentWeek = '';
 let _planDirty = false;
 
 function showSaveBar() {
+  // Während der Generierung keine SaveBar zeigen
+  if (document.body.classList.contains('generating')) return;
   _planDirty = true;
   _isDirty = true;
-  document.getElementById('stickySaveBar')?.classList.add('show');
+  const bar = document.getElementById('stickySaveBar');
+  if (bar) bar.classList.add('show');
 }
 function hideSaveBar() {
   _planDirty = false;
-  document.getElementById('stickySaveBar')?.classList.remove('show');
+  _isDirty = false;
+  const bar = document.getElementById('stickySaveBar');
+  if (bar) bar.classList.remove('show');
 }
 let _profileDirty = false;
 let _pendingProfileNavPage = null;
@@ -3075,6 +3219,8 @@ function showProfileCard(emp) {
   if (einEl) { einEl.checked = emp.einspringer || false; updateEinspringerToggle(einEl.checked); }
   document.getElementById('pf-lastsat').value  = emp.lastSat   || '';
   document.getElementById('pf-carryover').value= emp.carryover || 0;
+  const pfSickDays = document.getElementById('pf-sickdays');
+  if (pfSickDays) pfSickDays.value = emp.sickDays || 0;
   const pfBirthday = document.getElementById('pf-birthday');
   if (pfBirthday) pfBirthday.value = emp.birthday || '';
   const pfContractStart = document.getElementById('pf-contractstart');
@@ -3156,6 +3302,7 @@ function syncActiveEmployee(silent = false) {
   e.birthday     = document.getElementById('pf-birthday')?.value   ?? '';
   e.contractStart= document.getElementById('pf-contractstart')?.value ?? '';
   e.carryover    = parseFloat(document.getElementById('pf-carryover')?.value) || 0;
+  e.sickDays     = parseInt(document.getElementById('pf-sickdays')?.value)    || 0;
   e.vacationTotal   = parseInt(document.getElementById('pf-vacation-total')?.value) || 28;
   // vacationPeriods bleibt in _employees[idx] – wird direkt mutiert, nicht via DOM
   e.lastNotdienst   = document.getElementById('pf-lastnd')?.value ?? '';
@@ -3200,6 +3347,364 @@ function checkJugendschutz() {
   const age = today.getFullYear() - birth.getFullYear()
     - (today < new Date(today.getFullYear(), birth.getMonth(), birth.getDate()) ? 1 : 0);
   warn.style.display = (age < 18) ? 'flex' : 'none';
+}
+
+// ─── AUSWERTUNG ────────────────────────────────────────────────────────────
+
+let _auswertEmpIdx = null;
+let _auswertPeriod = 'week';
+
+function updateAuswertPeriodLabel() {
+  const el = document.getElementById('auswert-period-label');
+  if (!el) return;
+  const { from, to } = getAuswertDateRange();
+  const fmt = (d, opts) => d.toLocaleDateString('de-DE', opts);
+
+  let label = '';
+  if (_auswertPeriod === 'week') {
+    // KW-Nummer berechnen
+    const jan4 = new Date(from.getFullYear(), 0, 4);
+    const dow  = jan4.getDay() === 0 ? 6 : jan4.getDay() - 1;
+    const kw1  = new Date(jan4); kw1.setDate(jan4.getDate() - dow);
+    const kw   = Math.round((from - kw1) / (7*24*3600*1000)) + 1;
+    label = `KW ${kw} · ${fmt(from, {day:'2-digit',month:'2-digit'})} – ${fmt(to, {day:'2-digit',month:'2-digit',year:'numeric'})}`;
+  } else if (_auswertPeriod === 'month') {
+    label = fmt(from, { month: 'long', year: 'numeric' });
+  } else if (_auswertPeriod === 'lastmonth') {
+    label = fmt(from, { month: 'long', year: 'numeric' });
+  } else if (_auswertPeriod === 'all') {
+    label = 'Alle gespeicherten Pläne';
+  } else {
+    const fVal = document.getElementById('auswert-from')?.value;
+    const tVal = document.getElementById('auswert-to')?.value;
+    if (fVal && tVal) {
+      label = `${fmt(new Date(fVal), {day:'2-digit',month:'2-digit',year:'numeric'})} – ${fmt(new Date(tVal), {day:'2-digit',month:'2-digit',year:'numeric'})}`;
+    }
+  }
+  el.textContent = label;
+}
+
+function setAuswertPeriod(btn) {
+  document.querySelectorAll('.auswert-period-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  _auswertPeriod = btn.dataset.period;
+  const customRange = document.getElementById('auswert-custom-range');
+  if (customRange) customRange.style.display = _auswertPeriod === 'custom' ? 'flex' : 'none';
+  updateAuswertPeriodLabel();
+  renderAuswertungCard();
+}
+
+function getAuswertDateRange() {
+  const today = new Date();
+  let from, to;
+  if (_auswertPeriod === 'week') {
+    const day = today.getDay() === 0 ? 6 : today.getDay() - 1;
+    from = new Date(today); from.setDate(today.getDate() - day); from.setHours(0,0,0,0);
+    to   = new Date(from);  to.setDate(from.getDate() + 6);      to.setHours(23,59,59,999);
+  } else if (_auswertPeriod === 'month') {
+    from = new Date(today.getFullYear(), today.getMonth(), 1);
+    to   = new Date(today.getFullYear(), today.getMonth() + 1, 0, 23, 59, 59, 999);
+  } else if (_auswertPeriod === 'lastmonth') {
+    from = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+    to   = new Date(today.getFullYear(), today.getMonth(), 0, 23, 59, 59, 999);
+  } else if (_auswertPeriod === 'all') {
+    from = new Date(2000, 0, 1);
+    to   = new Date(2099, 11, 31, 23, 59, 59, 999);
+  } else { // custom
+    const fVal = document.getElementById('auswert-from')?.value;
+    const tVal = document.getElementById('auswert-to')?.value;
+    from = fVal ? new Date(fVal) : new Date(today.getFullYear(), today.getMonth(), 1);
+    to   = tVal ? new Date(tVal + 'T23:59:59') : new Date();
+  }
+  return { from, to };
+}
+
+function getAuswertStats(emp) {
+  const history = JSON.parse(localStorage.getItem('aposhift_history') || '[]');
+  const { from, to } = getAuswertDateRange();
+  const DAYS_ORDER = ['Mo','Di','Mi','Do','Fr','Sa','So'];
+  let hours = 0, saturdays = 0, notdienste = 0, sickDays = 0, freeDays = 0,
+      wishesGranted = 0, wishesTotal = 0;
+
+  function mondayOfKW(planWeek) {
+    const m = (planWeek || '').match(/(\d{4})-W(\d{1,2})/);
+    if (!m) return null;
+    const year = parseInt(m[1]), kw = parseInt(m[2]);
+    const jan4 = new Date(year, 0, 4);
+    const dow  = jan4.getDay() === 0 ? 6 : jan4.getDay() - 1;
+    const kw1Mon = new Date(jan4); kw1Mon.setDate(jan4.getDate() - dow);
+    const mon = new Date(kw1Mon); mon.setDate(kw1Mon.getDate() + (kw - 1) * 7);
+    mon.setHours(0,0,0,0);
+    return mon;
+  }
+
+  history.forEach(entry => {
+    const weekStart = mondayOfKW(entry.planWeek);
+    if (!weekStart || weekStart < from || weekStart > to) return;
+
+    const plan = entry.result?.plan || {};
+
+    DAYS_ORDER.forEach(d => {
+      const shift = (plan[d] || {})[emp.name] || '';
+      if (!shift || shift === 'Frei') return;
+      if (shift.startsWith('Krank'))    { sickDays++;   return; }
+      if (shift.startsWith('Urlaub'))   { return; }
+      if (shift.startsWith('Feiertag')) { return; }
+      if (shift.startsWith('Notdienst') || shift === 'ND') { notdienste++; return; }
+      if (d === 'Sa') saturdays++;
+      const tm = shift.match(/(\d{1,2})[:\.](\d{2})\s*[-–]\s*(\d{1,2})[:\.](\d{2})/);
+      if (tm) {
+        const start = parseInt(tm[1])*60 + parseInt(tm[2]);
+        const end   = parseInt(tm[3])*60 + parseInt(tm[4]);
+        hours += Math.max(0, (end - start) / 60 - 0.5);
+      } else {
+        hours += 8;
+      }
+    });
+  });
+
+  // Soll-Stunden: exakte Wochen je Zeitraum
+  let workWeeks;
+  if (_auswertPeriod === 'week') {
+    workWeeks = 1;
+  } else if (_auswertPeriod === 'month') {
+    workWeeks = 4;
+  } else if (_auswertPeriod === 'lastmonth') {
+    workWeeks = 4;
+  } else if (_auswertPeriod === 'all') {
+    // Anzahl gespeicherter KWs in der History zählen
+    const hist = JSON.parse(localStorage.getItem('aposhift_history') || '[]');
+    workWeeks = Math.max(1, hist.length);
+  } else {
+    // Custom: Tage ÷ 7, auf halbe Woche gerundet
+    const days = Math.round((to - from) / (1000*60*60*24)) + 1;
+    workWeeks = Math.round((days / 7) * 2) / 2;
+  }
+  const sollHours = Math.round((emp.hours || 38) * workWeeks * 10) / 10;
+
+  return { hours: Math.round(hours * 10) / 10, sollHours, saturdays, notdienste, sickDays, freeDays, wishesGranted, wishesTotal };
+}
+
+function getTeamStats() {
+  const emps = getEmployees();
+  if (!emps.length) return {};
+  const all = emps.map(e => getAuswertStats(e));
+  const avg = key => Math.round((all.reduce((s, s2) => s + (s2[key] || 0), 0) / all.length) * 10) / 10;
+  return {
+    saturdays:  avg('saturdays'),
+    notdienste: avg('notdienste'),
+    sickDays:   avg('sickDays'),
+    hours:      avg('hours'),
+  };
+}
+
+function getFairnessLabel(stats, emp) {
+  const issues = [];
+  const { from, to } = getAuswertDateRange();
+  const weeks = Math.max(1, Math.round(((to - from) / (1000*60*60*24*7))));
+
+  if (stats.saturdays > weeks * 0.6) issues.push({ text: 'Viele Samstage', color: '#d97706', bg: '#fffbeb', border: '#fde68a' });
+  if (stats.sickDays  > weeks * 1.5) issues.push({ text: 'Hohe Krankheitsquote', color: '#dc2626', bg: '#fef2f2', border: '#fecaca' });
+  if (stats.wishesTotal > 0 && (stats.wishesGranted / stats.wishesTotal) < 0.5)
+    issues.push({ text: 'Wenige Wünsche erfüllt', color: '#7c3aed', bg: '#f5f3ff', border: '#ddd6fe' });
+  const hoursDiff = stats.hours - stats.sollHours;
+  if (hoursDiff > stats.sollHours * 0.15) issues.push({ text: 'Überstunden', color: '#dc2626', bg: '#fef2f2', border: '#fecaca' });
+  if (hoursDiff < -stats.sollHours * 0.15) issues.push({ text: 'Minusstunden', color: '#d97706', bg: '#fffbeb', border: '#fde68a' });
+
+  if (issues.length === 0) return [{ text: 'Ausgewogen', color: '#059669', bg: '#ecfdf5', border: '#bbf7d0' }];
+  return issues;
+}
+
+function renderAuswertungList() {
+  const list = document.getElementById('auswert-emp-list');
+  if (!list) return;
+  const emps = getEmployees();
+  if (!emps.length) {
+    list.innerHTML = '<div style="padding:12px;font-size:.78rem;color:#94a3b8;text-align:center">Keine Mitarbeiter</div>';
+    return;
+  }
+  list.innerHTML = emps.map((emp, i) => {
+    const color = avatarColor(emp.name);
+    const initials = emp.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2);
+    const active = i === _auswertEmpIdx ? ' active' : '';
+    return `<div class="auswert-emp-item${active}" onclick="selectAuswertEmp(${i})">
+      <div class="emp-avatar" style="background:${color}">${initials}</div>
+      <div>
+        <div style="font-size:.82rem;font-weight:600;color:#0f1623">${emp.name || '(kein Name)'}</div>
+        <div style="font-size:.7rem;color:#94a3b8">${emp.position || ''}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function selectAuswertEmp(idx) {
+  _auswertEmpIdx = idx;
+  document.querySelectorAll('.auswert-emp-item').forEach((el, i) => {
+    el.classList.toggle('active', i === idx);
+  });
+  renderAuswertungCard();
+}
+
+function renderAuswertungCard() {
+  const empty  = document.getElementById('auswert-detail-empty');
+  const detail = document.getElementById('auswert-detail-card');
+  if (!detail) return;
+  if (_auswertEmpIdx === null) {
+    if (empty)  empty.style.display  = 'block';
+    detail.style.display = 'none';
+    return;
+  }
+  const emps = getEmployees();
+  const emp  = emps[_auswertEmpIdx];
+  if (!emp) return;
+  if (empty) empty.style.display = 'none';
+  detail.style.display = 'block';
+
+  const stats    = getAuswertStats(emp);
+  const badges   = getFairnessLabel(stats, emp);
+  const color    = avatarColor(emp.name);
+  const initials = emp.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2);
+  const hoursPct = stats.sollHours > 0 ? Math.min(100, Math.round(stats.hours / stats.sollHours * 100)) : 0;
+  const hoursColor = hoursPct > 110 ? '#dc2626' : hoursPct < 85 ? '#d97706' : '#059669';
+  const wishPct  = stats.wishesTotal > 0 ? Math.round(stats.wishesGranted / stats.wishesTotal * 100) : null;
+  const wishColor= wishPct === null ? '#94a3b8' : wishPct >= 80 ? '#059669' : wishPct >= 50 ? '#d97706' : '#dc2626';
+
+  const svgClock  = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
+  const svgCal    = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`;
+  const svgMoon   = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+  const svgHeart  = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
+  const svgFree   = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>`;
+  const svgStar   = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+
+  detail.innerHTML = `
+    <div class="card">
+      <!-- Header -->
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px;padding-bottom:18px;border-bottom:1px solid #f1f5f9">
+        <div style="width:48px;height:48px;border-radius:50%;background:${color};display:flex;align-items:center;justify-content:center;font-size:1.05rem;font-weight:800;color:white;flex-shrink:0">${initials}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:1.05rem;font-weight:800;color:#0f1623;margin-bottom:2px">${emp.name}</div>
+          <div style="font-size:.78rem;color:#94a3b8">${emp.position || ''} · ${emp.hours || 38}h/Wo.</div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:5px;justify-content:flex-end">
+          ${badges.map(b => `<span style="padding:4px 11px;border-radius:20px;background:${b.bg};border:1px solid ${b.border};color:${b.color};font-size:.72rem;font-weight:700">${b.text}</span>`).join('')}
+        </div>
+      </div>
+
+      <!-- Metriken -->
+      <div>
+        <!-- Stunden -->
+        <div class="auswert-metric-row">
+          <div class="auswert-metric-label" style="color:#64748b">
+            ${svgClock} Geplante Stunden
+            <span title="Soll = Vertragsstunden × Wochen im Zeitraum. Feiertage, Urlaub und Krankheit sind nicht abgezogen." style="cursor:help;opacity:.5;font-size:.72rem">ⓘ</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:100px;height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden">
+              <div style="height:100%;width:${hoursPct}%;background:${hoursColor};border-radius:3px;transition:width .4s"></div>
+            </div>
+            <div class="auswert-metric-value" style="color:${hoursColor};min-width:80px;text-align:right">${stats.hours}h <span style="font-size:.72rem;font-weight:500;color:#94a3b8" title="Vertrags-Soll">/ ${stats.sollHours}h Soll</span></div>
+          </div>
+        </div>
+        <!-- Samstage -->
+        <div class="auswert-metric-row">
+          <div class="auswert-metric-label">${svgCal} Samstage</div>
+          <div class="auswert-metric-value">${stats.saturdays}</div>
+        </div>
+        <!-- Notdienste -->
+        <div class="auswert-metric-row">
+          <div class="auswert-metric-label">${svgMoon} Notdienste</div>
+          <div class="auswert-metric-value">${stats.notdienste}</div>
+        </div>
+        <!-- Krankheitstage -->
+        <div class="auswert-metric-row">
+          <div class="auswert-metric-label">${svgHeart} Krankheitstage</div>
+          <div class="auswert-metric-value">${stats.sickDays}</div>
+        </div>
+        <!-- Freie Tage -->
+        <div class="auswert-metric-row">
+          <div class="auswert-metric-label">${svgFree} Zugewiesene freie Tage</div>
+          <div class="auswert-metric-value">${stats.freeDays}</div>
+        </div>
+        <!-- Wünsche -->
+        <div class="auswert-metric-row">
+          <div class="auswert-metric-label">${svgStar} Wünsche berücksichtigt</div>
+          <div class="auswert-metric-value" style="color:${wishColor}">
+            ${wishPct !== null ? `${stats.wishesGranted} / ${stats.wishesTotal} <span style="font-size:.75rem;font-weight:500;color:${wishColor}">(${wishPct}%)</span>` : '<span style="font-size:.78rem;color:#94a3b8;font-weight:400">Keine Daten</span>'}
+          </div>
+        </div>
+      </div>
+
+      <!-- Fairness-Report -->
+      <div style="margin-top:20px;padding-top:18px;border-top:1px solid #f1f5f9">
+        <div style="font-size:.65rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px">Fairness-Report — Vergleich mit Team</div>
+        ${(()=>{
+          const team = getTeamStats();
+          const metrics = [
+            { label:'Samstage',    val: stats.saturdays,  avg: team.saturdays,  color:'#6366f1', unit:'' },
+            { label:'Notdienste',  val: stats.notdienste, avg: team.notdienste, color:'#0ea5e9', unit:'' },
+            { label:'Kranktage',   val: stats.sickDays,   avg: team.sickDays,   color:'#f59e0b', unit:'' },
+            { label:'Ist-Stunden', val: stats.hours,      avg: team.hours,      color:'#10b981', unit:'h' },
+          ];
+          return metrics.map(m => {
+            const max = Math.max(m.val, m.avg * 1.5, 1);
+            const valPct = Math.min(100, Math.round(m.val / max * 100));
+            const avgPct = Math.min(100, Math.round(m.avg / max * 100));
+            const isHigh = m.val > m.avg * 1.2;
+            const isLow  = m.val < m.avg * 0.8;
+            const barColor = isHigh ? '#ef4444' : isLow ? '#94a3b8' : m.color;
+            const diffText = m.avg > 0
+              ? (m.val > m.avg ? `+${Math.round((m.val - m.avg)*10)/10}${m.unit} über Ø` : m.val < m.avg ? `${Math.round((m.val - m.avg)*10)/10}${m.unit} unter Ø` : 'Ø')
+              : '';
+            const diffColor = isHigh ? '#ef4444' : isLow ? '#94a3b8' : '#059669';
+            return `<div style="margin-bottom:12px">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px">
+                <span style="font-size:.76rem;font-weight:600;color:#475569">${m.label}</span>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="font-size:.7rem;color:${diffColor};font-weight:600">${diffText}</span>
+                  <span style="font-size:.8rem;font-weight:700;color:#0f1623">${m.val}${m.unit}</span>
+                </div>
+              </div>
+              <div style="position:relative;height:8px;background:#f1f5f9;border-radius:4px;overflow:visible">
+                <div style="height:100%;width:${valPct}%;background:${barColor};border-radius:4px;transition:width .4s"></div>
+                <!-- Teamdurchschnitt-Linie -->
+                ${m.avg > 0 ? `<div style="position:absolute;top:-3px;bottom:-3px;left:${avgPct}%;width:2px;background:#94a3b8;border-radius:1px" title="Teamdurchschnitt: ${m.avg}${m.unit}">
+                  <div style="position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:.6rem;color:#94a3b8;white-space:nowrap;font-weight:600">Ø ${m.avg}${m.unit}</div>
+                </div>` : ''}
+              </div>
+            </div>`;
+          }).join('');
+        })()}
+      </div>
+
+      <!-- Hinweis wenn keine History -->
+      <div style="margin-top:16px;padding:10px 14px;background:#f8fafc;border-radius:8px;font-size:.74rem;color:#94a3b8;line-height:1.5">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Auswertung basiert auf gespeicherten Dienstplänen im gewählten Zeitraum. Wünsche werden erst ab der nächsten Plangeneration mit Einzelauswertung erfasst.
+      </div>
+    </div>`;
+}
+
+function recalcSickDays() {
+  if (_activeEmpIdx === null) return;
+  const emp = _employees[_activeEmpIdx];
+  if (!emp) return;
+  const history = JSON.parse(localStorage.getItem('aposhift_history') || '{}');
+  const currentYear = new Date().getFullYear();
+  let sickCount = 0;
+  Object.entries(history).forEach(([kw, entry]) => {
+    // KW-Datum prüfen: nur laufendes Jahr
+    const weekStart = entry.weekStart ? new Date(entry.weekStart) : null;
+    if (weekStart && weekStart.getFullYear() !== currentYear) return;
+    const plan = entry.plan || {};
+    Object.values(plan).forEach(dayPlan => {
+      const shift = dayPlan[emp.name] || '';
+      if (shift.startsWith('Krank')) sickCount++;
+    });
+  });
+  emp.sickDays = sickCount;
+  const el = document.getElementById('pf-sickdays');
+  if (el) el.value = sickCount;
+  showToast(`${sickCount} Krankheitstage aus History berechnet`);
 }
 
 function checkApprobationWarn() {
@@ -3269,6 +3774,7 @@ function getEmployees() {
     birthday:       e.birthday       || '',
     contractStart:  e.contractStart  || '',
     carryover:     parseFloat(e.carryover) || 0,
+    sickDays:      parseInt(e.sickDays)    || 0,
     vacationTotal: parseInt(e.vacationTotal) || 28,
     vacationPeriods: e.vacationPeriods || [],
     freeDays:      e.freeDays || [],
@@ -3560,6 +4066,7 @@ function loadData() {
       birthday:       e.birthday       || '',
       contractStart:  e.contractStart  || '',
       carryover: parseFloat(e.carryover) || 0,
+      sickDays:  parseInt(e.sickDays)    || 0,
       vacationTotal: parseInt(e.vacationTotal) || 28,
       vacationPeriods: e.vacationPeriods || [],
       freeDays:      e.freeDays || [],
@@ -3904,15 +4411,15 @@ function updateKwLabel() {
   const fmt = d => d.toLocaleDateString('de-DE', {day:'2-digit', month:'short'});
   lbl.textContent = `KW ${week} · ${fmt(monday)} – ${fmt(sunday)} ${year}`;
   loadWeekWishes(inp.value);
-  // Heute-Button: lila wenn nicht aktuelle Woche, grau wenn aktuelle Woche
+  // Heute-Button: gedimmt wenn bereits aktuelle Woche, prominent wenn andere Woche
   const todayBtn = document.getElementById('todayBtn');
   if (todayBtn) {
     const isCurrentWeek = inp.value === getCurrentISOWeek();
-    todayBtn.style.background    = isCurrentWeek ? 'var(--card)' : 'var(--accent-grad)';
-    todayBtn.style.color         = isCurrentWeek ? 'var(--ink-soft)' : 'white';
-    todayBtn.style.borderColor   = isCurrentWeek ? 'var(--border)' : 'transparent';
-    todayBtn.style.cursor        = isCurrentWeek ? 'default' : 'pointer';
-    todayBtn.style.boxShadow     = isCurrentWeek ? 'none' : '0 2px 8px rgba(99,102,241,0.3)';
+    todayBtn.style.background  = isCurrentWeek ? '#f1f5f9' : '#ede9fe';
+    todayBtn.style.color       = isCurrentWeek ? '#94a3b8' : '#4f46e5';
+    todayBtn.style.borderColor = isCurrentWeek ? '#e2e8f0' : '#6366f1';
+    todayBtn.style.cursor      = isCurrentWeek ? 'default' : 'pointer';
+    todayBtn.style.boxShadow   = 'none';
   }
 }
 
@@ -4717,7 +5224,12 @@ async function generatePlan(skipCheck = false) {
   }
 
   document.getElementById('genBtn').disabled = true; const fabG = document.getElementById('fab-generate'); if(fabG) fabG.disabled = true;
-  hideSaveBar(); // sofort verstecken beim Klick auf Generieren
+  
+  // SaveBar komplett aus dem DOM entfernen während der Generierung
+  const _saveBarEl = document.getElementById('stickySaveBar');
+  const _saveBarParent = _saveBarEl?.parentNode;
+  const _saveBarNext = _saveBarEl?.nextSibling;
+  if (_saveBarEl && _saveBarParent) _saveBarParent.removeChild(_saveBarEl);
 
   // Zuerst zur Dienstplan-Seite navigieren damit das Overlay garantiert sichtbar ist
   navigatePage('dienstplan');
@@ -6556,6 +7068,13 @@ WICHTIG: Wenn keine Verbesserung möglich → {"changes":[],"summary":"Plan bere
       }
       setTimeout(() => {
         if (overlay) { overlay.style.display = 'none'; overlay.style.opacity = ''; overlay.style.transition = ''; }
+        document.body.classList.remove('generating');
+        // SaveBar wieder ins DOM einfügen (war während Generierung entfernt)
+        if (_saveBarEl && _saveBarParent) {
+          _saveBarEl.classList.remove('show');
+          _saveBarParent.insertBefore(_saveBarEl, _saveBarNext || null);
+        }
+        hideSaveBar();
         document.getElementById('genBtn').disabled = false; const fabG2 = document.getElementById('fab-generate'); if(fabG2) fabG2.disabled = false;
         navigatePage('dienstplan', true); // noScroll – renderResult übernimmt
       }, 320);
@@ -6567,8 +7086,6 @@ WICHTIG: Wenn keine Verbesserung möglich → {"changes":[],"summary":"Plan bere
 function renderResult(result, employees, apoName, planWeek) {
   currentResult = result; currentEmployees = employees; currentApo = apoName; currentWeek = planWeek;
   hideSaveBar();
-  document.body.classList.remove('generating');
-  setTimeout(() => { hideSaveBar(); }, 800);
 
   // Feiertage immer für die angezeigte Woche laden – unabhängig vom aktuellen Input-Wert
   _lastFtWeek = ''; loadFeiertage(planWeek);
@@ -6682,14 +7199,14 @@ function renderResult(result, employees, apoName, planWeek) {
   });
   result.warnings = allWarnings;
 
-  // Planhistorie speichern (max. 5 Einträge)
+  // Planhistorie speichern (unbegrenzt)
   try {
     const hist = JSON.parse(localStorage.getItem('aposhift_history') || '[]');
     const entry = { result, employees, apoName, planWeek, savedAt: new Date().toISOString() };
     const existIdx = hist.findIndex(e => e.planWeek === planWeek);
     if (existIdx >= 0) hist.splice(existIdx, 1); // bestehenden KW-Eintrag ersetzen
     hist.unshift(entry);
-    localStorage.setItem('aposhift_history', JSON.stringify(hist.slice(0, 10)));
+    localStorage.setItem('aposhift_history', JSON.stringify(hist));
     renderPlanHistory();
   } catch(e) {}
   const step4El = document.getElementById('step4');
@@ -6745,15 +7262,11 @@ function renderResult(result, employees, apoName, planWeek) {
     if (noWarn) {
       banner.style.display = 'block';
       banner.innerHTML =
-        '<div style="background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border:1.5px solid #86efac;border-radius:14px;padding:16px 22px">' +
-          '<div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">' +
-            '<div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#059669,#10b981);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 12 12" fill="none" style="vertical-align:middle"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
-            '<div>' +
-              '<div style="font-family:var(--serif);font-weight:800;font-size:1rem;color:#065f46;letter-spacing:-0.01em">Plan erfolgreich erstellt</div>' +
-              '<div style="font-size:.78rem;color:#047857;margin-top:1px">' + wishText + ' · 0 Konflikte · Alle Regeln eingehalten</div>' +
-            '</div>' +
-          '</div>' +
-          '<div class="chips-wrap" style="display:flex;flex-wrap:wrap;gap:7px">' + chipsHtml + '</div>' +
+        '<div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:9px 14px;display:flex;align-items:center;gap:10px">' +
+          '<svg width="15" height="15" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" fill="#10b981"/><polyline points="2.5,6 5,8.5 9.5,3.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+          '<span style="font-size:.78rem;font-weight:600;color:#065f46;flex:1">Plan erstellt · ' + wishText + ' · 0 Konflikte</span>' +
+          '<button onclick="document.getElementById(\'successBanner\').style.display=\'none\'" style="background:none;border:none;cursor:pointer;font-size:.85rem;color:#6ee7b7;line-height:1;padding:0 2px" title="Schließen">✕</button>' +
+          '<details style="display:none"><summary></summary><div class="chips-wrap" style="display:flex;flex-wrap:wrap;gap:7px;margin-top:8px">' + chipsHtml + '</div></details>' +
         '</div>';
     } else {
       banner.style.display = 'flex';
@@ -6908,7 +7421,9 @@ function renderResult(result, employees, apoName, planWeek) {
   showShareSection();
 
   renderPlanHistory();
+  _currentDisplayedKw = planWeek;
   renderKwHeader(planWeek, employees, plan);
+  updateKwNavLabel(planWeek);
 
   // ── Mobile Cards ─────────────────────────────────────────────────────────
   const shiftCards = document.getElementById('shiftCards');
@@ -6979,6 +7494,15 @@ function renderResult(result, employees, apoName, planWeek) {
       if (el) { el.value = diff; el.style.background = diff>0?'#fef9c3':diff<0?'#fee2e2':'#f0fdf4'; setTimeout(()=>{el.style.background='';},2500); }
     }
   });
+}
+
+function toggleHoursCard() {
+  const body    = document.getElementById('hoursCardBody');
+  const chevron = document.getElementById('hoursCardChevron');
+  if (!body) return;
+  const open = body.style.display !== 'none';
+  body.style.display    = open ? 'none' : 'block';
+  if (chevron) chevron.style.transform = open ? '' : 'rotate(180deg)';
 }
 
 function renderHoursSummary(changedEmp = null) {
@@ -7211,18 +7735,21 @@ function renderHoursSummary(changedEmp = null) {
       '</div>' +
     '</div>';
 
-  container.innerHTML = '<div style="margin-top:20px">' +
-    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">' +
-      '<div class="section-label" style="margin-bottom:14px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg> Stundenauswertung</div>' +
-      '<div style="display:flex;align-items:center;gap:12px">' +
-        '<div style="font-size:.75rem;color:var(--ink-soft);font-family:var(--mono)">' +
-          'IST <strong>' + totalAll.toFixed(1) + 'h</strong> / SOLL <strong>' + totalSoll.toFixed(1) + 'h</strong>' +
-          '<span style="margin-left:8px;color:' + (Math.abs(totalAll-totalSoll)<2?'#16a34a':'#d97706') + '">' + (totalAll>=totalSoll?'+':'') + (totalAll-totalSoll).toFixed(1) + 'h gesamt</span>' +
-        '</div>' +
-        '<div style="display:flex;gap:4px">' +
-          '<button onclick="showHoursView(\'cards\')" id="btnViewCards" style="font-size:.72rem;padding:4px 10px;border-radius:6px;border:1.5px solid var(--accent);background:var(--accent);color:white;cursor:pointer;font-family:var(--sans);font-weight:600;transition:all .15s">Karten</button>' +
-          '<button onclick="showHoursView(\'bars\')" id="btnViewBars" style="font-size:.72rem;padding:4px 10px;border-radius:6px;border:1.5px solid var(--border);background:white;color:var(--ink-soft);cursor:pointer;font-family:var(--sans);font-weight:500;transition:all .15s">Balken</button>' +
-        '</div>' +
+  // Stunden-Card einblenden + Summary im Header setzen
+  const hoursCard = document.getElementById('hoursCard');
+  if (hoursCard) hoursCard.style.display = 'block';
+  const hoursCardSummary = document.getElementById('hoursCardSummary');
+  if (hoursCardSummary) {
+    const diff = totalAll - totalSoll;
+    const diffColor = Math.abs(diff) < 2 ? '#16a34a' : '#d97706';
+    hoursCardSummary.innerHTML = `IST <strong>${totalAll.toFixed(1)}h</strong> / SOLL <strong>${totalSoll.toFixed(1)}h</strong> <span style="color:${diffColor}">${diff >= 0 ? '+' : ''}${diff.toFixed(1)}h</span>`;
+  }
+
+  container.innerHTML = '<div>' +
+    '<div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:12px">' +
+      '<div style="display:flex;gap:4px">' +
+        '<button onclick="showHoursView(\'cards\')" id="btnViewCards" style="font-size:.72rem;padding:4px 10px;border-radius:6px;border:1.5px solid var(--accent);background:var(--accent);color:white;cursor:pointer;font-family:var(--sans);font-weight:600;transition:all .15s">Karten</button>' +
+        '<button onclick="showHoursView(\'bars\')" id="btnViewBars" style="font-size:.72rem;padding:4px 10px;border-radius:6px;border:1.5px solid var(--border);background:white;color:var(--ink-soft);cursor:pointer;font-family:var(--sans);font-weight:500;transition:all .15s">Balken</button>' +
       '</div>' +
     '</div>' +
     '<div id="hoursViewCards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px" class="hours-grid-3col">' + cards + '</div>' +
@@ -7640,7 +8167,7 @@ function saveManualPlan() {
     const entry = { result: currentResult, employees: currentEmployees, apoName: currentApo, planWeek: currentWeek, savedAt: new Date().toISOString() };
     if (idx >= 0) hist.splice(idx, 1);
     hist.unshift(entry);
-    localStorage.setItem('aposhift_history', JSON.stringify(hist.slice(0, 10)));
+    localStorage.setItem('aposhift_history', JSON.stringify(hist));
     renderPlanHistory();
   } catch(e) { console.error('Speichern fehlgeschlagen', e); return; }
 
@@ -7728,15 +8255,52 @@ function renderKwHeader(planWeek, employees, plan) {
   // Abstand zwischen Banner-Unterkante und Tabellen-Header
   const tabContent = document.getElementById('kwTabContent');
   if (tabContent) tabContent.style.paddingTop = '14px';
+  const isCurrentKw = planWeek === getCurrentISOWeek();
+  const isFutureKw  = planWeek > getCurrentISOWeek();
+
+  const headerBg     = isCurrentKw ? '#eef2ff' : isFutureKw ? '#eff6ff' : '#f8fafc';
+  const headerBorder = isCurrentKw ? '#a5b4fc' : isFutureKw ? '#bfdbfe' : '#e2e8f0';
+  const kwColor      = isCurrentKw ? '#3730a3' : isFutureKw ? '#1e40af' : '#0f1623';
+  const badge        = isCurrentKw
+    ? `<span style="background:#4f46e5;color:white;font-size:.58rem;font-weight:800;border-radius:20px;padding:2px 8px;letter-spacing:.04em;white-space:nowrap">AKTUELL</span>`
+    : isFutureKw
+    ? `<span style="background:#3b82f6;color:white;font-size:.58rem;font-weight:700;border-radius:20px;padding:2px 8px;letter-spacing:.04em;white-space:nowrap">GEPLANT</span>`
+    : '';
+
   el.innerHTML = `
-    <div style="background:linear-gradient(135deg,#1e1b4b,#4338ca);border-radius:12px 12px 0 0;border:1.5px solid #4338ca;border-bottom:none;padding:16px 20px;color:white">
-      <div style="font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.12em;opacity:.6;text-transform:uppercase">Schichtplan ${year}</div>
-      <div style="font-family:var(--serif);font-size:1.5rem;font-weight:800;letter-spacing:-.03em;line-height:1.1">Kalenderwoche ${kwNum}</div>
-      <div style="font-size:.78rem;opacity:.75;margin-top:2px">${dates.length >= 6 ? `${fmt(dates[0])}${dates[0]?.getFullYear() !== dates[5]?.getFullYear() ? dates[0]?.getFullYear() : ''} – ${fmt(dates[5])}${dates[5]?.getFullYear()}` : ''}</div>
+    <div style="background:${headerBg};border-radius:12px 12px 0 0;border:1.5px solid ${headerBorder};border-bottom:none;padding:10px 16px;display:flex;align-items:center;gap:10px">
+      <div style="flex:1;min-width:0">
+        <div style="font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#94a3b8;margin-bottom:1px">Schichtplan ${year}</div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <div style="font-family:var(--serif);font-size:1.15rem;font-weight:800;letter-spacing:-.02em;color:${kwColor};line-height:1.2">Kalenderwoche ${kwNum}</div>
+          ${badge}
+        </div>
+      </div>
+      <div style="width:1px;height:32px;background:${headerBorder};flex-shrink:0"></div>
+      <div style="font-size:.82rem;color:#64748b;font-weight:500;white-space:nowrap">${dates.length >= 6 ? `${fmt(dates[0])}${dates[0]?.getFullYear() !== dates[5]?.getFullYear() ? ' '+dates[0]?.getFullYear() : ''} – ${fmt(dates[5])}${dates[5]?.getFullYear()}` : ''}</div>
+      <div style="width:1px;height:32px;background:${headerBorder};flex-shrink:0"></div>
+      <div style="display:flex;align-items:center;gap:4px">
+        <button id="kwNavPrev" onclick="kwNavStep(-1)" title="Vorherige gespeicherte KW"
+          style="display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:7px;border:1.5px solid #e2e8f0;background:white;cursor:pointer;color:#475569;transition:all .15s;font-size:1rem;line-height:1"
+          onmouseover="this.style.borderColor='#6366f1';this.style.color='#6366f1'" onmouseout="this.style.borderColor='#e2e8f0';this.style.color='#475569'">‹</button>
+        <span id="kwNavLabel" style="font-size:.7rem;font-weight:600;color:#94a3b8;min-width:32px;text-align:center"></span>
+        <button id="kwNavNext" onclick="kwNavStep(1)" title="Nächste gespeicherte KW"
+          style="display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:7px;border:1.5px solid #e2e8f0;background:white;cursor:pointer;color:#475569;transition:all .15s;font-size:1rem;line-height:1"
+          onmouseover="this.style.borderColor='#6366f1';this.style.color='#6366f1'" onmouseout="this.style.borderColor='#e2e8f0';this.style.color='#475569'">›</button>
+      </div>
     </div>`;
 }
 
 // ── Planhistorie (Seitenleiste) ───────────────────────────────────────────────
+function togglePlanHistoryDropdown() {
+  const dd      = document.getElementById('planHistoryDropdown');
+  const chevron = document.getElementById('planHistoryChevron');
+  if (!dd) return;
+  const open = dd.style.display !== 'none';
+  dd.style.display      = open ? 'none' : 'block';
+  if (chevron) chevron.style.transform = open ? '' : 'rotate(180deg)';
+}
+
 function renderPlanHistory() {
   const section = document.getElementById('planHistorySection');
   const curContainer = document.getElementById('planHistoryCurrent');
@@ -7748,6 +8312,8 @@ function renderPlanHistory() {
   try { hist = JSON.parse(localStorage.getItem('aposhift_history') || '[]'); } catch(e) {}
 
   if (section) section.style.display = hist.length ? 'block' : 'none';
+  const countEl = document.getElementById('planHistoryCount');
+  if (countEl) countEl.textContent = hist.length || '';
   updateNextWeekButton();
   if (hist.length === 0) { curContainer.innerHTML = ''; othContainer.innerHTML = ''; return; }
 
@@ -7831,6 +8397,36 @@ function confirmDeletePlan(idx) {
       renderKwHeader(currentWeek, currentEmployees, currentResult?.plan || {});
   } catch(e) {}
 }
+
+function updateKwNavLabel(planWeek) {
+  let hist = [];
+  try { hist = JSON.parse(localStorage.getItem('aposhift_history') || '[]'); } catch(e) {}
+  if (hist.length === 0) { 
+    const lbl = document.getElementById('kwNavLabel');
+    if (lbl) lbl.textContent = '';
+    return;
+  }
+  const sorted = hist.map(h => h.planWeek).filter(Boolean).sort();
+  const idx = sorted.indexOf(planWeek);
+  const lbl = document.getElementById('kwNavLabel');
+  if (lbl) lbl.textContent = idx >= 0 ? `${idx+1}/${sorted.length}` : `–/${sorted.length}`;
+  const prev = document.getElementById('kwNavPrev');
+  const next = document.getElementById('kwNavNext');
+  if (prev) prev.style.opacity = (idx <= 0) ? '.3' : '1';
+  if (next) next.style.opacity = (idx < 0 || idx >= sorted.length-1) ? '.3' : '1';
+}
+
+function kwNavStep(dir) {
+  let hist = [];
+  try { hist = JSON.parse(localStorage.getItem('aposhift_history') || '[]'); } catch(e) {}
+  const sorted = hist.map((h,i) => ({kw: h.planWeek, i})).filter(x => x.kw).sort((a,b) => a.kw.localeCompare(b.kw));
+  if (sorted.length === 0) return;
+  const pos = sorted.findIndex(x => x.kw === _currentDisplayedKw);
+  const newPos = pos < 0 ? (dir > 0 ? 0 : sorted.length-1) : Math.max(0, Math.min(sorted.length-1, pos+dir));
+  if (newPos === pos && pos >= 0) return;
+  loadPlanFromHistory(sorted[newPos].i);
+}
+
 
 function loadPlanFromHistory(idx) {
   try {
