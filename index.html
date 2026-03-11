@@ -53,12 +53,12 @@
   /* ── APP SHELL: SIDEBAR LAYOUT ─────────────────────────────────────────── */
   :root {
     --sidebar-w: 240px;
-    --sidebar-bg: #0f1623;
-    --sidebar-border: rgba(255,255,255,0.07);
-    --sidebar-ink: rgba(255,255,255,0.55);
-    --sidebar-ink-active: #ffffff;
+    --sidebar-bg: #f8fafc;
+    --sidebar-border: #e2e8f0;
+    --sidebar-ink: #64748b;
+    --sidebar-ink-active: #0f172a;
     --sidebar-accent: #6366f1;
-    --sidebar-hover: rgba(255,255,255,0.06);
+    --sidebar-hover: #f1f5f9;
     --topbar-h: 56px;
   }
 
@@ -104,26 +104,26 @@
     box-shadow: 0 4px 12px rgba(99,102,241,0.4);
   }
   .sidebar-item.active .sidebar-item-icon {
-    color: #a5b4fc;
+    color: #6366f1;
     opacity: 1;
   }
   .sidebar-logo-text {
     font-family: var(--serif);
     font-size: 1.15rem;
     font-weight: 800;
-    color: #fff;
+    color: #0f172a;
     letter-spacing: -0.02em;
   }
   .sidebar-logo-badge {
     font-family: var(--mono);
     font-size: 0.52rem;
-    background: rgba(99,102,241,0.3);
-    color: #a5b4fc;
+    background: rgba(99,102,241,0.1);
+    color: #6366f1;
     padding: 2px 7px;
     border-radius: 20px;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    border: 1px solid rgba(99,102,241,0.4);
+    border: 1px solid rgba(99,102,241,0.25);
     margin-left: auto;
   }
 
@@ -136,7 +136,7 @@
     font-family: var(--mono);
     font-size: 0.6rem;
     font-weight: 600;
-    color: rgba(255,255,255,0.25);
+    color: #94a3b8;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     padding: 8px 10px 6px;
@@ -194,7 +194,7 @@
     align-items: center;
     gap: 10px;
     width: 100%;
-    background: rgba(255,255,255,0.05);
+    background: white;
     border: 1px solid var(--sidebar-border);
     border-radius: 10px;
     padding: 10px 12px;
@@ -203,8 +203,8 @@
     text-align: left;
   }
   .sidebar-profile-btn:hover {
-    background: rgba(255,255,255,0.09);
-    border-color: rgba(255,255,255,0.12);
+    background: #f1f5f9;
+    border-color: #cbd5e1;
   }
   .sidebar-profile-avatar {
     width: 30px; height: 30px;
@@ -219,7 +219,7 @@
   .sidebar-profile-name {
     font-size: 0.78rem;
     font-weight: 600;
-    color: rgba(255,255,255,0.85);
+    color: #0f172a;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -227,17 +227,17 @@
   }
   .sidebar-profile-sub {
     font-size: 0.65rem;
-    color: rgba(255,255,255,0.35);
+    color: #94a3b8;
     margin-top: 1px;
   }
   .sidebar-profile-gear {
     margin-left: auto;
-    color: rgba(255,255,255,0.3);
+    color: #94a3b8;
     font-size: 0.85rem;
     transition: color 0.15s;
     flex-shrink: 0;
   }
-  .sidebar-profile-btn:hover .sidebar-profile-gear { color: rgba(255,255,255,0.7); }
+  .sidebar-profile-btn:hover .sidebar-profile-gear { color: #475569; }
 
   /* ── MAIN CONTENT AREA ──────────────────────────────────────────────────── */
   .app-main {
@@ -5225,6 +5225,10 @@ async function generatePlan(skipCheck = false) {
 
   document.getElementById('genBtn').disabled = true; const fabG = document.getElementById('fab-generate'); if(fabG) fabG.disabled = true;
   
+  // Shift-Picker schließen und activeTag zurücksetzen – verhindert gepufferte Click-Events
+  activeTag = null;
+  closeShiftPicker();
+
   // SaveBar komplett aus dem DOM entfernen während der Generierung
   const _saveBarEl = document.getElementById('stickySaveBar');
   const _saveBarParent = _saveBarEl?.parentNode;
@@ -7028,7 +7032,6 @@ WICHTIG: Wenn keine Verbesserung möglich → {"changes":[],"summary":"Plan bere
       if (el && ae) el.value = ae.lastNotdienst || '';
     }
   } catch(err) {
-    document.body.classList.remove('generating');
     showError('Fehler: ' + err.message);
   } finally {
     const overlay = document.getElementById('loadingOverlay');
@@ -7958,6 +7961,7 @@ function openShiftPicker(tag) {
 function closeShiftPicker() { document.getElementById('shiftPicker')?.classList.remove('open'); activeTag = null; }
 
 function applyShift(optionEl) {
+  if (document.body.classList.contains('generating')) return;
   if (!activeTag || !currentResult) return;
   const emp      = activeTag.dataset.emp;
   const day      = activeTag.dataset.day;
